@@ -55,7 +55,7 @@
     "dompurify": "^3.2.7",
     "file-saver": "^2.0.5",
     "framer-motion": "^12.23.12",
-    "jspdf": "^2.5.8",
+    "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.263.0",
