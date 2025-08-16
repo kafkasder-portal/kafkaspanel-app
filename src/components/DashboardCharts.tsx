@@ -14,10 +14,10 @@ const mockDonationTrend = [
 ]
 
 const mockAidDistribution = [
-  { name: 'Nakdi Yardım', value: 45, color: '#3b82f6' },
-  { name: 'Ayni Yardım', value: 25, color: '#10b981' },
-  { name: 'Eğitim Desteği', value: 20, color: '#f59e0b' },
-  { name: 'Sağlık Yardımı', value: 10, color: '#ef4444' }
+  { name: 'Nakdi Yardım', value: 45, color: '#0F3A7A' },
+  { name: 'Ayni Yardım', value: 25, color: '#1D8348' },
+  { name: 'Eğitim Desteği', value: 20, color: '#B7950B' },
+  { name: 'Sağlık Yardımı', value: 10, color: '#C0392B' }
 ]
 
 const mockWeeklyStats = [
