@@ -1,11 +1,14 @@
 // User roles and permissions system
-export type UserRole = 
+export type UserRole =
   | 'super_admin'
   | 'admin'
   | 'manager'
   | 'coordinator'
   | 'operator'
   | 'viewer'
+
+// Backward compatibility alias
+export type Role = UserRole;
 
 export type Permission = 
   // Dashboard
