@@ -216,6 +216,11 @@ function AppRoutes() {
           {withDonationsSuspense(PiggyBankTracking)}
         </ProtectedRoute>
       } />
+      <Route path="/donations/piggy-bank-tracking" element={
+        <ProtectedRoute>
+          {withDonationsSuspense(PiggyBankTracking)}
+        </ProtectedRoute>
+      } />
       <Route path="/donations/bulk-provisioning" element={
         <ProtectedRoute>
           {withDonationsSuspense(BulkProvisioning)}
