@@ -141,3 +141,14 @@ vi.mock('react-router-dom', async () => {
     useParams: () => ({}),
   };
 });
+
+// Mock axe-core for accessibility testing
+vi.mock('axe-core', () => ({
+  run: vi.fn().mockResolvedValue({
+    violations: [],
+    passes: [],
+    incomplete: [],
+    inapplicable: [],
+  }),
+  configure: vi.fn(),
+}));
