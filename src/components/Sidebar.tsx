@@ -58,8 +58,8 @@ export function Sidebar() {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `flex items-center gap-3 rounded px-3 py-2 text-sm hover:bg-white/10 transition-colors ${
-          isActive ? 'bg-white/10 font-medium text-white' : 'text-white/70'
+        `flex items-center gap-3 rounded px-3 py-2 text-sm sidebar-nav-item transition-colors ${
+          isActive ? 'active' : ''
         } ${isSubItem ? 'ml-6' : ''}`
       }
     >
@@ -71,7 +71,7 @@ export function Sidebar() {
   const expandableItem = (icon: React.JSX.Element, label: string, isExpanded: boolean, onToggle: () => void) => (
     <div>
       <div 
-        className="flex items-center gap-3 rounded px-3 py-2 text-sm hover:bg-white/10 transition-colors cursor-pointer text-white/70"
+        className="flex items-center gap-3 rounded px-3 py-2 text-sm sidebar-nav-item transition-colors cursor-pointer"
         onClick={onToggle}
       >
         {icon}
@@ -183,21 +183,21 @@ export function Sidebar() {
   ]
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r bg-[#0f172a] text-white md:block overflow-y-auto">
-      <div className="flex h-14 items-center gap-2 border-b border-white/10 px-4">
+    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r bg-sidebar-bg text-sidebar-text md:block overflow-y-auto">
+      <div className="flex h-14 items-center gap-2 border-b border-sidebar-border px-4">
         <Link to="/" className="flex items-center gap-2">
           <span className="text-base font-semibold">Dernek Paneli</span>
         </Link>
       </div>
       <div className="space-y-4 p-3">
         <div>
-          <div className="mb-2 px-2 text-xs font-semibold uppercase text-white/60">Genel</div>
+          <div className="mb-2 px-2 text-xs font-semibold uppercase text-sidebar-text-muted">Genel</div>
           <div className="space-y-1">
             {item('/', <Home className="h-4 w-4" />, 'Ana Sayfa')}
           </div>
         </div>
         <div>
-          <div className="mb-2 px-2 text-xs font-semibold uppercase text-white/60">Collaboration</div>
+          <div className="mb-2 px-2 text-xs font-semibold uppercase text-sidebar-text-muted">Collaboration</div>
           <div className="space-y-1">
             {item('/meetings', <Calendar className="h-4 w-4" />, 'Toplantılar')}
             {item('/internal-messages', <MessageSquare className="h-4 w-4" />, 'İç Mesajlar')}
@@ -206,7 +206,7 @@ export function Sidebar() {
         </div>
 
         <div>
-          <div className="mb-2 px-2 text-xs font-semibold uppercase text-white/60">Modüller</div>
+          <div className="mb-2 px-2 text-xs font-semibold uppercase text-sidebar-text-muted">Modüller</div>
           <div className="space-y-1">
             {/* Fon Yönetimi - Genişletilebilir */}
             {expandableItem(<Wallet className="h-4 w-4" />, 'Fon Yönetimi', isFundExpanded, () => setIsFundExpanded(!isFundExpanded))}
@@ -309,7 +309,7 @@ export function Sidebar() {
         </div>
 
         <div>
-          <div className="mb-2 px-2 text-xs font-semibold uppercase text-white/60">Demo</div>
+          <div className="mb-2 px-2 text-xs font-semibold uppercase text-sidebar-text-muted">Demo</div>
           <div className="space-y-1">
             {item('/demo/related-records', <FileText className="h-4 w-4" />, 'Bağlantılı Kayıtlar')}
             {item('/supabase-test', <Database className="h-4 w-4" />, 'Supabase Test')}
