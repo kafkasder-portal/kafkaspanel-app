@@ -409,7 +409,7 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
                           💰 {money.amount} {money.currency}
                         </span>
                       ))}
-                      {nlpAnalysis.structuredEntities.persons?.map((person, index) => (
+                      {nlpAnalysis.structuredEntities.persons?.map((person: any, index: number) => (
                         <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
                           👤 {person.fullName}
                         </span>
