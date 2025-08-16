@@ -343,47 +343,90 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
               </div>
             )}
             
-            {/* NLP Analysis Display */}
+            {/* Enhanced NLP Analysis Display */}
             {nlpAnalysis && message.type === 'user' && (
-              <div className="mt-2 p-2 bg-blue-50 rounded border border-blue-200">
-                <div className="text-xs text-blue-700 font-medium mb-1">AI Analizi:</div>
-                <div className="grid grid-cols-2 gap-1 text-xs">
-                  <div>
-                    <span className="font-medium">Intent:</span> {nlpAnalysis.intent.primary} 
-                    <span className="text-blue-600"> ({Math.round(nlpAnalysis.intent.confidence * 100)}%)</span>
+              <div className="mt-2 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded border border-blue-200">
+                <div className="text-xs text-blue-700 font-medium mb-2">🧠 Gelişmiş AI Analizi:</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                  <div className="space-y-1">
+                    <div>
+                      <span className="font-medium">Intent:</span> {nlpAnalysis.intent.primary}
+                      <span className="text-blue-600"> ({Math.round(nlpAnalysis.intent.confidence * 100)}%)</span>
+                    </div>
+                    <div>
+                      <span className="font-medium">Sentiment:</span>
+                      <span className={`ml-1 px-1 py-0.5 rounded ${
+                        nlpAnalysis.sentiment.label === 'positive' ? 'bg-green-100 text-green-700' :
+                        nlpAnalysis.sentiment.label === 'negative' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
+                      }`}>
+                        {nlpAnalysis.sentiment.label === 'positive' ? '😊 Pozitif' :
+                         nlpAnalysis.sentiment.label === 'negative' ? '😟 Negatif' : '😐 Nötr'}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="font-medium">Güven:</span>
+                      <span className={`ml-1 px-1 py-0.5 rounded ${
+                        nlpAnalysis.confidence > 0.8 ? 'bg-green-100 text-green-700' :
+                        nlpAnalysis.confidence > 0.6 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
+                      }`}>
+                        {Math.round(nlpAnalysis.confidence * 100)}%
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="font-medium">Sentiment:</span> 
-                    <span className={`${
-                      nlpAnalysis.sentiment.label === 'positive' ? 'text-green-600' :
-                      nlpAnalysis.sentiment.label === 'negative' ? 'text-red-600' : 'text-gray-600'
-                    }`}>
-                      {nlpAnalysis.sentiment.label === 'positive' ? 'Pozitif' :
-                       nlpAnalysis.sentiment.label === 'negative' ? 'Negatif' : 'Nötr'}
-                    </span>
+
+                  <div className="space-y-1">
+                    {nlpAnalysis.contextAnalysis.urgency !== 'low' && (
+                      <div>
+                        <span className="font-medium">Aciliyet:</span>
+                        <span className={`ml-1 px-1 py-0.5 rounded text-xs ${
+                          nlpAnalysis.contextAnalysis.urgency === 'high' ? 'bg-red-100 text-red-700' :
+                          'bg-yellow-100 text-yellow-700'
+                        }`}>
+                          {nlpAnalysis.contextAnalysis.urgency === 'high' ? '🚨 Yüksek' : '⚡ Orta'}
+                        </span>
+                      </div>
+                    )}
+                    {nlpAnalysis.contextAnalysis.complexity !== 'simple' && (
+                      <div>
+                        <span className="font-medium">Karmaşıklık:</span>
+                        <span className={`ml-1 px-1 py-0.5 rounded text-xs ${
+                          nlpAnalysis.contextAnalysis.complexity === 'complex' ? 'bg-purple-100 text-purple-700' :
+                          'bg-blue-100 text-blue-700'
+                        }`}>
+                          {nlpAnalysis.contextAnalysis.complexity === 'complex' ? '🔬 Karmaşık' : '⚙️ Orta'}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                  {nlpAnalysis.entities.length > 0 && (
-                    <div className="col-span-2">
-                      <span className="font-medium">Entities:</span> 
-                      {nlpAnalysis.entities.map((entity: any, index: number) => (
-                        <span key={index} className="ml-1 px-1 py-0.5 bg-blue-100 rounded text-xs">
-                          {entity.type}: {entity.value}
+                </div>
+
+                {/* Structured Entities */}
+                {nlpAnalysis.structuredEntities && (
+                  <div className="mt-2 pt-2 border-t border-blue-200">
+                    <div className="flex flex-wrap gap-1">
+                      {nlpAnalysis.structuredEntities.money?.map((money, index) => (
+                        <span key={index} className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">
+                          💰 {money.amount} {money.currency}
+                        </span>
+                      ))}
+                      {nlpAnalysis.structuredEntities.persons?.map((person, index) => (
+                        <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
+                          👤 {person.fullName}
+                        </span>
+                      ))}
+                      {nlpAnalysis.structuredEntities.phones?.map((phone, index) => (
+                        <span key={index} className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs">
+                          📞 {phone}
+                        </span>
+                      ))}
+                      {nlpAnalysis.structuredEntities.emails?.map((email, index) => (
+                        <span key={index} className="px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs">
+                          📧 {email}
                         </span>
                       ))}
                     </div>
-                  )}
-                  {nlpAnalysis.context.urgency !== 'low' && (
-                    <div className="col-span-2">
-                      <span className="font-medium">Urgency:</span> 
-                      <span className={`ml-1 px-1 py-0.5 rounded text-xs ${
-                        nlpAnalysis.context.urgency === 'high' ? 'bg-red-100 text-red-700' :
-                        'bg-yellow-100 text-yellow-700'
-                      }`}>
-                        {nlpAnalysis.context.urgency === 'high' ? 'Yüksek' : 'Orta'}
-                      </span>
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             )}
             
