@@ -32,7 +32,7 @@ export interface MessageTemplate {
   description?: string;
   isFavorite?: boolean;
 }
-import { useFormSanitization } from '@hooks/useFormSanitization'
+import { useFormSanitization } from '@hooks/useSanitization'
 
 export default function Templates() {
   const [searchTerm, setSearchTerm] = useState('')
