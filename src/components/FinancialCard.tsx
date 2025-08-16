@@ -104,7 +104,7 @@ export function FinancialCard({
           <div className="p-2 bg-brand-primary/10 rounded-lg text-brand-primary">
             {icon && React.createElement(icon, { className: "h-5 w-5" })}
           </div>
-          <h3 className="financial-subheading">{title}</h3>
+          <h3 className="text-sm font-medium text-foreground">{title}</h3>
         </div>
         {change && (
           <div className={`flex items-center space-x-1 text-sm ${changeColor}`}>
