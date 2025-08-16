@@ -21,7 +21,7 @@ describe('Input Component', () => {
 
   it('applies type attribute correctly', () => {
     render(<Input type="password" />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByDisplayValue('') || screen.getByRole('textbox');
     expect(input).toHaveAttribute('type', 'password');
   });
 

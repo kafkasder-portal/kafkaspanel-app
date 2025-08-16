@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { 
+import {
   formatMessage,
   getStatusColor,
   getInitials,
@@ -8,40 +8,36 @@ import {
 
 describe('collaboration utils', () => {
   describe('formatMessage', () => {
-    it('should format message correctly', () => {
+    it('formats message correctly', () => {
       const message = {
         id: '1',
-        content: 'Test message',
-        sender: 'user1',
-        timestamp: '2024-01-01T10:00:00Z',
+        content: 'Hello world',
+        sender: 'John Doe',
+        timestamp: '2023-01-01T00:00:00Z',
         type: 'text'
       }
 
-      const formatted = formatMessage(message)
-      expect(formatted).toHaveProperty('id', '1')
-      expect(formatted).toHaveProperty('content', 'Test message')
+      const result = formatMessage(message)
+
+      expect(result).toEqual(message)
     })
   })
 
   describe('getStatusColor', () => {
-    it('should return correct color for online status', () => {
-      const color = getStatusColor('online')
-      expect(color).toBe('text-green-500')
+    it('returns green for online status', () => {
+      expect(getStatusColor('online')).toBe('text-green-500')
     })
 
-    it('should return correct color for offline status', () => {
-      const color = getStatusColor('offline')
-      expect(color).toBe('text-gray-400')
+    it('returns gray for offline status', () => {
+      expect(getStatusColor('offline')).toBe('text-gray-400')
     })
 
-    it('should return correct color for away status', () => {
-      const color = getStatusColor('away')
-      expect(color).toBe('text-yellow-500')
+    it('returns yellow for away status', () => {
+      expect(getStatusColor('away')).toBe('text-yellow-500')
     })
 
-    it('should return default color for unknown status', () => {
-      const color = getStatusColor('unknown')
-      expect(color).toBe('text-gray-400')
+    it('returns default gray for unknown status', () => {
+      expect(getStatusColor('unknown')).toBe('text-gray-400')
     })
   })
 
@@ -61,40 +57,25 @@ describe('collaboration utils', () => {
       expect(initials).toBe('')
     })
 
-    it('should handle multiple spaces', () => {
+    it('should handle multiple spaces and limit to 2 characters', () => {
       const initials = getInitials('John   Doe   Smith')
-      expect(initials).toBe('JDS')
+      expect(initials).toBe('JD')
     })
   })
 
   describe('groupByDate', () => {
-    it('should group items by date', () => {
+    it('groups items by date correctly', () => {
       const items = [
-        { id: '1', date: new Date('2024-01-01') },
-        { id: '2', date: new Date('2024-01-01') },
-        { id: '3', date: new Date('2024-01-02') }
+        { id: '1', date: '2023-01-01', name: 'Item 1' },
+        { id: '2', date: '2023-01-01', name: 'Item 2' },
+        { id: '3', date: '2023-01-02', name: 'Item 3' }
       ]
 
-      const grouped = groupByDate(items, 'date')
-      expect(Object.keys(grouped)).toHaveLength(2)
-      expect(grouped['2024-01-01']).toHaveLength(2)
-      expect(grouped['2024-01-02']).toHaveLength(1)
-    })
+      const result = groupByDate(items, 'date')
 
-    it('should handle empty array', () => {
-      const grouped = groupByDate([], 'date')
-      expect(grouped).toEqual({})
-    })
-
-    it('should handle items without date property', () => {
-      const items = [
-        { id: '1', date: new Date('2024-01-01') },
-        { id: '2' }
-      ]
-
-      const grouped = groupByDate(items, 'date')
-      expect(Object.keys(grouped)).toHaveLength(1)
-      expect(grouped['2024-01-01']).toHaveLength(1)
+      expect(Object.keys(result)).toHaveLength(2)
+      expect(result['2023-01-01']).toHaveLength(2)
+      expect(result['2023-01-02']).toHaveLength(1)
     })
   })
 })

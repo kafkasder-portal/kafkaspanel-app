@@ -80,6 +80,7 @@
     "zustand": "^4.4.0"
   },
   "devDependencies": {
+    "@axe-core/react": "^4.10.2",
     "@playwright/test": "^1.54.2",
     "@testing-library/jest-dom": "^6.7.0",
     "@testing-library/react": "^16.3.0",
@@ -95,6 +96,7 @@
     "@vitest/coverage-v8": "^1.0.0",
     "@vitest/ui": "^1.0.0",
     "autoprefixer": "^10.4.14",
+    "axe-core": "^4.10.3",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "concurrently": "^8.2.0",
     "eslint": "^8.57.1",
