@@ -101,7 +101,7 @@ export function FinancialCard({
       `}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-financial-primary/10 rounded-lg text-financial-primary">
+          <div className="p-2 bg-brand-primary/10 rounded-lg text-brand-primary">
             {icon && React.createElement(icon, { className: "h-5 w-5" })}
           </div>
           <h3 className="financial-subheading">{title}</h3>
@@ -115,10 +115,10 @@ export function FinancialCard({
       </div>
       
       <div className="mb-4">
-        <p className="text-3xl font-bold text-financial-gray-900 financial-number">
+        <p className="text-3xl font-bold text-foreground financial-number">
           {unit === '₺' ? formatCurrency(value, unit) : `${value.toLocaleString('tr-TR')}${unit}`}
         </p>
-        <p className="text-sm text-financial-gray-500 mt-1">{period}</p>
+        <p className="text-sm text-muted-foreground mt-1">{period}</p>
       </div>
       
       {trend && trend.length > 0 && (
@@ -146,7 +146,7 @@ export function TotalDonationsCard({ totalDonations, monthlyChange, trend }: {
       icon={CreditCard}
       trend={trend}
       unit="₺"
-      className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 sm:min-h-[140px]"
+      className="bg-gradient-to-br from-financial-success-light to-financial-success-light border-financial-success/20 sm:min-h-[140px]"
     />
   )
 }
