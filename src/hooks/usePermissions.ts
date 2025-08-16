@@ -31,6 +31,9 @@ interface UsePermissionsReturn {
 export const usePermissions = (): UsePermissionsReturn => {
   const { user, isLoading: authLoading } = useAuth();
 
+  // Get user permissions based on role
+  const userPermissions = user?.role ? ROLE_PERMISSIONS[user.role as UserRole] || [] : [];
+
   const checkPermission = useCallback((permission: Permission): PermissionCheck => {
     if (!user) {
       return {
@@ -40,15 +43,18 @@ export const usePermissions = (): UsePermissionsReturn => {
       };
     }
 
-    // Check if user has the specific permission
-    const hasPermission = user.permissions?.includes(permission) || false;
+    const hasPermission = userPermissions.includes(permission);
 
     return {
       hasPermission,
       isLoading: authLoading,
       error: null
     };
-  }, [user, authLoading]);
+  }, [user, authLoading, userPermissions]);
+
+  const hasPermission = useCallback((permission: Permission): boolean => {
+    return userPermissions.includes(permission);
+  }, [userPermissions]);
 
   const checkRole = useCallback((role: Role): RoleCheck => {
     if (!user) {
@@ -59,8 +65,7 @@ export const usePermissions = (): UsePermissionsReturn => {
       };
     }
 
-    // Check if user has the specific role
-    const hasRole = user.roles?.includes(role) || false;
+    const hasRole = user.role === role;
 
     return {
       hasRole,
@@ -70,32 +75,35 @@ export const usePermissions = (): UsePermissionsReturn => {
   }, [user, authLoading]);
 
   const hasAnyPermission = useCallback((permissions: Permission[]): boolean => {
-    if (!user || !user.permissions) return false;
-    return permissions.some(permission => user.permissions!.includes(permission));
-  }, [user]);
+    return permissions.some(permission => userPermissions.includes(permission));
+  }, [userPermissions]);
 
   const hasAllPermissions = useCallback((permissions: Permission[]): boolean => {
-    if (!user || !user.permissions) return false;
-    return permissions.every(permission => user.permissions!.includes(permission));
-  }, [user]);
+    return permissions.every(permission => userPermissions.includes(permission));
+  }, [userPermissions]);
 
   const hasAnyRole = useCallback((roles: Role[]): boolean => {
-    if (!user || !user.roles) return false;
-    return roles.some(role => user.roles!.includes(role));
+    if (!user?.role) return false;
+    return roles.includes(user.role as Role);
   }, [user]);
 
   const hasAllRoles = useCallback((roles: Role[]): boolean => {
-    if (!user || !user.roles) return false;
-    return roles.every(role => user.roles!.includes(role));
+    if (!user?.role) return false;
+    return roles.every(role => user.role === role);
   }, [user]);
 
+  const canManageUsers = userPermissions.includes('users:manage_roles');
+
   return {
+    permissions: userPermissions,
     checkPermission,
     checkRole,
+    hasPermission,
     hasAnyPermission,
     hasAllPermissions,
     hasAnyRole,
     hasAllRoles,
+    canManageUsers,
     isLoading: authLoading,
     error: null
   };
