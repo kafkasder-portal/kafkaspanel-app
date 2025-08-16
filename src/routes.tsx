@@ -65,8 +65,9 @@ const ScholarshipModuleInfo = lazy(() => import('./pages/scholarship/ModuleInfo'
 // Dashboard
 const DashboardIndex = lazy(() => import('./pages/dashboard/Index'))
 
-// Supabase Test
+// Supabase Test & Demo
 const SupabaseTest = lazy(() => import('./components/SupabaseTest'))
+const RelatedRecords = lazy(() => import('./pages/demo/RelatedRecords'))
 
 // Aid
 const AidIndex = lazy(() => import('./pages/aid/Index'))
