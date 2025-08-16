@@ -40,8 +40,8 @@ export default function DashboardIndex() {
       <div className="bg-gradient-to-r from-brand-primary to-brand-600 rounded-xl p-6 sm:p-8 text-white shadow-lg relative">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-financial-2xl sm:text-financial-3xl font-financial font-bold mb-2 sm:mb-3 tracking-financial-tight">Hoş Geldiniz!</h1>
-            <p className="text-financial-base sm:text-financial-lg font-financial text-white/90 leading-financial-relaxed">Dernek finansal yönetim panelinize hoş geldiniz. Güncel durumu aşağıdan takip edebilirsiniz.</p>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">Hoş Geldiniz!</h1>
+            <p className="text-base sm:text-lg text-white/90 leading-relaxed">Dernek finansal yönetim panelinize hoş geldiniz. Güncel durumu aşağıdan takip edebilirsiniz.</p>
           </div>
           <div className="flex items-center space-x-2">
             <Button
