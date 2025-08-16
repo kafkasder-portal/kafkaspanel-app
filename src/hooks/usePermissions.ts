@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useAuth } from './useAuth';
-import { Permission, Role } from '../types/permissions';
+import { Permission, Role, UserRole, ROLE_PERMISSIONS } from '../types/permissions';
 
 interface PermissionCheck {
   hasPermission: boolean;
@@ -15,12 +15,15 @@ interface RoleCheck {
 }
 
 interface UsePermissionsReturn {
+  permissions: Permission[];
   checkPermission: (permission: Permission) => PermissionCheck;
   checkRole: (role: Role) => RoleCheck;
+  hasPermission: (permission: Permission) => boolean;
   hasAnyPermission: (permissions: Permission[]) => boolean;
   hasAllPermissions: (permissions: Permission[]) => boolean;
   hasAnyRole: (roles: Role[]) => boolean;
   hasAllRoles: (roles: Role[]) => boolean;
+  canManageUsers: boolean;
   isLoading: boolean;
   error: string | null;
 }
