@@ -40,26 +40,91 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Ringku Finansal Renk Paleti
-        'financial-primary': "hsl(var(--financial-primary))",
-        'financial-secondary': "hsl(var(--financial-secondary))",
-        'financial-accent': "hsl(var(--financial-accent))",
-        'financial-gray': {
-          50: "hsl(var(--financial-gray-50))",
-          100: "hsl(var(--financial-gray-100))",
-          200: "hsl(var(--financial-gray-200))",
-          300: "hsl(var(--financial-gray-300))",
-          400: "hsl(var(--financial-gray-400))",
-          500: "hsl(var(--financial-gray-500))",
-          600: "hsl(var(--financial-gray-600))",
-          700: "hsl(var(--financial-gray-700))",
-          800: "hsl(var(--financial-gray-800))",
-          900: "hsl(var(--financial-gray-900))",
+        // Optimized Brand Colors
+        'brand': {
+          50: "hsl(var(--brand-primary-50))",
+          100: "hsl(var(--brand-primary-100))",
+          200: "hsl(var(--brand-primary-200))",
+          300: "hsl(var(--brand-primary-300))",
+          400: "hsl(var(--brand-primary-400))",
+          500: "hsl(var(--brand-primary-500))",
+          600: "hsl(var(--brand-primary-600))",
+          700: "hsl(var(--brand-primary-700))",
+          800: "hsl(var(--brand-primary-800))",
+          900: "hsl(var(--brand-primary-900))",
+          DEFAULT: "hsl(var(--brand-primary))",
         },
-        'status-success': "hsl(var(--status-success))",
-        'status-warning': "hsl(var(--status-warning))",
-        'status-error': "hsl(var(--status-error))",
-        'status-info': "hsl(var(--status-info))",
+
+        // Financial Status Colors - WCAG AA Compliant
+        'financial': {
+          'primary': "hsl(var(--brand-primary))",
+          'success': "hsl(var(--financial-success))",
+          'success-light': "hsl(var(--financial-success-light))",
+          'warning': "hsl(var(--financial-warning))",
+          'warning-light': "hsl(var(--financial-warning-light))",
+          'error': "hsl(var(--financial-error))",
+          'error-light': "hsl(var(--financial-error-light))",
+          'info': "hsl(var(--financial-info))",
+          'info-light': "hsl(var(--financial-info-light))",
+        },
+
+        // Backward compatibility - Legacy financial gray colors
+        'financial-gray': {
+          50: "hsl(var(--neutral-50))",
+          100: "hsl(var(--neutral-100))",
+          200: "hsl(var(--neutral-200))",
+          300: "hsl(var(--neutral-300))",
+          400: "hsl(var(--neutral-400))",
+          500: "hsl(var(--neutral-500))",
+          600: "hsl(var(--neutral-600))",
+          700: "hsl(var(--neutral-700))",
+          800: "hsl(var(--neutral-800))",
+          900: "hsl(var(--neutral-900))",
+        },
+
+        // Status Colors - Legacy support
+        'status': {
+          'success': "hsl(var(--financial-success))",
+          'warning': "hsl(var(--financial-warning))",
+          'error': "hsl(var(--financial-error))",
+          'info': "hsl(var(--financial-info))",
+        },
+
+        // Neutral Color Scale
+        'neutral': {
+          50: "hsl(var(--neutral-50))",
+          100: "hsl(var(--neutral-100))",
+          200: "hsl(var(--neutral-200))",
+          300: "hsl(var(--neutral-300))",
+          400: "hsl(var(--neutral-400))",
+          500: "hsl(var(--neutral-500))",
+          600: "hsl(var(--neutral-600))",
+          700: "hsl(var(--neutral-700))",
+          800: "hsl(var(--neutral-800))",
+          900: "hsl(var(--neutral-900))",
+        },
+
+        // Sidebar Navigation Colors
+        'sidebar': {
+          'bg': "hsl(var(--sidebar-bg))",
+          'text': "hsl(var(--sidebar-text))",
+          'text-muted': "hsl(var(--sidebar-text-muted))",
+          'hover': "hsl(var(--sidebar-hover))",
+          'active': "hsl(var(--sidebar-active))",
+          'border': "hsl(var(--sidebar-border))",
+        },
+
+        // Chart Colors
+        'chart': {
+          1: "hsl(var(--chart-primary))",
+          2: "hsl(var(--chart-secondary))",
+          3: "hsl(var(--chart-tertiary))",
+          4: "hsl(var(--chart-quaternary))",
+          5: "hsl(var(--chart-quinary))",
+          6: "hsl(var(--chart-senary))",
+          7: "hsl(var(--chart-septenary))",
+          8: "hsl(var(--chart-octonary))",
+        },
       },
       fontFamily: {
         'financial': 'var(--font-financial-primary)',

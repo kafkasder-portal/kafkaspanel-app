@@ -15,23 +15,26 @@ import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { useErrorHandler } from '@hooks/useErrorHandler'
 import { ErrorCategory, ErrorSeverity, ErrorLog } from '@services/errorService'
+import { SEVERITY_COLORS } from '@/constants/colors'
 
-const SEVERITY_COLORS = {
-  [ErrorSeverity.LOW]: 'bg-blue-100 text-blue-800',
-  [ErrorSeverity.MEDIUM]: 'bg-yellow-100 text-yellow-800',
-  [ErrorSeverity.HIGH]: 'bg-orange-100 text-orange-800',
-  [ErrorSeverity.CRITICAL]: 'bg-red-100 text-red-800'
+// Use optimized severity colors from constants
+const SEVERITY_BADGE_COLORS = {
+  [ErrorSeverity.LOW]: SEVERITY_COLORS.low.tailwind,
+  [ErrorSeverity.MEDIUM]: SEVERITY_COLORS.medium.tailwind,
+  [ErrorSeverity.HIGH]: SEVERITY_COLORS.high.tailwind,
+  [ErrorSeverity.CRITICAL]: SEVERITY_COLORS.critical.tailwind
 }
 
+// Optimized category colors using design system
 const CATEGORY_COLORS = {
-  [ErrorCategory.AUTHENTICATION]: 'bg-purple-100 text-purple-800',
-  [ErrorCategory.AUTHORIZATION]: 'bg-indigo-100 text-indigo-800',
-  [ErrorCategory.NETWORK]: 'bg-blue-100 text-blue-800',
-  [ErrorCategory.VALIDATION]: 'bg-green-100 text-green-800',
-  [ErrorCategory.DATABASE]: 'bg-red-100 text-red-800',
-  [ErrorCategory.SYSTEM]: 'bg-gray-100 text-gray-800',
-  [ErrorCategory.USER_INPUT]: 'bg-yellow-100 text-yellow-800',
-  [ErrorCategory.EXTERNAL_SERVICE]: 'bg-cyan-100 text-cyan-800'
+  [ErrorCategory.AUTHENTICATION]: 'bg-brand-50 text-brand-700 border-brand-200',
+  [ErrorCategory.AUTHORIZATION]: 'bg-brand-50 text-brand-700 border-brand-200',
+  [ErrorCategory.NETWORK]: 'bg-financial-info-light text-financial-info border-financial-info/30',
+  [ErrorCategory.VALIDATION]: 'bg-financial-success-light text-financial-success border-financial-success/30',
+  [ErrorCategory.DATABASE]: 'bg-financial-error-light text-financial-error border-financial-error/30',
+  [ErrorCategory.SYSTEM]: 'bg-neutral-100 text-neutral-700 border-neutral-200',
+  [ErrorCategory.USER_INPUT]: 'bg-financial-warning-light text-financial-warning border-financial-warning/30',
+  [ErrorCategory.EXTERNAL_SERVICE]: 'bg-chart-6 bg-opacity-10 text-chart-6 border-chart-6/30'
 }
 
 interface ErrorDashboardProps {
@@ -143,9 +146,9 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Çözülmemiş</p>
-              <p className="text-2xl font-bold text-red-600">{stats.unresolved}</p>
+              <p className="text-2xl font-bold text-financial-error">{stats.unresolved}</p>
             </div>
-            <XCircle className="w-8 h-8 text-red-400" />
+            <XCircle className="w-8 h-8 text-financial-error/60" />
           </div>
         </Card>
 
@@ -153,9 +156,9 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Çözülmüş</p>
-              <p className="text-2xl font-bold text-green-600">{stats.resolved}</p>
+              <p className="text-2xl font-bold text-financial-success">{stats.resolved}</p>
             </div>
-            <CheckCircle className="w-8 h-8 text-green-400" />
+            <CheckCircle className="w-8 h-8 text-financial-success/60" />
           </div>
         </Card>
 
@@ -163,9 +166,9 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Kritik Hatalar</p>
-              <p className="text-2xl font-bold text-red-600">{stats.bySeverity[ErrorSeverity.CRITICAL]}</p>
+              <p className="text-2xl font-bold text-financial-error">{stats.bySeverity[ErrorSeverity.CRITICAL]}</p>
             </div>
-            <Clock className="w-8 h-8 text-red-400" />
+            <Clock className="w-8 h-8 text-financial-error/60" />
           </div>
         </Card>
       </div>
@@ -256,22 +259,22 @@ export function ErrorDashboard({ isAdmin = false }: ErrorDashboardProps) {
                     key={log.id}
                     className={`p-3 border rounded-lg cursor-pointer transition-colors ${
                       selectedError?.id === log.id
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                        ? 'border-brand-500 bg-brand-50'
+                        : 'border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50'
                     }`}
                     onClick={() => setSelectedError(log)}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <Badge className={SEVERITY_COLORS[log.severity]}>
+                          <Badge className={SEVERITY_BADGE_COLORS[log.severity]}>
                             {log.severity.toUpperCase()}
                           </Badge>
                           <Badge className={CATEGORY_COLORS[log.category]}>
                             {log.category.replace('_', ' ').toUpperCase()}
                           </Badge>
                           {log.resolved && (
-                            <Badge className="bg-green-100 text-green-800">
+                            <Badge className="bg-financial-success-light text-financial-success border-financial-success/30">
                               ÇÖZÜLMÜŞ
                             </Badge>
                           )}

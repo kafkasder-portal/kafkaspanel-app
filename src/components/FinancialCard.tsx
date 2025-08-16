@@ -73,9 +73,9 @@ export function FinancialCard({
     onSwipeRight,
     threshold: 100
   })
-  const changeColor = changeType === 'increase' 
-    ? 'text-status-success' 
-    : 'text-status-error'
+  const changeColor = changeType === 'increase'
+    ? 'text-financial-success'
+    : 'text-financial-error'
   
   const changeIcon = changeType === 'increase' 
     ? <TrendingUp className="h-4 w-4" />
@@ -86,11 +86,11 @@ export function FinancialCard({
       {...(swipeable ? bind() : {})}
       style={swipeable ? getSwipeStyle() : {}}
       className={`
-        bg-white 
-        border-gray-200 
-        border rounded-xl shadow-sm p-4 sm:p-6 
-        hover:shadow-md transition-all duration-200 
-        min-h-[120px] sm:min-h-[160px] 
+        bg-card
+        border-border
+        border rounded-xl shadow-sm p-4 sm:p-6
+        hover:shadow-md transition-all duration-200
+        min-h-[120px] sm:min-h-[160px]
         group cursor-pointer
         hover:scale-[1.02] active:scale-[0.98]
         touch-manipulation
@@ -101,10 +101,10 @@ export function FinancialCard({
       `}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-financial-primary/10 rounded-lg text-financial-primary">
+          <div className="p-2 bg-brand-primary/10 rounded-lg text-brand-primary">
             {icon && React.createElement(icon, { className: "h-5 w-5" })}
           </div>
-          <h3 className="financial-subheading">{title}</h3>
+          <h3 className="text-sm font-medium text-foreground">{title}</h3>
         </div>
         {change && (
           <div className={`flex items-center space-x-1 text-sm ${changeColor}`}>
@@ -115,10 +115,10 @@ export function FinancialCard({
       </div>
       
       <div className="mb-4">
-        <p className="text-3xl font-bold text-financial-gray-900 financial-number">
+        <p className="text-3xl font-bold text-foreground">
           {unit === '₺' ? formatCurrency(value, unit) : `${value.toLocaleString('tr-TR')}${unit}`}
         </p>
-        <p className="text-sm text-financial-gray-500 mt-1">{period}</p>
+        <p className="text-sm text-muted-foreground mt-1">{period}</p>
       </div>
       
       {trend && trend.length > 0 && (
@@ -146,7 +146,7 @@ export function TotalDonationsCard({ totalDonations, monthlyChange, trend }: {
       icon={CreditCard}
       trend={trend}
       unit="₺"
-      className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 sm:min-h-[140px]"
+      className="bg-gradient-to-br from-financial-success-light to-financial-success-light border-financial-success/20 sm:min-h-[140px]"
     />
   )
 }

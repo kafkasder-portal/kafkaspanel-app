@@ -10,27 +10,27 @@ interface StatusBadgeProps {
 const statusConfig = {
   online: {
     label: 'Çevrimiçi',
-    color: 'bg-green-500',
+    color: 'bg-financial-success',
     icon: '🟢'
   },
   offline: {
     label: 'Çevrimdışı',
-    color: 'bg-gray-500',
+    color: 'bg-neutral-500',
     icon: '⚫'
   },
   away: {
     label: 'Uzakta',
-    color: 'bg-yellow-500',
+    color: 'bg-financial-warning',
     icon: '🟡'
   },
   busy: {
     label: 'Meşgul',
-    color: 'bg-red-500',
+    color: 'bg-financial-error',
     icon: '🔴'
   },
   dnd: {
     label: 'Rahatsız Etmeyin',
-    color: 'bg-purple-500',
+    color: 'bg-chart-5',
     icon: '🟣'
   }
 } as const
