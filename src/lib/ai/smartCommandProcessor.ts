@@ -23,11 +23,19 @@ export interface ExecutionStep {
   optional?: boolean
 }
 
-export interface SmartCommandResult extends CommandResult {
+export interface SmartCommandResult {
+  success: boolean
+  status: 'ok' | 'error' | 'warning'
+  message: string
+  data?: any
+  nextSteps?: string[]
+  suggestions?: string[]
   executionSteps: ExecutionStep[]
   followUpActions: string[]
   learnedPatterns: string[]
   userFeedback?: 'positive' | 'negative' | 'neutral'
+  timestamp: Date
+  error?: string
 }
 
 export class SmartCommandProcessor {
