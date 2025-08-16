@@ -86,11 +86,11 @@ export function FinancialCard({
       {...(swipeable ? bind() : {})}
       style={swipeable ? getSwipeStyle() : {}}
       className={`
-        bg-white 
-        border-gray-200 
-        border rounded-xl shadow-sm p-4 sm:p-6 
-        hover:shadow-md transition-all duration-200 
-        min-h-[120px] sm:min-h-[160px] 
+        bg-card
+        border-border
+        border rounded-xl shadow-sm p-4 sm:p-6
+        hover:shadow-md transition-all duration-200
+        min-h-[120px] sm:min-h-[160px]
         group cursor-pointer
         hover:scale-[1.02] active:scale-[0.98]
         touch-manipulation
