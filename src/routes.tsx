@@ -264,6 +264,11 @@ function AppRoutes() {
       } />
       
       {/* Scholarship routes */}
+      <Route path="/scholarship" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(ScholarshipIndex)}
+        </ProtectedRoute>
+      } />
       <Route path="/scholarship/orphans-students" element={
         <ProtectedRoute>
           {withScholarshipSuspense(OrphansStudents)}
@@ -272,6 +277,66 @@ function AppRoutes() {
       <Route path="/scholarship/reports" element={
         <ProtectedRoute>
           {withScholarshipSuspense(ScholarshipReports)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/visual-management" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(VisualManagement)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/definitions" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(ScholarshipDefinitions)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/tracking-categories" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(TrackingCategories)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/orphan-form" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(OrphanForm)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/orphan-letters" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(OrphanLetters)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/campaigns" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(ScholarshipCampaigns)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/schools" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(Schools)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/form-definitions" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(FormDefinitions)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/price-definitions" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(PriceDefinitions)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/address-labels" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(AddressLabels)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/data-control" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(ScholarshipDataControl)}
+        </ProtectedRoute>
+      } />
+      <Route path="/scholarship/module-info" element={
+        <ProtectedRoute>
+          {withScholarshipSuspense(ScholarshipModuleInfo)}
         </ProtectedRoute>
       } />
       
