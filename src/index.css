@@ -1,9 +1,9 @@
+/* Import optimized color system */
+@import './styles/colors-optimized.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import optimized color system */
-@import './styles/colors-optimized.css';
 
 @layer base {
   :root {
