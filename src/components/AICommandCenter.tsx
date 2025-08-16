@@ -194,7 +194,7 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
         setMessages(prev => prev.slice(0, -1))
       })
 
-      if (result.success) {
+      if (result.status === 'ok') {
         addMessage({
           type: 'ai',
           content: `✅ ${result.message}`,
