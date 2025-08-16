@@ -164,12 +164,30 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
         content: '🤖 Komutunuz işleniyor...'
       })
 
-      // Komutu çalıştır
-      const result: CommandResult = await workflowEngine.executeCommand(
+      // Smart command processor ile daha akıllı komut işleme
+      const smartCommand = await smartCommandProcessor.processSmartCommand(
         userCommand,
-        context,
-        userId
+        userId,
+        context
       )
+
+      // Onay gerekli mi kontrol et
+      if (smartCommand.requiredConfirmation) {
+        addMessage({
+          type: 'ai',
+          content: `⚠️ Bu işlem onay gerektiriyor. Devam etmek istiyor musunuz?\n\n${smartCommand.processedCommand.action} - ${smartCommand.processedCommand.module}\n\nTahmini süre: ${smartCommand.estimatedDuration} saniye`,
+          suggestions: ['Evet, devam et', 'Hayır, iptal et', 'Detayları göster']
+        })
+        setIsProcessing(false)
+        return {
+          success: true,
+          message: 'Onay bekleniyor',
+          data: { requiresConfirmation: true, smartCommand }
+        }
+      }
+
+      // Smart command'ı çalıştır
+      const result = await smartCommandProcessor.executeSmartCommand(smartCommand, userId)
 
       // Sistem mesajını kaldır ve sonucu ekle
       startTransition(() => {
