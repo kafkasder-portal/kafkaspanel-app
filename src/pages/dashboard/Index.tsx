@@ -35,9 +35,9 @@ export default function DashboardIndex() {
   const { settings, updateWidgets } = useDashboardCustomization()
 
   return (
-    <div className="min-h-screen bg-financial-gray-50 space-y-4 sm:space-y-6 p-4 sm:p-6">
+    <div className="min-h-screen bg-neutral-50 space-y-4 sm:space-y-6 p-4 sm:p-6">
       {/* Hoş Geldin Bölümü */}
-      <div className="bg-gradient-to-r from-financial-primary to-financial-secondary rounded-xl p-6 sm:p-8 text-white shadow-lg relative">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-600 rounded-xl p-6 sm:p-8 text-white shadow-lg relative">
         <div className="flex items-start justify-between">
           <div>
             <h1 className="text-financial-2xl sm:text-financial-3xl font-financial font-bold mb-2 sm:mb-3 tracking-financial-tight">Hoş Geldiniz!</h1>
@@ -129,28 +129,28 @@ export default function DashboardIndex() {
           title="Yeni Başvuru"
           description="İhtiyaç sahibi başvurusu oluştur"
           icon={<FileText className="h-6 w-6" />}
-          color="bg-blue-500"
+          color="bg-brand-primary"
           link="/aid/applications"
         />
         <QuickAccessCard
           title="Bağış Kabul"
           description="Yeni bağış kaydı oluştur"
           icon={<Coins className="h-6 w-6" />}
-          color="bg-green-500"
+          color="bg-financial-success"
           link="/donations/cash"
         />
         <QuickAccessCard
           title="Mesaj Gönder"
           description="Toplu mesaj gönderimi yap"
           icon={<MessageSquare className="h-6 w-6" />}
-          color="bg-purple-500"
+          color="bg-chart-5"
           link="/messages/bulk-send"
         />
         <QuickAccessCard
           title="Rapor Oluştur"
           description="Yardım raporu hazırla"
           icon={<PieChart className="h-6 w-6" />}
-          color="bg-orange-500"
+          color="bg-chart-7"
           link="/aid/reports"
         />
       </div>
