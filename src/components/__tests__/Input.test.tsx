@@ -47,6 +47,7 @@ describe('Input Component', () => {
     const TestComponent = forwardRef<HTMLInputElement>((props, ref) => (
       <Input ref={ref} {...props} />
     ));
+    TestComponent.displayName = 'TestComponent';
     
     const ref = vi.fn();
     render(<TestComponent ref={ref} />);

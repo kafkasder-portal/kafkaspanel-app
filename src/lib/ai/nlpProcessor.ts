@@ -302,8 +302,8 @@ export class NLPProcessor {
     })
 
     // Urgency detection
-    const urgentWords = ['acil', 'hemen', 'şimdi', 'derhal', 'mümkün\s+olduğunca\s+çabuk']
-    const mediumUrgentWords = ['yakında', 'kısa\s+sürede', 'en\s+kısa\s+sürede']
+    const urgentWords = ['acil', 'hemen', 'şimdi', 'derhal', 'mümkün olduğunca çabuk']
+    const mediumUrgentWords = ['yakında', 'kısa sürede', 'en kısa sürede']
     
     if (urgentWords.some(word => new RegExp(word, 'i').test(text))) {
       urgency = 'high'

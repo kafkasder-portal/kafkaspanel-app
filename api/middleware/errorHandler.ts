@@ -22,7 +22,7 @@ export class AppError extends Error {
 /**
  * Async error handler wrapper
  */
-export const asyncHandler = (fn: Function) => {
+export const asyncHandler = (fn: (req: Request, res: Response, next: NextFunction) => unknown | Promise<unknown>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };

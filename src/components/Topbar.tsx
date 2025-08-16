@@ -2,7 +2,6 @@ import { UserCircle2, LogOut, Settings, User, UserPlus } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuthStore } from '../store/auth'
-import { usePermissions } from '../hooks/usePermissions'
 import { getRoleDisplayName, type UserRole } from '../types/permissions'
 import { LanguageSelector } from './LanguageSelector'
 
@@ -25,7 +24,7 @@ export function Topbar({ onOpenAICenter }: TopbarProps = {}) {
   const location = useLocation()
   const navigate = useNavigate()
   const { user, profile } = useAuthStore()
-  const { hasPermission: _hasPermission, canAccessAdmin: _canAccessAdmin } = usePermissions()
+  // const permissions = usePermissions()
   const userProfile = profile
   // YETKİ KONTROLÜ KALDIRILDI - TÜM KULLANICILAR ADMİN
   const isAdmin = true

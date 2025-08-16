@@ -3,6 +3,7 @@ import type { Session, User } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
 import { toast } from 'sonner'
 import { startTransition } from 'react'
+import { logAuthError, logSystemError } from '../services/errorService'
 
 export type UserProfile = {
   id: string
@@ -55,7 +56,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
       const { data: { session }, error: sessionError } = await supabase.auth.getSession()
       
       if (sessionError) {
-        console.error('Session error:', sessionError)
+        logAuthError(sessionError as unknown as Error, { component: 'authStore', action: 'initialize.getSession' })
         startTransition(() => {
           set({ initializing: false, error: sessionError.message })
         })
@@ -71,7 +72,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
           .single()
 
         if (profileError) {
-          console.error('Profile error:', profileError)
+          logSystemError(profileError as unknown as Error, { component: 'authStore', action: 'initialize.fetchProfile' })
           // Create profile if it doesn't exist
           const newProfile: Partial<UserProfile> = {
             id: session.user.id,
@@ -87,7 +88,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
             .single()
 
           if (createError) {
-            console.error('Profile creation error:', createError)
+            logSystemError(createError as unknown as Error, { component: 'authStore', action: 'initialize.createProfile' })
             startTransition(() => {
               set({ initializing: false, error: 'Failed to create user profile' })
             })
@@ -172,7 +173,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
       })
 
     } catch (error) {
-      console.error('Auth initialization error:', error)
+      logAuthError(error instanceof Error ? error : new Error(String(error)), { component: 'authStore', action: 'initialize' })
       startTransition(() => {
         set({ 
           initializing: false, 
@@ -209,7 +210,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
         .single()
 
       if (profileError) {
-        console.error('Profile fetch error:', profileError)
+        logSystemError(profileError as unknown as Error, { component: 'authStore', action: 'signIn.fetchProfile' })
         throw new Error('Failed to fetch user profile')
       }
 
@@ -240,7 +241,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Login failed'
-      console.error('Login error:', error)
+      logAuthError(error instanceof Error ? error : new Error(String(error)), { component: 'authStore', action: 'signIn' })
       
       startTransition(() => {
         set({ loading: false, error: errorMessage })
@@ -285,7 +286,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
         })
 
       if (profileError) {
-        console.error('Profile creation error:', profileError)
+        logSystemError(profileError as unknown as Error, { component: 'authStore', action: 'signUp.createProfile' })
         // Don't throw here, user can still use the account
       }
 
@@ -296,7 +297,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Registration failed'
-      console.error('Registration error:', error)
+      logAuthError(error instanceof Error ? error : new Error(String(error)), { component: 'authStore', action: 'signUp' })
       
       startTransition(() => {
         set({ loading: false, error: errorMessage })
@@ -332,7 +333,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Logout failed'
-      console.error('Logout error:', error)
+      logAuthError(error instanceof Error ? error : new Error(String(error)), { component: 'authStore', action: 'signOut' })
       
       startTransition(() => {
         set({ loading: false, error: errorMessage })
@@ -380,7 +381,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Profile update failed'
-      console.error('Profile update error:', error)
+      logSystemError(error instanceof Error ? error : new Error(String(error)), { component: 'authStore', action: 'updateProfile' })
       
       startTransition(() => {
         set({ loading: false, error: errorMessage })
@@ -427,7 +428,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Password change failed'
-      console.error('Password change error:', error)
+      logAuthError(error instanceof Error ? error : new Error(String(error)), { component: 'authStore', action: 'changePassword' })
       
       startTransition(() => {
         set({ loading: false, error: errorMessage })
@@ -458,7 +459,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set, get) => ({
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Password reset failed'
-      console.error('Password reset error:', error)
+      logAuthError(error instanceof Error ? error : new Error(String(error)), { component: 'authStore', action: 'resetPassword' })
       
       startTransition(() => {
         set({ loading: false, error: errorMessage })

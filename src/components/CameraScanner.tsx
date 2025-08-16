@@ -750,7 +750,7 @@ const CameraScanner: React.FC<CameraScannerProps> = ({
                 <ul className="list-disc list-inside space-y-1 text-xs">
                   <li>QR kodlar (JSON veri içeren)</li>
                   <li>Banka referans numaraları (REF123456)</li>
-                  <li>Bağışçı ID'leri (DONOR123456)</li>
+                  <li>Bağışçı ID&#39;leri (DONOR123456)</li>
                   <li>Telefon numaraları</li>
                   <li>E-posta adresleri</li>
                   <li>Tutar bilgileri (1000TRY)</li>

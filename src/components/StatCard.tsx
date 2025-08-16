@@ -90,4 +90,6 @@ const StatCard = React.memo<StatCardProps>(({
   );
 });
 
+StatCard.displayName = 'StatCard';
+
 export default StatCard;

@@ -56,7 +56,7 @@ export const generateCSRFToken = (sessionToken: string): string => {
  */
 export const sqlInjectionProtection = (req: Request, res: Response, next: NextFunction) => {
   const suspiciousPatterns = [
-    /('|(\-\-)|(;)|(\||\|)|(\*|\*))/i,
+    /('|--|;|\||\*|\*\*)/i,
     /(union|select|insert|delete|update|drop|create|alter|exec|execute)/i,
     /(script|javascript|vbscript|onload|onerror|onclick)/i
   ];
@@ -123,7 +123,7 @@ export const ipWhitelist = (req: Request, res: Response, next: NextFunction) => 
     return next(); // No IP restriction if not configured
   }
   
-  const clientIP = req.ip || req.connection.remoteAddress || req.headers['x-forwarded-for'];
+  const clientIP = req.ip || (req.connection as any).remoteAddress || req.headers['x-forwarded-for'];
   
   if (!clientIP || !allowedIPs.includes(clientIP as string)) {
     return res.status(403).json({
