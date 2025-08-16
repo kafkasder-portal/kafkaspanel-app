@@ -612,8 +612,13 @@ function AppRoutes() {
         </ProtectedRoute>
       } />
 
+      {/* Demo routes */}
+      <Route path="/demo/related-records" element={
+        <ProtectedRoute>
+          {withSystemSuspense(RelatedRecords)}
+        </ProtectedRoute>
+      } />
 
-      
       {/* Catch-all route for 404 errors */}
       <Route path="*" element={<NotFound />} />
     </Routes>
