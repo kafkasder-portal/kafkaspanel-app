@@ -115,7 +115,7 @@ export function FinancialCard({
       </div>
       
       <div className="mb-4">
-        <p className="text-3xl font-bold text-foreground financial-number">
+        <p className="text-3xl font-bold text-foreground">
           {unit === '₺' ? formatCurrency(value, unit) : `${value.toLocaleString('tr-TR')}${unit}`}
         </p>
         <p className="text-sm text-muted-foreground mt-1">{period}</p>
