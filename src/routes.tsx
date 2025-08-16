@@ -46,8 +46,21 @@ const Analytics = lazy(() => import('./pages/messages/Analytics'))
 const MessageModuleInfo = lazy(() => import('./pages/messages/ModuleInfo'))
 
 // Scholarship
+const ScholarshipIndex = lazy(() => import('./pages/scholarship/Index'))
 const OrphansStudents = lazy(() => import('./pages/scholarship/OrphansStudents'))
 const ScholarshipReports = lazy(() => import('./pages/scholarship/Reports'))
+const VisualManagement = lazy(() => import('./pages/scholarship/VisualManagement'))
+const ScholarshipDefinitions = lazy(() => import('./pages/scholarship/Definitions'))
+const TrackingCategories = lazy(() => import('./pages/scholarship/TrackingCategories'))
+const OrphanForm = lazy(() => import('./pages/scholarship/OrphanForm'))
+const OrphanLetters = lazy(() => import('./pages/scholarship/OrphanLetters'))
+const ScholarshipCampaigns = lazy(() => import('./pages/scholarship/Campaigns'))
+const Schools = lazy(() => import('./pages/scholarship/Schools'))
+const FormDefinitions = lazy(() => import('./pages/scholarship/FormDefinitions'))
+const PriceDefinitions = lazy(() => import('./pages/scholarship/PriceDefinitions'))
+const AddressLabels = lazy(() => import('./pages/scholarship/AddressLabels'))
+const ScholarshipDataControl = lazy(() => import('./pages/scholarship/DataControl'))
+const ScholarshipModuleInfo = lazy(() => import('./pages/scholarship/ModuleInfo'))
 
 // Dashboard
 const DashboardIndex = lazy(() => import('./pages/dashboard/Index'))
