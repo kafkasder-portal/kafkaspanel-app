@@ -73,9 +73,9 @@ export function FinancialCard({
     onSwipeRight,
     threshold: 100
   })
-  const changeColor = changeType === 'increase' 
-    ? 'text-status-success' 
-    : 'text-status-error'
+  const changeColor = changeType === 'increase'
+    ? 'text-financial-success'
+    : 'text-financial-error'
   
   const changeIcon = changeType === 'increase' 
     ? <TrendingUp className="h-4 w-4" />
