@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import optimized color system */
+@import './styles/colors-optimized.css';
+
 @layer base {
   :root {
     --background: 0 0% 100%;
