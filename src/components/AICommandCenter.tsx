@@ -3,7 +3,8 @@ import { Send, Bot, User, Settings, History, Zap, Loader2, Mic, MicOff } from 'l
 import { toast } from 'sonner'
 import { workflowEngine } from '@/lib/ai/workflowEngine'
 import { getCommandSuggestions } from '@/lib/ai/commandProcessor'
-import { nlpProcessor } from '@/lib/ai/nlpProcessor'
+import { enhancedNlpProcessor } from '@/lib/ai/enhancedNlpProcessor'
+import { smartCommandProcessor } from '@/lib/ai/smartCommandProcessor'
 import type { ActionContext } from '@/lib/ai/actions'
 import type { CommandResult } from '@/lib/ai/commandProcessor'
 import { AISettingsModal } from './modals/AISettingsModal'
@@ -78,8 +79,8 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
     if (input.trim()) {
       const newSuggestions = getCommandSuggestions(input)
       
-      // NLP analizi
-      const nlpResult = nlpProcessor.process(input)
+      // Gelişmiş NLP analizi
+      const nlpResult = enhancedNlpProcessor.process(input)
       setNlpAnalysis(nlpResult)
       
       startTransition(() => {
