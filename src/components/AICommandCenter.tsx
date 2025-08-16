@@ -404,7 +404,7 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
                 {nlpAnalysis.structuredEntities && (
                   <div className="mt-2 pt-2 border-t border-blue-200">
                     <div className="flex flex-wrap gap-1">
-                      {nlpAnalysis.structuredEntities.money?.map((money, index) => (
+                      {nlpAnalysis.structuredEntities.money?.map((money: any, index: number) => (
                         <span key={index} className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">
                           💰 {money.amount} {money.currency}
                         </span>
