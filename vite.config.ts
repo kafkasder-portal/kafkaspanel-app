@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { resolve } from 'path'
-import { VitePWA } from 'vite-plugin-pwa'
+// import { VitePWA } from 'vite-plugin-pwa'
 import { visualizer } from 'rollup-plugin-visualizer'
 import compression from 'vite-plugin-compression';
 
@@ -39,66 +39,66 @@ export default defineConfig({
       algorithm: 'brotliCompress',
       ext: '.br'
     }),
-    // PWA Service Worker
-    VitePWA({
-      registerType: 'autoUpdate',
-      workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
-          runtimeCaching: [
-            {
-              urlPattern: /^https:\/\/api\./,
-              handler: 'NetworkFirst',
-              options: {
-                cacheName: 'api-cache',
-                expiration: {
-                  maxEntries: 100,
-                  maxAgeSeconds: 60 * 60 * 24
-                }
-              }
-            },
-            {
-              urlPattern: /\.(png|jpg|jpeg|svg|gif)$/,
-              handler: 'CacheFirst',
-              options: {
-                cacheName: 'images-cache',
-                expiration: {
-                  maxEntries: 100,
-                  maxAgeSeconds: 60 * 60 * 24 * 30
-                }
-              }
-            },
-            {
-              urlPattern: /\.(js|css|html)$/,
-              handler: 'StaleWhileRevalidate',
-              options: {
-                cacheName: 'static-resources'
-              }
-            }
-          ]
-        },
-      manifest: {
-        name: 'Dernek Yönetim Paneli',
-        short_name: 'Dernek Panel',
-        description: 'Dernek yönetimi için kapsamlı panel uygulaması',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
-        display: 'standalone',
-        scope: '/',
-        start_url: '/',
-        icons: [
-          {
-            src: '/icon-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: '/icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
-    })
+    // PWA Service Worker - temporarily disabled for debugging
+    // VitePWA({
+    //   registerType: 'autoUpdate',
+    //   workbox: {
+    //       globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+    //       runtimeCaching: [
+    //         {
+    //           urlPattern: /^https:\/\/api\./,
+    //           handler: 'NetworkFirst',
+    //           options: {
+    //             cacheName: 'api-cache',
+    //             expiration: {
+    //               maxEntries: 100,
+    //               maxAgeSeconds: 60 * 60 * 24
+    //             }
+    //           }
+    //         },
+    //         {
+    //           urlPattern: /\.(png|jpg|jpeg|svg|gif)$/,
+    //           handler: 'CacheFirst',
+    //           options: {
+    //             cacheName: 'images-cache',
+    //             expiration: {
+    //               maxEntries: 100,
+    //               maxAgeSeconds: 60 * 60 * 24 * 30
+    //             }
+    //           }
+    //         },
+    //         {
+    //           urlPattern: /\.(js|css|html)$/,
+    //           handler: 'StaleWhileRevalidate',
+    //           options: {
+    //             cacheName: 'static-resources'
+    //           }
+    //         }
+    //       ]
+    //     },
+    //   manifest: {
+    //     name: 'Dernek Yönetim Paneli',
+    //     short_name: 'Dernek Panel',
+    //     description: 'Dernek yönetimi için kapsamlı panel uygulaması',
+    //     theme_color: '#ffffff',
+    //     background_color: '#ffffff',
+    //     display: 'standalone',
+    //     scope: '/',
+    //     start_url: '/',
+    //     icons: [
+    //       {
+    //         src: '/icon-192x192.png',
+    //         sizes: '192x192',
+    //         type: 'image/png'
+    //       },
+    //       {
+    //         src: '/icon-512x512.png',
+    //         sizes: '512x512',
+    //         type: 'image/png'
+    //       }
+    //     ]
+    //   }
+    // })
   ],
   resolve: {
     alias: {
