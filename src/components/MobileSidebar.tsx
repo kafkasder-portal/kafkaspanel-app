@@ -114,16 +114,16 @@ export const MobileSidebar = () => {
       {/* Sidebar */}
       <div
         id="mobile-sidebar"
-        className="fixed inset-y-0 left-0 z-50 w-72 bg-[#0f172a] text-white transform transition-transform lg:hidden"
+        className="fixed inset-y-0 left-0 z-50 w-72 bg-sidebar-bg text-sidebar-text transform transition-transform lg:hidden"
       >
         {/* Header */}
-        <div className="flex h-14 items-center justify-between border-b border-white/10 px-4">
+        <div className="flex h-14 items-center justify-between border-b border-sidebar-border px-4">
           <Link to="/" className="flex items-center gap-2">
             <span className="text-base font-semibold">Dernek Paneli</span>
           </Link>
           <button
             onClick={() => setMobileSidebarOpen(false)}
-            className="rounded p-3 hover:bg-white/10 touch-target mobile-button"
+            className="rounded p-3 hover:bg-sidebar-hover touch-target mobile-button"
           >
             <X className="h-6 w-6" />
           </button>
@@ -139,7 +139,7 @@ export const MobileSidebar = () => {
                   <>
                     <button
                       onClick={() => toggleSection(section.id)}
-                      className="flex w-full items-center gap-3 rounded px-3 py-4 text-sm text-white/70 hover:bg-white/10 active:bg-white/20 mobile-nav-item"
+                      className="flex w-full items-center gap-3 rounded px-3 py-4 text-sm sidebar-nav-item mobile-nav-item"
                     >
                       {section.icon}
                       <span className="flex-1 text-left">{section.title}</span>
@@ -156,8 +156,8 @@ export const MobileSidebar = () => {
                             key={item.to}
                             to={item.to}
                             className={({ isActive }) =>
-                              `flex items-center gap-3 rounded px-3 py-4 text-sm transition-colors mobile-nav-item ${
-                                isActive ? 'bg-white/10 font-medium text-white' : 'text-white/70 hover:bg-white/10 active:bg-white/20'
+                              `flex items-center gap-3 rounded px-3 py-4 text-sm transition-colors sidebar-nav-item mobile-nav-item ${
+                                isActive ? 'active' : ''
                               }`
                             }
                           >
@@ -172,7 +172,7 @@ export const MobileSidebar = () => {
                   // Single item
                   <div>
                     {section.title !== 'Genel' && (
-                      <div className="mb-2 px-2 text-xs font-semibold uppercase text-white/60">
+                      <div className="mb-2 px-2 text-xs font-semibold uppercase text-sidebar-text-muted">
                         {section.title}
                       </div>
                     )}
@@ -181,8 +181,8 @@ export const MobileSidebar = () => {
                         key={item.to}
                         to={item.to}
                         className={({ isActive }) =>
-                          `flex items-center gap-3 rounded px-3 py-2 text-sm transition-colors ${
-                            isActive ? 'bg-white/10 font-medium text-white' : 'text-white/70 hover:bg-white/10'
+                          `flex items-center gap-3 rounded px-3 py-2 text-sm transition-colors sidebar-nav-item ${
+                            isActive ? 'active' : ''
                           }`
                         }
                       >
