@@ -28,28 +28,28 @@
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
     
-    /* Ringku Finansal Renk Paleti */
-    --financial-primary: 222.2 47.4% 11.2%; /* Güven veren mavi */
-    --financial-secondary: 142.1 76.2% 36.3%; /* Başarı yeşili */
-    --financial-accent: 0 84.2% 60.2%; /* Uyarı kırmızısı */
-    
-    /* Finansal Neutral Colors */
-    --financial-gray-50: 210 40% 98%;
-    --financial-gray-100: 210 40% 96.1%;
-    --financial-gray-200: 214.3 31.8% 91.4%;
-    --financial-gray-300: 213 27.3% 84.1%;
-    --financial-gray-400: 215.4 16.3% 46.9%;
-    --financial-gray-500: 215.3 19.3% 34.5%;
-    --financial-gray-600: 215.3 25% 26.7%;
-    --financial-gray-700: 215 27.9% 16.9%;
-    --financial-gray-800: 217.2 32.6% 17.5%;
-    --financial-gray-900: 222.2 84% 4.9%;
-    
-    /* Status Colors */
-    --status-success: 142.1 76.2% 36.3%;
-    --status-warning: 45.4 93.4% 47.5%;
-    --status-error: 0 84.2% 60.2%;
-    --status-info: 221.2 83.2% 53.3%;
+    /* Legacy Compatibility - Point to new optimized colors */
+    --financial-primary: var(--brand-primary); /* Use new brand primary */
+    --financial-secondary: var(--financial-success); /* Map to success green */
+    --financial-accent: var(--financial-error); /* Map to error red */
+
+    /* Legacy Financial Gray Scale - Point to neutral colors */
+    --financial-gray-50: var(--neutral-50);
+    --financial-gray-100: var(--neutral-100);
+    --financial-gray-200: var(--neutral-200);
+    --financial-gray-300: var(--neutral-300);
+    --financial-gray-400: var(--neutral-400);
+    --financial-gray-500: var(--neutral-500);
+    --financial-gray-600: var(--neutral-600);
+    --financial-gray-700: var(--neutral-700);
+    --financial-gray-800: var(--neutral-800);
+    --financial-gray-900: var(--neutral-900);
+
+    /* Legacy Status Colors - Point to new financial colors */
+    --status-success: var(--financial-success);
+    --status-warning: var(--financial-warning);
+    --status-error: var(--financial-error);
+    --status-info: var(--financial-info);
     
     /* Finansal Typography */
     --font-financial-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
