@@ -18,19 +18,10 @@ import {
   ComposedChart
 } from 'recharts'
 import { Card } from '@/components/ui/card'
-// import { useLanguageContext } from '@/contexts/LanguageContext' // Kullanılmıyor
+import { CHART_COLORS_HEX } from '@/constants/colors'
 
-// Renk paleti
-const COLORS = [
-  '#3B82F6', // Blue
-  '#10B981', // Green
-  '#F59E0B', // Yellow
-  '#EF4444', // Red
-  '#8B5CF6', // Purple
-  '#06B6D4', // Cyan
-  '#F97316', // Orange
-  '#EC4899', // Pink
-]
+// Optimized color palette - WCAG AA compliant
+const COLORS = CHART_COLORS_HEX
 
 interface ChartData {
   name: string
@@ -52,7 +43,7 @@ export const LineChartComponent = ({
   data,
   title,
   dataKey,
-  stroke = '#3B82F6',
+  stroke = CHART_COLORS_HEX[0],
   height = 300,
   showGrid = true,
   showLegend = true
@@ -98,8 +89,8 @@ export const AreaChartComponent = ({
   data,
   title,
   dataKey,
-  fill = '#3B82F6',
-  stroke = '#1D4ED8',
+  fill = CHART_COLORS_HEX[0],
+  stroke = CHART_COLORS_HEX[0],
   height = 300,
   showGrid = true,
   showLegend = true
@@ -141,7 +132,7 @@ export const BarChartComponent = ({
   data,
   title,
   dataKey,
-  fill = '#3B82F6',
+  fill = CHART_COLORS_HEX[0],
   height = 300,
   showGrid = true,
   showLegend = true
@@ -188,7 +179,7 @@ export const PieChartComponent = ({
             labelLine={false}
             label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
             outerRadius={80}
-            fill="#8884d8"
+            fill={CHART_COLORS_HEX[0]}
             dataKey="value"
           >
             {data.map((_, index) => (
@@ -232,8 +223,8 @@ export const ComposedChartComponent = ({
           <YAxis />
           <Tooltip />
           {showLegend && <Legend />}
-          <Bar dataKey={barDataKey} fill="#8884d8" radius={[4, 4, 0, 0]} />
-          <Line type="monotone" dataKey={lineDataKey} stroke="#ff7300" strokeWidth={2} />
+          <Bar dataKey={barDataKey} fill={CHART_COLORS_HEX[0]} radius={[4, 4, 0, 0]} />
+          <Line type="monotone" dataKey={lineDataKey} stroke={CHART_COLORS_HEX[3]} strokeWidth={2} />
         </ComposedChart>
       </ResponsiveContainer>
     </Card>
