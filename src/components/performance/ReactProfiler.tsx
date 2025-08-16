@@ -66,7 +66,7 @@ export default function ReactProfilerWrapper({
 /**
  * HOC version of React Profiler
  */
-export function withReactProfiler<P extends {}>(
+export function withReactProfiler<P extends Record<string, never>>(
   WrappedComponent: React.ComponentType<P>,
   profileId?: string,
   options?: Omit<ReactProfilerProps, 'id' | 'children'>

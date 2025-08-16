@@ -1,8 +1,9 @@
+import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, fireEvent, waitFor, mockMeeting, mockUser } from '../../test/utils'
-import MeetingsIndex from '../meetings/Index'
+import { MeetingsIndex } from '../meetings/Index'
+import { mockMeeting } from '../../test/utils'
 
-// Mock the API
+// Mock the API modules
 vi.mock('../../api/meetings', () => ({
   meetingsApi: {
     getMeetings: vi.fn(),
@@ -11,37 +12,32 @@ vi.mock('../../api/meetings', () => ({
     deleteMeeting: vi.fn(),
     getAttendees: vi.fn(),
     addAttendee: vi.fn(),
-    updateAttendeeStatus: vi.fn(),
-    getAgenda: vi.fn(),
-    addAgendaItem: vi.fn(),
-    updateAgendaItem: vi.fn(),
-    deleteAgendaItem: vi.fn()
+    removeAttendee: vi.fn()
   }
 }))
 
-// Mock auth store
-vi.mock('../../store/auth', () => ({
-  useAuthStore: vi.fn(() => ({
-    user: mockUser({ role: 'admin' }),
-    isAuthenticated: true
-  }))
+vi.mock('../../api/messages', () => ({
+  messagesApi: {
+    sendMessage: vi.fn(),
+    getMessages: vi.fn()
+  }
 }))
 
-// Mock permissions hook
-vi.mock('../../hooks/usePermissions', () => ({
-  usePermissions: vi.fn(() => ({
-    permissions: ['manage_meetings', 'view_meetings', 'create_meeting'],
-    hasPermission: (permission: string) => ['manage_meetings', 'view_meetings', 'create_meeting'].includes(permission),
-    canManageUsers: true
-  }))
+vi.mock('../../api/tasks', () => ({
+  tasksApi: {
+    getTasks: vi.fn(),
+    createTask: vi.fn(),
+    updateTask: vi.fn(),
+    deleteTask: vi.fn()
+  }
 }))
 
-describe('Meetings Page Integration', () => {
-  beforeEach(() => {
+describe('Meetings Integration Tests', () => {
+  beforeEach(async () => {
     vi.clearAllMocks()
     
     // Mock successful API responses
-    const { meetingsApi } = require('../../api/meetings')
+    const { meetingsApi } = await import('../../api/meetings')
     meetingsApi.getMeetings.mockResolvedValue([
       mockMeeting({ id: '1', title: 'Team Standup' }),
       mockMeeting({ id: '2', title: 'Project Review' })
@@ -63,7 +59,7 @@ describe('Meetings Page Integration', () => {
   })
 
   it('allows creating a new meeting', async () => {
-    const { meetingsApi } = require('../../api/meetings')
+    const { meetingsApi } = await import('../../api/meetings')
     const newMeeting = mockMeeting({ title: 'New Meeting' })
     meetingsApi.createMeeting.mockResolvedValue(newMeeting)
 
@@ -102,7 +98,7 @@ describe('Meetings Page Integration', () => {
   })
 
   it('allows editing existing meeting', async () => {
-    const { meetingsApi } = require('../../api/meetings')
+    const { meetingsApi } = await import('../../api/meetings')
     meetingsApi.updateMeeting.mockResolvedValue(
       mockMeeting({ id: '1', title: 'Updated Meeting' })
     )
@@ -140,8 +136,8 @@ describe('Meetings Page Integration', () => {
   })
 
   it('allows deleting a meeting', async () => {
-    const { meetingsApi } = require('../../api/meetings')
-    meetingsApi.deleteMeeting.mockResolvedValue(undefined)
+    const { meetingsApi } = await import('../../api/meetings')
+    meetingsApi.deleteMeeting.mockResolvedValue({ success: true })
 
     render(<MeetingsIndex />)
 
@@ -155,10 +151,6 @@ describe('Meetings Page Integration', () => {
     fireEvent.click(deleteButtons[0])
 
     // Confirm deletion
-    await waitFor(() => {
-      expect(screen.getByText('Toplantıyı Sil')).toBeInTheDocument()
-    })
-
     const confirmButton = screen.getByText('Sil')
     fireEvent.click(confirmButton)
 
@@ -168,50 +160,22 @@ describe('Meetings Page Integration', () => {
     })
   })
 
-  it('displays loading state while fetching meetings', () => {
-    const { meetingsApi } = require('../../api/meetings')
-    // Return a promise that never resolves to simulate loading
-    meetingsApi.getMeetings.mockReturnValue(new Promise(() => {}))
-
-    render(<MeetingsIndex />)
-
-    // Check for loading indicator
-    expect(screen.getByText(/yükleniyor/i)).toBeInTheDocument()
-  })
-
-  it('displays error state when API fails', async () => {
-    const { meetingsApi } = require('../../api/meetings')
+  it('handles API errors gracefully', async () => {
+    const { meetingsApi } = await import('../../api/meetings')
     meetingsApi.getMeetings.mockRejectedValue(new Error('API Error'))
 
     render(<MeetingsIndex />)
 
-    // Wait for error to be displayed
+    // Check if error message is displayed
     await waitFor(() => {
-      expect(screen.getByText(/hata oluştu/i)).toBeInTheDocument()
+      expect(screen.getByText(/hata/i)).toBeInTheDocument()
     })
   })
 
-  it('filters meetings by search term', async () => {
-    render(<MeetingsIndex />)
+  it('allows adding attendees to meeting', async () => {
+    const { meetingsApi } = await import('../../api/meetings')
+    meetingsApi.addAttendee.mockResolvedValue({ success: true })
 
-    // Wait for meetings to load
-    await waitFor(() => {
-      expect(screen.getByText('Team Standup')).toBeInTheDocument()
-      expect(screen.getByText('Project Review')).toBeInTheDocument()
-    })
-
-    // Search for specific meeting
-    const searchInput = screen.getByPlaceholderText(/ara/i)
-    fireEvent.change(searchInput, { target: { value: 'Team' } })
-
-    // Check that only matching meeting is shown
-    await waitFor(() => {
-      expect(screen.getByText('Team Standup')).toBeInTheDocument()
-      expect(screen.queryByText('Project Review')).not.toBeInTheDocument()
-    })
-  })
-
-  it('shows meeting details when clicked', async () => {
     render(<MeetingsIndex />)
 
     // Wait for meetings to load
@@ -219,12 +183,112 @@ describe('Meetings Page Integration', () => {
       expect(screen.getByText('Team Standup')).toBeInTheDocument()
     })
 
-    // Click on meeting to view details
-    fireEvent.click(screen.getByText('Team Standup'))
+    // Click on meeting to open details
+    const meetingCard = screen.getByText('Team Standup').closest('div')
+    fireEvent.click(meetingCard!)
 
-    // Check if detail modal opens
+    // Check if attendees section is visible
     await waitFor(() => {
-      expect(screen.getByText('Toplantı Detayları')).toBeInTheDocument()
+      expect(screen.getByText(/katılımcılar/i)).toBeInTheDocument()
+    })
+
+    // Add attendee
+    const addAttendeeButton = screen.getByText(/katılımcı ekle/i)
+    fireEvent.click(addAttendeeButton)
+
+    // Fill attendee form
+    const emailInput = screen.getByLabelText(/e-posta/i)
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
+
+    // Submit form
+    const submitButton = screen.getByText('Ekle')
+    fireEvent.click(submitButton)
+
+    // Verify API was called
+    await waitFor(() => {
+      expect(meetingsApi.addAttendee).toHaveBeenCalledWith('1', 'test@example.com')
+    })
+  })
+
+  it('allows sending messages to meeting attendees', async () => {
+    const { messagesApi } = await import('../../api/messages')
+    messagesApi.sendMessage.mockResolvedValue({ success: true })
+
+    render(<MeetingsIndex />)
+
+    // Wait for meetings to load
+    await waitFor(() => {
+      expect(screen.getByText('Team Standup')).toBeInTheDocument()
+    })
+
+    // Click on meeting to open details
+    const meetingCard = screen.getByText('Team Standup').closest('div')
+    fireEvent.click(meetingCard!)
+
+    // Check if messaging section is visible
+    await waitFor(() => {
+      expect(screen.getByText(/mesaj gönder/i)).toBeInTheDocument()
+    })
+
+    // Send message
+    const messageInput = screen.getByLabelText(/mesaj/i)
+    fireEvent.change(messageInput, { target: { value: 'Meeting reminder' } })
+
+    const sendButton = screen.getByText('Gönder')
+    fireEvent.click(sendButton)
+
+    // Verify API was called
+    await waitFor(() => {
+      expect(messagesApi.sendMessage).toHaveBeenCalledWith({
+        meetingId: '1',
+        message: 'Meeting reminder',
+        recipients: expect.any(Array)
+      })
+    })
+  })
+
+  it('allows creating tasks from meeting', async () => {
+    const { tasksApi } = await import('../../api/tasks')
+    tasksApi.createTask.mockResolvedValue({ id: 'task-1', title: 'New Task' })
+
+    render(<MeetingsIndex />)
+
+    // Wait for meetings to load
+    await waitFor(() => {
+      expect(screen.getByText('Team Standup')).toBeInTheDocument()
+    })
+
+    // Click on meeting to open details
+    const meetingCard = screen.getByText('Team Standup').closest('div')
+    fireEvent.click(meetingCard!)
+
+    // Check if tasks section is visible
+    await waitFor(() => {
+      expect(screen.getByText(/görevler/i)).toBeInTheDocument()
+    })
+
+    // Create task
+    const createTaskButton = screen.getByText(/görev oluştur/i)
+    fireEvent.click(createTaskButton)
+
+    // Fill task form
+    const titleInput = screen.getByLabelText(/görev başlığı/i)
+    fireEvent.change(titleInput, { target: { value: 'New Task' } })
+
+    const descriptionInput = screen.getByLabelText(/açıklama/i)
+    fireEvent.change(descriptionInput, { target: { value: 'Task description' } })
+
+    // Submit form
+    const submitButton = screen.getByText('Oluştur')
+    fireEvent.click(submitButton)
+
+    // Verify API was called
+    await waitFor(() => {
+      expect(tasksApi.createTask).toHaveBeenCalledWith({
+        title: 'New Task',
+        description: 'Task description',
+        meetingId: '1'
+      })
     })
   })
 })

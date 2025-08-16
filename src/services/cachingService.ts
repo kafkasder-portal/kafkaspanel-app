@@ -438,7 +438,7 @@ class CachingServiceClass {
               keysToRemove.push(key)
             }
           }
-        } catch (error) {
+        } catch (_error) {
           // Corrupted entry, remove it
           keysToRemove.push(key)
         }

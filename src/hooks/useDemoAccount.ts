@@ -22,7 +22,7 @@ export function useCreateDemoAccount() {
               try {
                 await signIn(data.email, data.password)
                 toast.success('Demo hesabıyla giriş yapıldı!')
-              } catch (error) {
+              } catch (_error) {
                 toast.error('Giriş yapılamadı')
               }
             }

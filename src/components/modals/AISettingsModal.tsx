@@ -58,7 +58,7 @@ export function AISettingsModal({ isOpen, onClose }: AISettingsModalProps) {
       toast.success('Ayarlar kaydedildi')
       setHasChanges(false)
       onClose()
-    } catch (error) {
+    } catch (_error) {
       toast.error('Ayarlar kaydedilemedi')
     }
   }

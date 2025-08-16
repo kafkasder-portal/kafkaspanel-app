@@ -284,7 +284,7 @@ export const useAuth = () => {
           // Ignore errors on logout
         });
       }
-    } catch (error) {
+    } catch (_error) {
       // Ignore logout errors
     } finally {
       // Clear local storage and state

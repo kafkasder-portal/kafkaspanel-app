@@ -87,7 +87,7 @@ export default function Login() {
         const from = location.state?.from?.pathname || '/'
         navigate(from, { replace: true })
       }
-    } catch (error) {
+    } catch (_error) {
       // Error is handled in the store
     }
   }
@@ -101,7 +101,7 @@ export default function Login() {
       })
       setMode('login')
       registerForm.reset()
-    } catch (error) {
+    } catch (_error) {
       // Error is handled in the store
     }
   }
@@ -111,7 +111,7 @@ export default function Login() {
       await resetPassword(data.email)
       setMode('login')
       forgotForm.reset()
-    } catch (error) {
+    } catch (_error) {
       // Error is handled in the store
     }
   }
