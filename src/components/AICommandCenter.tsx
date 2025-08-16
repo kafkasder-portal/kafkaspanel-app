@@ -9,6 +9,7 @@ import type { ActionContext } from '@/lib/ai/actions'
 import type { CommandResult } from '@/lib/ai/commandProcessor'
 import { AISettingsModal } from './modals/AISettingsModal'
 import { AIHistoryModal } from './modals/AIHistoryModal'
+import { AIAnalyticsModal } from './modals/AIAnalyticsModal'
 
 // Web Speech API type declarations
 declare global {
@@ -59,6 +60,7 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
   const [historyIndex, setHistoryIndex] = useState(-1)
   const [showSettings, setShowSettings] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
+  const [showAnalytics, setShowAnalytics] = useState(false)
   const [nlpAnalysis, setNlpAnalysis] = useState<any>(null)
   
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -456,13 +458,21 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
           
           <div className="flex items-center gap-2">
             <button
+              onClick={() => setShowAnalytics(true)}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              title="AI Analitikleri"
+            >
+              <Zap className="w-4 h-4" />
+            </button>
+
+            <button
               onClick={() => setShowSettings(true)}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               title="Ayarlar"
             >
               <Settings className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={() => setShowHistory(true)}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -470,7 +480,7 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
             >
               <History className="w-4 h-4" />
             </button>
-            
+
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -596,15 +606,21 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
       </div>
       
       {/* Modals */}
-      <AISettingsModal 
-        isOpen={showSettings} 
-        onClose={() => setShowSettings(false)} 
+      <AISettingsModal
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
       />
-      
-      <AIHistoryModal 
-        isOpen={showHistory} 
+
+      <AIHistoryModal
+        isOpen={showHistory}
         onClose={() => setShowHistory(false)}
         onSelectCommand={(command) => setInput(command)}
+      />
+
+      <AIAnalyticsModal
+        isOpen={showAnalytics}
+        onClose={() => setShowAnalytics(false)}
+        userId={userId}
       />
     </div>
   )
