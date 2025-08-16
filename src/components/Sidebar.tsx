@@ -110,7 +110,7 @@ export function Sidebar() {
     { to: '/donations/sacrifice-periods', icon: <Star className="h-4 w-4" />, label: 'Kurban Dönemleri' },
     { to: '/donations/sacrifice-shares', icon: <Package className="h-4 w-4" />, label: 'Kurban Hisseleri' },
     { to: '/donations/ramadan-periods', icon: <Star className="h-4 w-4" />, label: 'Ramazan Dönemleri' },
-    { to: '/donations/piggy-bank-tracking', icon: <Database className="h-4 w-4" />, label: 'Kumbara Takibi' },
+    { to: '/donations/piggy-bank', icon: <Database className="h-4 w-4" />, label: 'Kumbara Takibi' },
     { to: '/donations/bulk-provisioning', icon: <Send className="h-4 w-4" />, label: 'Toplu Provizyon' }
   ]
 
