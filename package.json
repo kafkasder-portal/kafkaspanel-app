@@ -52,7 +52,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
-    "dompurify": "^3.2.7",
+    "dompurify": "^3.2.6",
     "file-saver": "^2.0.5",
     "framer-motion": "^12.23.12",
     "jspdf": "^2.5.2",
@@ -122,7 +122,7 @@
     "npm": ">=9.0.0"
   },
   "overrides": {
-    "dompurify": "^3.2.7",
+    "dompurify": "^3.2.6",
     "ws": "^8.18.0"
   }
 }
