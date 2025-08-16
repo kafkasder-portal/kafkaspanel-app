@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+    
+    /* Ringku Finansal Renk Paleti */
+    --financial-primary: 222.2 47.4% 11.2%; /* Güven veren mavi */
+    --financial-secondary: 142.1 76.2% 36.3%; /* Başarı yeşili */
+    --financial-accent: 0 84.2% 60.2%; /* Uyarı kırmızısı */
+    
+    /* Finansal Neutral Colors */
+    --financial-gray-50: 210 40% 98%;
+    --financial-gray-100: 210 40% 96.1%;
+    --financial-gray-200: 214.3 31.8% 91.4%;
+    --financial-gray-300: 213 27.3% 84.1%;
+    --financial-gray-400: 215.4 16.3% 46.9%;
+    --financial-gray-500: 215.3 19.3% 34.5%;
+    --financial-gray-600: 215.3 25% 26.7%;
+    --financial-gray-700: 215 27.9% 16.9%;
+    --financial-gray-800: 217.2 32.6% 17.5%;
+    --financial-gray-900: 222.2 84% 4.9%;
+    
+    /* Status Colors */
+    --status-success: 142.1 76.2% 36.3%;
+    --status-warning: 45.4 93.4% 47.5%;
+    --status-error: 0 84.2% 60.2%;
+    --status-info: 221.2 83.2% 53.3%;
+    
+    /* Finansal Typography */
+    --font-financial-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-financial-mono: 'JetBrains Mono', 'Fira Code', 'Monaco', monospace;
+    
+    /* Font Sizes - Finansal Hiyerarşi */
+    --text-financial-xs: 0.75rem; /* 12px */
+    --text-financial-sm: 0.875rem; /* 14px */
+    --text-financial-base: 1rem; /* 16px */
+    --text-financial-lg: 1.125rem; /* 18px */
+    --text-financial-xl: 1.25rem; /* 20px */
+    --text-financial-2xl: 1.5rem; /* 24px */
+    --text-financial-3xl: 1.875rem; /* 30px */
+    --text-financial-4xl: 2.25rem; /* 36px */
+    
+    /* Line Heights */
+    --leading-financial-tight: 1.25;
+    --leading-financial-normal: 1.5;
+    --leading-financial-relaxed: 1.75;
+    
+    /* Letter Spacing */
+    --tracking-financial-tight: -0.025em;
+    --tracking-financial-normal: 0em;
+    --tracking-financial-wide: 0.025em;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+}
+
+@layer utilities {
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+  .animation-delay-6000 {
+    animation-delay: 6s;
+  }
+  
+  /* Custom animations for Login page */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.4s ease-out;
+  }
+  
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulseSlow 2s ease-in-out infinite;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-2px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(2px);
+    }
+  }
+  
+  @keyframes pulseSlow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  /* Mobile Touch-Friendly Classes */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+
+  .swipeable-card {
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .mobile-button {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px 16px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-input {
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    touch-action: manipulation;
+  }
+
+  .mobile-nav-item {
+    min-height: 56px;
+    padding: 16px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Mobile-specific responsive utilities */
+  @media (max-width: 640px) {
+    .mobile-padding {
+      padding: 16px;
+    }
+    
+    .mobile-margin {
+      margin: 8px;
+    }
+    
+    .mobile-text {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .mobile-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+}
