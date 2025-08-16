@@ -190,3 +190,32 @@ export class CommandProcessor {
     };
   }
 }
+
+// Utility functions for backward compatibility
+export function createCommandProcessor(moduleController: ModuleController): CommandProcessor {
+  return new CommandProcessor(moduleController);
+}
+
+export function getCommandSuggestions(partialText: string): string[] {
+  const suggestions: string[] = [];
+
+  if (partialText.toLowerCase().includes('create')) {
+    suggestions.push('Create new user');
+    suggestions.push('Create new meeting');
+    suggestions.push('Create new task');
+  }
+
+  if (partialText.toLowerCase().includes('show')) {
+    suggestions.push('Show users');
+    suggestions.push('Show meetings');
+    suggestions.push('Show tasks');
+  }
+
+  if (partialText.toLowerCase().includes('update')) {
+    suggestions.push('Update user profile');
+    suggestions.push('Update meeting details');
+    suggestions.push('Update task status');
+  }
+
+  return suggestions.slice(0, 5); // Limit to 5 suggestions
+}
