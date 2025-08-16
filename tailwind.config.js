@@ -57,6 +57,7 @@ export default {
 
         // Financial Status Colors - WCAG AA Compliant
         'financial': {
+          'primary': "hsl(var(--brand-primary))",
           'success': "hsl(var(--financial-success))",
           'success-light': "hsl(var(--financial-success-light))",
           'warning': "hsl(var(--financial-warning))",
@@ -65,6 +66,28 @@ export default {
           'error-light': "hsl(var(--financial-error-light))",
           'info': "hsl(var(--financial-info))",
           'info-light': "hsl(var(--financial-info-light))",
+        },
+
+        // Backward compatibility - Legacy financial gray colors
+        'financial-gray': {
+          50: "hsl(var(--neutral-50))",
+          100: "hsl(var(--neutral-100))",
+          200: "hsl(var(--neutral-200))",
+          300: "hsl(var(--neutral-300))",
+          400: "hsl(var(--neutral-400))",
+          500: "hsl(var(--neutral-500))",
+          600: "hsl(var(--neutral-600))",
+          700: "hsl(var(--neutral-700))",
+          800: "hsl(var(--neutral-800))",
+          900: "hsl(var(--neutral-900))",
+        },
+
+        // Status Colors - Legacy support
+        'status': {
+          'success': "hsl(var(--financial-success))",
+          'warning': "hsl(var(--financial-warning))",
+          'error': "hsl(var(--financial-error))",
+          'info': "hsl(var(--financial-info))",
         },
 
         // Neutral Color Scale
