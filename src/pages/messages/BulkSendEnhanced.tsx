@@ -17,7 +17,7 @@ import {
   Mail,
   MessageSquare
 } from 'lucide-react'
-import { useFormSanitization } from '@hooks/useFormSanitization'
+import { useFormSanitization } from '@hooks/useSanitization'
 
 export default function BulkSendEnhanced() {
   const [messageType, setMessageType] = useState('sms')
