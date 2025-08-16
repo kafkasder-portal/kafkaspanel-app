@@ -4,6 +4,7 @@ import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { PerformanceService } from '@services/performanceService'
 import { AlertTriangle, CheckCircle, Clock, RefreshCw } from 'lucide-react'
+import { PERFORMANCE_COLORS } from '@/constants/colors'
 
 interface PerformanceData {
   webVitals: any[]
@@ -108,22 +109,22 @@ export default function PerformanceMonitor() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'good':
-        return <CheckCircle className="h-4 w-4 text-green-500" />
+        return <CheckCircle className="h-4 w-4 text-financial-success" />
       case 'needs-improvement':
-        return <AlertTriangle className="h-4 w-4 text-yellow-500" />
+        return <AlertTriangle className="h-4 w-4 text-financial-warning" />
       case 'poor':
-        return <AlertTriangle className="h-4 w-4 text-red-500" />
+        return <AlertTriangle className="h-4 w-4 text-financial-error" />
       default:
-        return <Clock className="h-4 w-4 text-gray-500" />
+        return <Clock className="h-4 w-4 text-neutral-500" />
     }
   }
 
   const getStatusBadge = (status: string) => {
     const variants = {
-      good: 'bg-green-100 text-green-800',
-      'needs-improvement': 'bg-yellow-100 text-yellow-800',
-      poor: 'bg-red-100 text-red-800',
-      unknown: 'bg-gray-100 text-gray-800',
+      good: 'bg-financial-success-light text-financial-success border-financial-success/30',
+      'needs-improvement': 'bg-financial-warning-light text-financial-warning border-financial-warning/30',
+      poor: 'bg-financial-error-light text-financial-error border-financial-error/30',
+      unknown: 'bg-neutral-100 text-neutral-700 border-neutral-200',
     }
 
     return (
@@ -150,7 +151,7 @@ export default function PerformanceMonitor() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-yellow-500" />
+            <AlertTriangle className="h-5 w-5 text-financial-warning" />
             Performans Verisi Bulunamadı
           </CardTitle>
           <CardDescription>
@@ -223,7 +224,7 @@ export default function PerformanceMonitor() {
                 Ort: {formatDuration(apiStatus.avgDuration)}
               </div>
               {apiStatus.errorRate && apiStatus.errorRate > 0 && (
-                <div className="text-sm text-red-600">
+                <div className="text-sm text-financial-error">
                   Hata oranı: %{(apiStatus.errorRate * 100).toFixed(1)}
                 </div>
               )}
@@ -246,7 +247,7 @@ export default function PerformanceMonitor() {
                 Ort: {formatDuration(renderStatus.avgRenderTime)}
               </div>
               {renderStatus.slowComponents && renderStatus.slowComponents > 0 && (
-                <div className="text-sm text-yellow-600">
+                <div className="text-sm text-financial-warning">
                   Yavaş: {renderStatus.slowComponents} component
                 </div>
               )}
