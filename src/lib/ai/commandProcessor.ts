@@ -1,5 +1,15 @@
 import { Command, CommandResult, Intent, ModuleController } from './types';
 
+// Export types for other modules
+export { Command, CommandResult, Intent, ModuleController } from './types';
+
+export interface ProcessedCommand {
+  command: Command;
+  intent: Intent;
+  confidence: number;
+  metadata: Record<string, unknown>;
+}
+
 interface CommandContext {
   userId: string;
   sessionId: string;
