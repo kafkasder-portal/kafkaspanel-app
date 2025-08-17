@@ -21,6 +21,7 @@ import { OnboardingModal } from './components/onboarding/OnboardingModal'
 import { OnboardingTestButton } from './components/onboarding/OnboardingTestButton'
 import { useOnboarding } from './hooks/useOnboarding'
 import { onboardingSteps } from './constants/onboardingSteps.tsx'
+import { PWAWrapper } from './components/pwa/PWAWrapper'
 
 // Inner component that uses theme-dependent hooks
 function AppContent({ 
@@ -147,17 +148,26 @@ export default function App() {
           <QueryClientProvider client={queryClient}>
             <OfflineProvider>
               <SocketProvider>
-                <AppContent 
-                  user={user}
-                  resetOnboarding={resetOnboarding}
-                  setShowOnboarding={setShowOnboarding}
-                />
-                        <OnboardingModal
-          isOpen={showOnboarding}
-          onClose={closeOnboarding}
-          onComplete={completeOnboarding}
-          steps={onboardingSteps}
-        />
+                <PWAWrapper
+                  showInstallBanner={true}
+                  showUpdateNotification={true}
+                  showOfflineStatus={true}
+                  installBannerVariant="floating"
+                  updateNotificationVariant="toast"
+                  offlineStatusVariant="icon"
+                >
+                  <AppContent 
+                    user={user}
+                    resetOnboarding={resetOnboarding}
+                    setShowOnboarding={setShowOnboarding}
+                  />
+                  <OnboardingModal
+                    isOpen={showOnboarding}
+                    onClose={closeOnboarding}
+                    onComplete={completeOnboarding}
+                    steps={onboardingSteps}
+                  />
+                </PWAWrapper>
               </SocketProvider>
             </OfflineProvider>
             <ReactQueryDevtools initialIsOpen={false} />

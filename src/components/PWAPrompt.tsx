@@ -1,6 +1,6 @@
 import React from 'react'
 import { usePWA } from '../hooks/usePWA'
-import { X, Download, RefreshCw, Wifi, WifiOff } from 'lucide-react'
+import { X, Download, RefreshCw, WifiOff } from 'lucide-react'
 
 interface PWAPromptProps {
   onClose?: () => void
@@ -10,10 +10,10 @@ export function PWAPrompt({ onClose }: PWAPromptProps) {
   const {
     isInstallable,
     isInstalled,
-    isOffline,
-    needRefresh,
-    install,
-    updateServiceWorker,
+    isOnline,
+    hasUpdate,
+    installApp,
+    updateApp,
   } = usePWA()
 
   const [showInstallPrompt, setShowInstallPrompt] = React.useState(false)
@@ -26,19 +26,19 @@ export function PWAPrompt({ onClose }: PWAPromptProps) {
   }, [isInstallable, isInstalled])
 
   React.useEffect(() => {
-    if (needRefresh) {
+    if (hasUpdate) {
       setShowUpdatePrompt(true)
     }
-  }, [needRefresh])
+  }, [hasUpdate])
 
   const handleInstall = async () => {
-    await install()
+    await installApp()
     setShowInstallPrompt(false)
     onClose?.()
   }
 
   const handleUpdate = async () => {
-    await updateServiceWorker(true)
+    await updateApp()
     setShowUpdatePrompt(false)
     onClose?.()
   }
@@ -56,18 +56,10 @@ export function PWAPrompt({ onClose }: PWAPromptProps) {
   return (
     <>
       {/* Offline Status */}
-      {isOffline && (
+      {!isOnline && (
         <div className="fixed bottom-4 left-4 z-50 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2">
           <WifiOff className="w-4 h-4" />
           <span className="text-sm font-medium">Çevrimdışı</span>
-        </div>
-      )}
-
-      {/* Online Status (when coming back online) */}
-      {!isOffline && (
-        <div className="fixed bottom-4 left-4 z-50 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-in slide-in-from-bottom duration-300">
-          <Wifi className="w-4 h-4" />
-          <span className="text-sm font-medium">Çevrimiçi</span>
         </div>
       )}
 

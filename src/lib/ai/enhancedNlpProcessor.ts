@@ -11,22 +11,44 @@ const TURKISH_NUMBERS: Record<string, number> = {
   'bin': 1000, 'milyon': 1000000, 'milyar': 1000000000
 }
 
-// Gelişmiş entity tanıma desenleri
-const ENHANCED_ENTITY_PATTERNS = {
-  // Para birimleri ve miktarlar
+// Gelişmiş entity tanıma desenleri - TypeScript Best Practices
+interface EntityPattern {
+  readonly patterns: readonly RegExp[];
+  readonly extract: (match: string) => unknown;
+}
+
+interface MoneyEntity {
+  readonly amount: number;
+  readonly currency: 'TRY' | 'USD' | 'EUR';
+}
+
+interface PersonEntity {
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly fullName: string;
+}
+
+// interface DateTimeEntity {
+//   readonly date: Date;
+//   readonly type: 'relative' | 'absolute';
+// }
+
+const ENHANCED_ENTITY_PATTERNS: Record<string, EntityPattern> = {
+  // Para birimleri ve miktarlar - Type-safe approach
   MONEY: {
     patterns: [
       /(\d+(?:\.\d+)?)\s*(?:TL|₺|lira|türk\s*lirası)/gi,
       /(\d+(?:\.\d+)?)\s*(?:USD|\$|dolar|amerikan\s*doları)/gi,
       /(\d+(?:\.\d+)?)\s*(?:EUR|€|euro|avrupa\s*para\s*birimi)/gi,
       /(bir|iki|üç|dört|beş|altı|yedi|sekiz|dokuz|on)\s*(?:bin|milyon|milyar)?\s*(?:TL|lira|dolar|euro)/gi
-    ],
-    extract: (match: string) => {
+    ] as const,
+    extract: (match: string): MoneyEntity => {
       const amount = extractTurkishNumber(match)
-      const currency = match.includes('₺') || match.includes('TL') || match.includes('lira') ? 'TRY' :
-                      match.includes('$') || match.includes('dolar') ? 'USD' :
-                      match.includes('€') || match.includes('euro') ? 'EUR' : 'TRY'
-      return { amount, currency }
+      const currency: MoneyEntity['currency'] = 
+        match.includes('₺') || match.includes('TL') || match.includes('lira') ? 'TRY' :
+        match.includes('$') || match.includes('dolar') ? 'USD' :
+        match.includes('€') || match.includes('euro') ? 'EUR' : 'TRY'
+      return { amount, currency } as const
     }
   },
 
@@ -44,59 +66,59 @@ const ENHANCED_ENTITY_PATTERNS = {
     }
   },
 
-  // Kişi isimleri (Türkçe isim kalıpları)
+  // Kişi isimleri (Türkçe isim kalıpları) - Type-safe
   PERSON: {
     patterns: [
       /(?:bay|bayan|sayın|dr|doktor|prof|profesör|mühendis)\s+([A-ZÇĞŞÜÖ][a-zçğşüöı]+(?:\s+[A-ZÇĞŞÜÖ][a-zçğşüöı]+)*)/gi,
       /([A-ZÇĞŞÜÖ][a-zçğşüöı]+)\s+([A-ZÇĞŞÜÖ][a-zçğşüöı]+)(?:\s+(?:bey|hanım))?/gi
-    ],
-    extract: (match: string) => {
+    ] as const,
+    extract: (match: string): PersonEntity => {
       const cleaned = match.replace(/(?:bay|bayan|sayın|dr|doktor|prof|profesör|mühendis|bey|hanım)/gi, '').trim()
       const parts = cleaned.split(/\s+/)
       return {
-        firstName: parts[0],
+        firstName: parts[0] || '',
         lastName: parts.slice(1).join(' '),
         fullName: cleaned
-      }
+      } as const
     }
   },
 
-  // Telefon numaraları
+  // Telefon numaraları - Type-safe
   PHONE: {
     patterns: [
       /(?:\+90\s*)?(?:\(\d{3}\)\s*)?\d{3}\s*\d{3}\s*\d{2}\s*\d{2}/g,
       /(?:0)?(\d{3})\s*(\d{3})\s*(\d{2})\s*(\d{2})/g
-    ],
-    extract: (match: string) => {
+    ] as const,
+    extract: (match: string): string => {
       return match.replace(/\D/g, '')
     }
   },
 
-  // Email adresleri
+  // Email adresleri - Type-safe
   EMAIL: {
     patterns: [
       /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
-    ],
-    extract: (match: string) => match.toLowerCase()
+    ] as const,
+    extract: (match: string): string => match.toLowerCase()
   },
 
-  // Adres bilgileri
+  // Adres bilgileri - Type-safe
   ADDRESS: {
     patterns: [
       /(?:mahalle|mah|sokak|sk|cadde|cad|bulvar|blv|apt|apartman|no|numara)\s*[:\s]*([^,\n]+)/gi,
       /([\w\s]+)\s*(?:mahallesi|mah\.?)\s*([\w\s]+)\s*(?:sokağı|sk\.?)/gi
-    ],
-    extract: (match: string) => match.trim()
+    ] as const,
+    extract: (match: string): string => match.trim()
   },
 
-  // Durum/öncelik ifadeleri
+  // Durum/öncelik ifadeleri - Type-safe
   PRIORITY: {
     patterns: [
       /(?:acil|çok\s*acil|ivedi|derhal|hemen)/gi,
       /(?:yüksek\s*öncelik|öncelikli|önemli)/gi,
       /(?:düşük\s*öncelik|normal|standart)/gi
-    ],
-    extract: (match: string) => {
+    ] as const,
+    extract: (match: string): 'high' | 'medium' | 'low' => {
       const text = match.toLowerCase()
       if (/acil|ivedi|derhal|hemen/.test(text)) return 'high'
       if (/yüksek|öncelik|önemli/.test(text)) return 'medium'
@@ -219,25 +241,26 @@ function parseRelativeDate(text: string): Date {
   return today
 }
 
+// Enhanced NLP Result with proper typing - TypeScript Best Practices
 export interface EnhancedNLPResult extends NLPResult {
-  originalText: string
-  structuredEntities: {
-    money?: Array<{ amount: number; currency: string }>
-    persons?: Array<{ firstName: string; lastName: string; fullName: string }>
-    phones?: string[]
-    emails?: string[]
-    addresses?: string[]
-    dates?: Date[]
-    priorities?: string[]
+  readonly originalText: string
+  readonly structuredEntities: {
+    readonly money?: readonly MoneyEntity[]
+    readonly persons?: readonly PersonEntity[]
+    readonly phones?: readonly string[]
+    readonly emails?: readonly string[]
+    readonly addresses?: readonly string[]
+    readonly dates?: readonly Date[]
+    readonly priorities?: readonly ('high' | 'medium' | 'low')[]
   }
-  contextAnalysis: {
-    urgency: 'low' | 'medium' | 'high'
-    emotion: 'positive' | 'negative' | 'neutral'
-    formality: 'formal' | 'informal' | 'neutral'
-    complexity: 'simple' | 'medium' | 'complex'
+  readonly contextAnalysis: {
+    readonly urgency: 'low' | 'medium' | 'high'
+    readonly emotion: 'positive' | 'negative' | 'neutral'
+    readonly formality: 'formal' | 'informal' | 'neutral'
+    readonly complexity: 'simple' | 'medium' | 'complex'
   }
-  suggestions: string[]
-  confidence: number
+  readonly suggestions: readonly string[]
+  readonly confidence: number
 }
 
 export class EnhancedNLPProcessor {

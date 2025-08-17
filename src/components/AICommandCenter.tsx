@@ -3,7 +3,10 @@ import { Send, Bot, User, Settings, History, Zap, Loader2, Mic, MicOff } from 'l
 import { toast } from 'sonner'
 import { enhancedNlpProcessor } from '@/lib/ai/enhancedNlpProcessor'
 import { smartCommandProcessor } from '@/lib/ai/smartCommandProcessor'
+import { conversationAnalyzer } from '@/lib/ai/conversationAnalyzer'
+import { intelligentResponseGenerator } from '@/lib/ai/intelligentResponseGenerator'
 import type { ActionContext } from '@/lib/ai/actions'
+import type { ConversationContext, ConversationTurn } from '@/lib/ai/conversationAnalyzer'
 
 import { getCommandSuggestions } from '@/lib/ai/commandProcessor'
 import { AISettingsModal } from './modals/AISettingsModal'
@@ -25,7 +28,21 @@ interface Message {
   timestamp: Date
   data?: unknown
   suggestions?: string[]
+  intent?: string
+  confidence?: number
+  entities?: readonly Record<string, unknown>[]
 }
+
+// Message'ı ConversationTurn'e çeviren helper function - şimdilik kullanılmıyor ama gelecekte lazım olabilir
+// const messageToConversationTurn = (message: Message): ConversationTurn => ({
+//   id: message.id,
+//   timestamp: message.timestamp,
+//   speaker: message.type === 'user' ? 'user' : 'assistant',
+//   content: message.content,
+//   intent: message.intent || 'UNKNOWN',
+//   confidence: message.confidence || 0.5,
+//   entities: message.entities || []
+// })
 
 type Props = {
   isOpen: boolean
@@ -61,6 +78,17 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
   const [showHistory, setShowHistory] = useState(false)
   const [showAnalytics, setShowAnalytics] = useState(false)
   const [nlpAnalysis, setNlpAnalysis] = useState<any>(null)
+  const [conversationContext, setConversationContext] = useState<ConversationContext>({
+    sessionId: `session-${Date.now()}`,
+    userId: userId || 'anonymous',
+    startTime: new Date(),
+    turns: [],
+    userPreferences: {
+      language: 'tr',
+      formality: 'informal',
+      responseLength: 'medium'
+    }
+  })
   
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -165,6 +193,26 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
         content: '🤖 Komutunuz işleniyor...'
       })
 
+      // Gelişmiş NLP analizi ile daha akıllı anlama
+      const enhancedNlpResult = enhancedNlpProcessor.process(userCommand)
+      
+      // Konuşma context'ini güncelle
+      const userTurn: ConversationTurn = {
+        id: Date.now().toString(),
+        timestamp: new Date(),
+        speaker: 'user',
+        content: userCommand,
+        intent: enhancedNlpResult.intent.primary,
+        confidence: enhancedNlpResult.confidence,
+        entities: Object.values(enhancedNlpResult.structuredEntities).flat().map(entity => ({ entity }))
+      }
+      
+      const updatedContext = {
+        ...conversationContext,
+        turns: [...conversationContext.turns, userTurn]
+      }
+      setConversationContext(updatedContext)
+
       // Smart command processor ile daha akıllı komut işleme
       const smartCommand = await smartCommandProcessor.processSmartCommand(
         userCommand,
@@ -190,17 +238,38 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
       // Smart command'ı çalıştır
       const result = await smartCommandProcessor.executeSmartCommand(smartCommand, userId)
 
-      // Sistem mesajını kaldır ve sonucu ekle
+      // Sistem mesajını kaldır
       startTransition(() => {
         setMessages(prev => prev.slice(0, -1))
       })
 
+      // Konuşma analizi yap
+      const conversationInsights = conversationAnalyzer.analyzeConversation(updatedContext)
+      
+      // Akıllı yanıt üret
+      const intelligentResponse = intelligentResponseGenerator.generateContextualResponse(
+        enhancedNlpResult,
+        updatedContext,
+        conversationInsights,
+        { success: result.status === 'ok', data: result.data, error: result.status !== 'ok' ? result.message : undefined }
+      )
+
+      // Kullanıcı etkileşiminden öğren
+      intelligentResponseGenerator.learnFromUserInteraction(
+        userId || 'anonymous',
+        userCommand,
+        intelligentResponse.content
+      )
+
       if (result.status === 'ok') {
         addMessage({
           type: 'ai',
-          content: `✅ ${result.message}`,
+          content: intelligentResponse.content,
           data: result.data,
-          suggestions: result.nextSteps
+          suggestions: intelligentResponse.suggestions as string[],
+          intent: enhancedNlpResult.intent.primary,
+          confidence: intelligentResponse.confidence,
+          entities: enhancedNlpResult.structuredEntities ? Object.values(enhancedNlpResult.structuredEntities).flat().map(entity => ({ entity })) : []
         })
         
         // Add to command history - handled by AIHistoryModal component
@@ -224,8 +293,11 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
       } else {
         addMessage({
           type: 'ai',
-          content: `❌ ${result.message}`,
-          suggestions: result.suggestions
+          content: intelligentResponse.content,
+          suggestions: intelligentResponse.suggestions as string[],
+          intent: enhancedNlpResult.intent.primary,
+          confidence: intelligentResponse.confidence,
+          entities: enhancedNlpResult.structuredEntities ? Object.values(enhancedNlpResult.structuredEntities).flat().map(entity => ({ entity })) : []
         })
       }
 
@@ -234,11 +306,33 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
       startTransition(() => {
         setMessages(prev => prev.slice(0, -1))
       })
-      addMessage({
-        type: 'ai',
-        content: `🚨 Beklenmeyen hata: ${errorMessage}`,
-        suggestions: ['Lütfen komutu kontrol edip tekrar deneyin']
-      })
+      
+      // Hata durumu için akıllı yanıt üret
+      try {
+        const enhancedNlpResult = enhancedNlpProcessor.process(userCommand)
+        const conversationInsights = conversationAnalyzer.analyzeConversation(conversationContext)
+        const errorResponse = intelligentResponseGenerator.generateContextualResponse(
+          enhancedNlpResult,
+          conversationContext,
+          conversationInsights,
+          { success: false, error: errorMessage }
+        )
+        
+        addMessage({
+          type: 'ai',
+          content: errorResponse.content,
+          suggestions: errorResponse.suggestions as string[],
+          intent: enhancedNlpResult.intent.primary,
+          confidence: errorResponse.confidence
+        })
+      } catch {
+        // Fallback yanıt
+        addMessage({
+          type: 'ai',
+          content: `🚨 Beklenmeyen hata: ${errorMessage}`,
+          suggestions: ['Lütfen komutu kontrol edip tekrar deneyin']
+        })
+      }
     } finally {
       startTransition(() => {
         setIsProcessing(false)
