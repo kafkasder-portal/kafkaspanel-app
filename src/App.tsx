@@ -1,8 +1,7 @@
 import { 
   SidebarProvider, 
   SidebarInset, 
-  SidebarTrigger, 
-  useSidebar,
+  SidebarTrigger,
 } from "./components/ui/sidebar"
 import { Separator } from "./components/ui/separator"
 import {
@@ -15,7 +14,6 @@ import {
 } from "./components/ui/breadcrumb"
 import { memo, useState, useEffect } from "react"
 import { startTransition } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import AppRoutes from './routes'
 import { Toaster } from 'sonner'
@@ -43,7 +41,6 @@ import { HeaderActions } from './components/HeaderActions'
 
 // ==================== MAIN APP LAYOUT ====================
 const AppLayout = memo(function AppLayout() {
-  const { toggleSidebar } = useSidebar()
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isCmdOpen, setIsCmdOpen] = useState(false)
   const {

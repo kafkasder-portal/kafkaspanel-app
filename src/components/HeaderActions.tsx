@@ -220,8 +220,7 @@ export const HeaderActions = memo(function HeaderActions() {
                         </motion.div>
                       </motion.div>
                     ))}
-                  </motion.div>
-                ) : searchQuery ? (
+                  </motion.div>                ) : searchQuery ? (
                   <motion.div
                     className="text-center py-6 text-muted-foreground"
                     initial={{ opacity: 0, scale: 0.8 }}
