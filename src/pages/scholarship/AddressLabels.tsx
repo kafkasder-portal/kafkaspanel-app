@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
-import { Package, Plus, Download, Search, Printer, MapPin, Mail, FileText } from 'lucide-react'
+import { Package, Download, Search, Printer, MapPin, Mail, FileText } from 'lucide-react'
 
 export default function AddressLabels() {
   const [searchTerm, setSearchTerm] = useState('')

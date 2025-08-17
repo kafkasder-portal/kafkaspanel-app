@@ -10,16 +10,16 @@ import {
   Download,
   Search,
   Calendar,
-  User,
+  // User,
   FileText,
-  Heart,
-  MessageCircle,
+  // Heart,
+  // MessageCircle,
   Archive
 } from 'lucide-react'
 
 export default function OrphanLetters() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedLetter, setSelectedLetter] = useState<any>(null)
+  const [_selectedLetter, setSelectedLetter] = useState<any>(null)
   const [activeTab, setActiveTab] = useState<'received' | 'sent' | 'templates'>('received')
 
   const receivedLetters = [

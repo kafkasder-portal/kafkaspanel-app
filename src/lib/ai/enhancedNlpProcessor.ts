@@ -220,6 +220,7 @@ function parseRelativeDate(text: string): Date {
 }
 
 export interface EnhancedNLPResult extends NLPResult {
+  originalText: string
   structuredEntities: {
     money?: Array<{ amount: number; currency: string }>
     persons?: Array<{ firstName: string; lastName: string; fullName: string }>
@@ -270,6 +271,7 @@ export class EnhancedNLPProcessor {
 
     return {
       ...baseResult,
+      originalText: text,
       intent: enhancedIntent,
       structuredEntities,
       contextAnalysis,
@@ -424,7 +426,7 @@ export class EnhancedNLPProcessor {
   }
 
   private generateSuggestions(
-    text: string, 
+    _text: string, 
     intent: { primary: string; confidence: number }, 
     entities: any
   ): string[] {

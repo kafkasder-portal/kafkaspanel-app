@@ -1,6 +1,6 @@
 import { enhancedNlpProcessor, type EnhancedNLPResult } from './enhancedNlpProcessor'
-import { moduleController } from './moduleController'
-import type { ProcessedCommand, CommandResult } from './commandProcessor'
+// import { moduleController } from './moduleController'
+import type { ProcessedCommand } from './commandProcessor'
 
 export interface SmartCommand {
   originalText: string
@@ -40,19 +40,19 @@ export interface SmartCommandResult {
 
 export class SmartCommandProcessor {
   private static instance: SmartCommandProcessor
-  private executionHistory: Array<{
-    command: string
-    result: SmartCommandResult
-    timestamp: Date
-    userId?: string
-  }> = []
+  // private executionHistory: Array<{
+  //   command: string
+  //   result: SmartCommandResult
+  //   timestamp: Date
+  //   userId?: string
+  // }> = []
   
-  private learnedPatterns: Map<string, {
-    pattern: string
-    successRate: number
-    usageCount: number
-    lastUsed: Date
-  }> = new Map()
+  // private learnedPatterns: Map<string, {
+  //   pattern: string
+  //   successRate: number
+  //   usageCount: number
+  //   lastUsed: Date
+  // }> = new Map()
 
   static getInstance(): SmartCommandProcessor {
     if (!SmartCommandProcessor.instance) {
@@ -132,11 +132,16 @@ export class SmartCommandProcessor {
   private createProcessedCommand(nlpResult: EnhancedNLPResult, _context?: any): ProcessedCommand {
     return {
       command: {
-        text: nlpResult.originalText,
-        type: nlpResult.intent.name,
-        timestamp: new Date()
+        id: Date.now().toString(),
+        text: nlpResult.originalText || '',
+        timestamp: new Date(),
+        userId: 'anonymous'
       },
-      intent: nlpResult.intent,
+      intent: {
+        type: nlpResult.intent.primary as any,
+        confidence: nlpResult.intent.confidence,
+        entities: {} // Simplified for now
+      },
       confidence: nlpResult.confidence,
       metadata: {
         entities: nlpResult.entities,

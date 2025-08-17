@@ -12,7 +12,7 @@ import {
   DollarSign,
   Users,
   Target,
-  TrendingUp,
+  // TrendingUp,
   Eye,
   Play,
   Pause,

@@ -4,7 +4,8 @@ import { toast } from 'sonner'
 import { enhancedNlpProcessor } from '@/lib/ai/enhancedNlpProcessor'
 import { smartCommandProcessor } from '@/lib/ai/smartCommandProcessor'
 import type { ActionContext } from '@/lib/ai/actions'
-import type { SmartCommandResult } from '@/lib/ai/smartCommandProcessor'
+
+import { getCommandSuggestions } from '@/lib/ai/commandProcessor'
 import { AISettingsModal } from './modals/AISettingsModal'
 import { AIHistoryModal } from './modals/AIHistoryModal'
 import { AIAnalyticsModal } from './modals/AIAnalyticsModal'
@@ -175,7 +176,7 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
       if (smartCommand.requiredConfirmation) {
         addMessage({
           type: 'ai',
-          content: `⚠️ Bu işlem onay gerektiriyor. Devam etmek istiyor musunuz?\n\n${smartCommand.processedCommand.action} - ${smartCommand.processedCommand.module}\n\nTahmini süre: ${smartCommand.estimatedDuration} saniye`,
+          content: `⚠️ Bu işlem onay gerektiriyor. Devam etmek istiyor musunuz?\n\nTahmini süre: ${smartCommand.estimatedDuration} saniye`,
           suggestions: ['Evet, devam et', 'Hayır, iptal et', 'Detayları göster']
         })
         setIsProcessing(false)
@@ -414,12 +415,12 @@ export default function AICommandCenter({ isOpen, onClose, context, userId }: Pr
                           👤 {person.fullName}
                         </span>
                       ))}
-                      {nlpAnalysis.structuredEntities.phones?.map((phone, index) => (
+                      {nlpAnalysis.structuredEntities.phones?.map((phone: string, index: number) => (
                         <span key={index} className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs">
                           📞 {phone}
                         </span>
                       ))}
-                      {nlpAnalysis.structuredEntities.emails?.map((email, index) => (
+                      {nlpAnalysis.structuredEntities.emails?.map((email: string, index: number) => (
                         <span key={index} className="px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs">
                           📧 {email}
                         </span>

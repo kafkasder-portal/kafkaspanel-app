@@ -13,7 +13,7 @@ import {
   Edit,
   Users,
   FileImage,
-  Grid3X3,
+  // Grid3X3,
   List
 } from 'lucide-react'
 
@@ -156,7 +156,11 @@ export default function VisualManagement() {
               size="sm"
               onClick={() => setViewMode('grid')}
             >
-              <Grid3X3 className="h-4 w-4" />
+              <div className="h-4 w-4 grid grid-cols-3 gap-0.5">
+                {Array.from({length: 9}).map((_, i) => (
+                  <div key={i} className="bg-current rounded-sm" />
+                ))}
+              </div>
             </Button>
             <Button
               variant={viewMode === 'list' ? 'default' : 'outline'}

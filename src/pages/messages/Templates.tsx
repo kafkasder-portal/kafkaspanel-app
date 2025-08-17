@@ -571,7 +571,7 @@ export default function Templates() {
               value={templateContent}
               onChange={createSanitizedChangeHandler(
                 (value) => setTemplateContent(value),
-                'html'
+                'text'
               )}
               rows={6}
               className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -676,7 +676,7 @@ export default function Templates() {
               value={templateContent}
               onChange={createSanitizedChangeHandler(
                 (value) => setTemplateContent(value),
-                'html'
+                'text'
               )}
               rows={6}
               className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"

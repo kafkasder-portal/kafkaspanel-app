@@ -314,7 +314,7 @@ export default function OrphanForm() {
                 <div>
                   <h4 className="text-sm font-medium">Belgeler</h4>
                   <div className="space-y-1">
-                    {selectedForm.documents.map((doc, index) => (
+                    {selectedForm.documents.map((doc: any, index: number) => (
                       <p key={index} className="text-xs text-muted-foreground">• {doc}</p>
                     ))}
                   </div>

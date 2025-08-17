@@ -13,7 +13,7 @@ import {
   Users,
   Mail,
   Building,
-  Star,
+  // Star,
   CheckCircle
 } from 'lucide-react'
 

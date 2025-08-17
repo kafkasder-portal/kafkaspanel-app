@@ -195,30 +195,30 @@ export default function ScholarshipIndex() {
       <Card className="p-6">
         <h2 className="text-lg font-semibold mb-4">Hızlı İşlemler</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Button asChild className="h-auto p-4">
-            <Link to="/scholarship/orphans-students">
+          <Link to="/scholarship/orphans-students">
+            <Button className="h-auto p-4 w-full">
               <div className="flex flex-col items-center space-y-2">
                 <Users className="h-6 w-6" />
                 <span>Yeni Öğrenci Ekle</span>
               </div>
-            </Link>
-          </Button>
-          <Button asChild variant="outline" className="h-auto p-4">
-            <Link to="/scholarship/reports">
+            </Button>
+          </Link>
+          <Link to="/scholarship/reports">
+            <Button variant="outline" className="h-auto p-4 w-full">
               <div className="flex flex-col items-center space-y-2">
                 <BarChart3 className="h-6 w-6" />
                 <span>Raporları Görüntüle</span>
               </div>
-            </Link>
-          </Button>
-          <Button asChild variant="outline" className="h-auto p-4">
-            <Link to="/scholarship/campaigns">
+            </Button>
+          </Link>
+          <Link to="/scholarship/campaigns">
+            <Button variant="outline" className="h-auto p-4 w-full">
               <div className="flex flex-col items-center space-y-2">
                 <Star className="h-6 w-6" />
                 <span>Kampanya Yönet</span>
               </div>
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
       </Card>
     </div>

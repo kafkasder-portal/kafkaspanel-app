@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Card } from '@components/ui/card'
 import { Button } from '@components/ui/button'
 import { supabase } from '../lib/supabase'
@@ -64,7 +64,7 @@ export default function SupabaseConnectionTest() {
     // Test 2: Database Connection
     const startTime2 = Date.now()
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('beneficiaries')
         .select('count', { count: 'exact', head: true })
         .limit(0)
@@ -98,12 +98,12 @@ export default function SupabaseConnectionTest() {
     // Test 4: Table Access
     const startTime4 = Date.now()
     try {
-      const { data: beneficiaries, error: beneficiariesError } = await supabase
+      const { error: beneficiariesError } = await supabase
         .from('beneficiaries')
         .select('id')
         .limit(1)
 
-      const { data: applications, error: applicationsError } = await supabase
+      const { error: applicationsError } = await supabase
         .from('applications')
         .select('id')
         .limit(1)

@@ -4,7 +4,7 @@ import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { PerformanceService } from '@services/performanceService'
 import { AlertTriangle, CheckCircle, Clock, RefreshCw } from 'lucide-react'
-import { PERFORMANCE_COLORS } from '@/constants/colors'
+// import { PERFORMANCE_COLORS } from '@/constants/colors'
 
 interface PerformanceData {
   webVitals: any[]
