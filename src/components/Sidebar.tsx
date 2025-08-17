@@ -194,6 +194,8 @@ export function Sidebar() {
           <div className="mb-2 px-2 text-xs font-semibold uppercase text-sidebar-text-muted">Genel</div>
           <div className="space-y-1">
             {item('/', <Home className="h-4 w-4" />, 'Ana Sayfa')}
+            {item('/analytics', <TrendingUp className="h-4 w-4" />, 'Analytics Dashboard')}
+            {item('/security/settings', <Shield className="h-4 w-4" />, 'Security Settings')}
           </div>
         </div>
         <div>

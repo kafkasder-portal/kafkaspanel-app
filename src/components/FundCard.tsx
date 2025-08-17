@@ -1,6 +1,6 @@
 import React from 'react';
 import { TrendingUp, TrendingDown, Wallet, Target, PieChart, BarChart3, AlertCircle, CheckCircle } from 'lucide-react';
-import { useSwipeableCard } from '../hooks/useSwipeGestures';
+// import { useSwipeableCard } from '../hooks/useSwipeGestures';
 
 interface FundCardProps {
   title: string;
@@ -155,15 +155,17 @@ const FundCard: React.FC<FundCardProps> = ({
   status = 'active',
   fundType,
   className = '',
-  onSwipeLeft,
-  onSwipeRight,
+  onSwipeLeft: _onSwipeLeft,
+  onSwipeRight: _onSwipeRight,
   swipeable = false
 }) => {
-  const { bind, getSwipeStyle } = useSwipeableCard({
-    onSwipeLeft,
-    onSwipeRight,
-    threshold: 100
-  });
+  // const { bind, getSwipeStyle } = useSwipeableCard({
+  //   onSwipeLeft,
+  //   onSwipeRight,
+  //   threshold: 100
+  // });
+  const bind = () => ({});
+  const getSwipeStyle = () => ({});
   const styles = getVariantStyles(variant);
   const progressPercentage = target && value ? (value / target) * 100 : progress || 0;
   

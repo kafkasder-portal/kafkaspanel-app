@@ -1,6 +1,6 @@
 import React from 'react'
 import { TrendingUp, TrendingDown, CreditCard, Users, BarChart3 } from 'lucide-react'
-import { useSwipeableCard } from '../hooks/useSwipeGestures'
+// import { useSwipeableCard } from '../hooks/useSwipeGestures'
 
 interface FinancialCardProps {
   title: string
@@ -64,15 +64,17 @@ export function FinancialCard({
   trend,
   unit = '₺',
   className = '',
-  onSwipeLeft,
-  onSwipeRight,
+  onSwipeLeft: _onSwipeLeft,
+  onSwipeRight: _onSwipeRight,
   swipeable = false
 }: FinancialCardProps) {
-  const { bind, getSwipeStyle } = useSwipeableCard({
-    onSwipeLeft,
-    onSwipeRight,
-    threshold: 100
-  })
+  // const { bind, getSwipeStyle } = useSwipeableCard({
+  //   onSwipeLeft,
+  //   onSwipeRight,
+  //   threshold: 100
+  // })
+  const bind = () => ({});
+  const getSwipeStyle = () => ({})
   const changeColor = changeType === 'increase'
     ? 'text-financial-success'
     : 'text-financial-error'

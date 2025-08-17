@@ -25,6 +25,8 @@ import { PWAWrapper } from './components/pwa/PWAWrapper'
 import { RealtimeNotificationCenter } from './components/realtime/RealtimeNotificationCenter'
 import { CollaborationPanel } from './components/realtime/CollaborationPanel'
 import { WebSocketStatus } from './components/realtime/WebSocketStatus'
+import { MobileLayout } from './components/mobile/MobileLayout'
+import { useViewportOptimization } from './hooks/useViewportOptimization'
 
 // Inner component that uses theme-dependent hooks
 function AppContent({ 
@@ -36,6 +38,7 @@ function AppContent({
   resetOnboarding: () => void
   setShowOnboarding: (show: boolean) => void
 }) {
+  const { isMobile } = useViewportOptimization()
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isCmdOpen, setIsCmdOpen] = useState(false)
   const {
@@ -62,11 +65,53 @@ function AppContent({
     })
   }
 
-  return (
+  const content = (
+    <ErrorBoundary level="page">
+      <AppRoutes />
+    </ErrorBoundary>
+  )
+
+  return isMobile ? (
+    <MobileLayout showNavigation={true}>
+      {content}
+      <Toaster
+        position="top-center"
+        expand={false}
+        richColors
+        closeButton
+      />
+      <PWAPrompt />
+      <OfflineIndicator />
+      {user && (
+        <ChatContainer
+          currentUserId={user.id}
+          isOpen={isChatOpen}
+          onToggle={toggleChat}
+        />
+      )}
+      <CommandPalette
+        isOpen={isCmdOpen}
+        onClose={() => setIsCmdOpen(false)}
+        toggleChat={toggleChat}
+        onOpenAICenter={openCommandCenter}
+      />
+      <AICommandCenter
+        isOpen={isAIOpen}
+        onClose={closeCommandCenter}
+        context={actionContext}
+        userId={userId}
+      />
+      <RealtimeNotificationCenter position="top-right" />
+      <WebSocketStatus
+        variant="badge"
+        className="fixed bottom-20 right-4 z-30"
+        showLatency={true}
+        showReconnectButton={true}
+      />
+    </MobileLayout>
+  ) : (
     <DashboardLayout onOpenAICenter={openCommandCenter}>
-      <ErrorBoundary level="page">
-        <AppRoutes />
-      </ErrorBoundary>
+      {content}
       <Toaster
         position="top-right"
         expand={true}

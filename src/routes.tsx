@@ -43,6 +43,8 @@ const Templates = lazy(() => import('./pages/messages/Templates'))
 const SmsDeliveries = lazy(() => import('./pages/messages/SmsDeliveries'))
 const EmailDeliveries = lazy(() => import('./pages/messages/EmailDeliveries'))
 const Analytics = lazy(() => import('./pages/messages/Analytics'))
+const AnalyticsDashboard = lazy(() => import('./pages/analytics/Dashboard'))
+const SecuritySettings = lazy(() => import('./pages/security/Settings'))
 const MessageModuleInfo = lazy(() => import('./pages/messages/ModuleInfo'))
 
 // Scholarship
@@ -261,6 +263,20 @@ function AppRoutes() {
       <Route path="/messages/analytics" element={
         <ProtectedRoute>
           {withMessagesSuspense(Analytics)}
+        </ProtectedRoute>
+      } />
+      
+      {/* Analytics Dashboard */}
+      <Route path="/analytics" element={
+        <ProtectedRoute>
+          {withDashboardSuspense(AnalyticsDashboard)}
+        </ProtectedRoute>
+      } />
+      
+      {/* Security Settings */}
+      <Route path="/security/settings" element={
+        <ProtectedRoute>
+          {withSystemSuspense(SecuritySettings)}
         </ProtectedRoute>
       } />
       <Route path="/messages/module-info" element={

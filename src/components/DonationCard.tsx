@@ -1,6 +1,6 @@
 import React from 'react';
 import { TrendingUp, TrendingDown, DollarSign, Users, Calendar, CreditCard } from 'lucide-react';
-import { useSwipeableCard } from '../hooks/useSwipeGestures';
+// import { useSwipeableCard } from '../hooks/useSwipeGestures';
 
 interface DonationCardProps {
   title: string;
@@ -109,15 +109,17 @@ const DonationCard: React.FC<DonationCardProps> = ({
   subtitle,
   variant = 'default',
   className = '',
-  onSwipeLeft,
-  onSwipeRight,
+  onSwipeLeft: _onSwipeLeft,
+  onSwipeRight: _onSwipeRight,
   swipeable = false
 }) => {
-  const { bind, getSwipeStyle } = useSwipeableCard({
-    onSwipeLeft,
-    onSwipeRight,
-    threshold: 100
-  })
+  // const { bind, getSwipeStyle } = useSwipeableCard({
+  //   onSwipeLeft,
+  //   onSwipeRight,
+  //   threshold: 100
+  // })
+  const bind = () => ({});
+  const getSwipeStyle = () => ({})
   const styles = getVariantStyles(variant);
   
   return (

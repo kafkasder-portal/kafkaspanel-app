@@ -99,6 +99,9 @@ export const useViewportOptimization = () => {
     isVisible,
     shouldRenderComponent,
     getOptimalColumns,
-    getOptimalItemHeight
+    getOptimalItemHeight,
+    isMobile: viewport.width < 768,
+    viewportHeight: viewport.height,
+    isLandscape: viewport.width > viewport.height
   };
 };

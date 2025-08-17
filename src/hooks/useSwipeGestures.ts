@@ -1,168 +1,82 @@
-import { useGesture } from '@use-gesture/react'
-import { useState, useCallback, startTransition } from 'react'
+/**
+ * Swipe Gestures Hook
+ * TypeScript best practices ile swipe gesture detection
+ */
 
-interface SwipeGestureOptions {
-  onSwipeLeft?: () => void
-  onSwipeRight?: () => void
-  onSwipeUp?: () => void
-  onSwipeDown?: () => void
-  threshold?: number
-  velocity?: number
-  preventScroll?: boolean
+import { useRef, useCallback } from 'react';
+
+interface SwipeOptions {
+  readonly onSwipeLeft?: () => void;
+  readonly onSwipeRight?: () => void;
+  readonly onSwipeUp?: () => void;
+  readonly onSwipeDown?: () => void;
+  readonly threshold?: number;
+  readonly onSwipeStart?: () => void;
+  readonly onSwipeEnd?: () => void;
 }
 
-export const useSwipeGestures = ({
+interface TouchPosition {
+  readonly x: number;
+  readonly y: number;
+}
+
+export function useSwipeGestures({
   onSwipeLeft,
   onSwipeRight,
   onSwipeUp,
   onSwipeDown,
   threshold = 50,
-  velocity = 0.3,
-  preventScroll = false
-}: SwipeGestureOptions) => {
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
+  onSwipeStart,
+  onSwipeEnd
+}: SwipeOptions) {
+  const touchStart = useRef<TouchPosition | null>(null);
+  const touchEnd = useRef<TouchPosition | null>(null);
 
-  const resetPosition = useCallback(() => {
-    startTransition(() => {
-      setDragOffset({ x: 0, y: 0 })
-      setIsDragging(false)
-    })
-  }, [])
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    touchEnd.current = null;
+    touchStart.current = {
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY
+    };
+    onSwipeStart?.();
+  }, [onSwipeStart]);
 
-  const bind = useGesture(
-    {
-      onDrag: ({ movement: [mx, my], dragging, velocity: [vx, vy], direction: [dx, dy] }) => {
-        startTransition(() => {
-          setIsDragging(dragging || false)
-        })
-        
-        if (dragging) {
-          startTransition(() => {
-            setDragOffset({ x: mx, y: my })
-          })
-        } else {
-          // Check if swipe threshold is met
-          const absX = Math.abs(mx)
-          const absY = Math.abs(my)
-          const absVx = Math.abs(vx)
-          const absVy = Math.abs(vy)
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    touchEnd.current = {
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY
+    };
+  }, []);
 
-          // Horizontal swipe
-          if (absX > threshold || absVx > velocity) {
-            if (dx > 0 && onSwipeRight) {
-              onSwipeRight()
-            } else if (dx < 0 && onSwipeLeft) {
-              onSwipeLeft()
-            }
-          }
-          
-          // Vertical swipe
-          if (absY > threshold || absVy > velocity) {
-            if (dy > 0 && onSwipeDown) {
-              onSwipeDown()
-            } else if (dy < 0 && onSwipeUp) {
-              onSwipeUp()
-            }
-          }
+  const onTouchEnd = useCallback(() => {
+    if (!touchStart.current || !touchEnd.current) return;
 
-          resetPosition()
-        }
-      },
-      onDragEnd: () => {
-        resetPosition()
-      }
-    },
-    {
-      drag: {
-        filterTaps: true,
-        threshold: 10,
-        preventScroll: preventScroll
-      }
+    const distanceX = touchStart.current.x - touchEnd.current.x;
+    const distanceY = touchStart.current.y - touchEnd.current.y;
+    const isLeftSwipe = distanceX > threshold;
+    const isRightSwipe = distanceX < -threshold;
+    const isUpSwipe = distanceY > threshold;
+    const isDownSwipe = distanceY < -threshold;
+
+    if (isLeftSwipe && onSwipeLeft) {
+      onSwipeLeft();
     }
-  )
+    if (isRightSwipe && onSwipeRight) {
+      onSwipeRight();
+    }
+    if (isUpSwipe && onSwipeUp) {
+      onSwipeUp();
+    }
+    if (isDownSwipe && onSwipeDown) {
+      onSwipeDown();
+    }
+
+    onSwipeEnd?.();
+  }, [onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, threshold, onSwipeEnd]);
 
   return {
-    bind,
-    isDragging,
-    dragOffset,
-    resetPosition
-  }
-}
-
-// Swipeable card hook with visual feedback
-export const useSwipeableCard = ({
-  onSwipeLeft,
-  onSwipeRight,
-  threshold = 100
-}: {
-  onSwipeLeft?: () => void
-  onSwipeRight?: () => void
-  threshold?: number
-}) => {
-  const [isRemoving, setIsRemoving] = useState(false)
-  
-  const { bind, isDragging, dragOffset, resetPosition } = useSwipeGestures({
-    onSwipeLeft: () => {
-      if (onSwipeLeft) {
-        startTransition(() => {
-          setIsRemoving(true)
-        })
-        setTimeout(() => {
-          onSwipeLeft()
-          startTransition(() => {
-            setIsRemoving(false)
-          })
-        }, 200)
-      }
-    },
-    onSwipeRight: () => {
-      if (onSwipeRight) {
-        startTransition(() => {
-          setIsRemoving(true)
-        })
-        setTimeout(() => {
-          onSwipeRight()
-          startTransition(() => {
-            setIsRemoving(false)
-          })
-        }, 200)
-      }
-    },
-    threshold,
-    preventScroll: true
-  })
-
-  const getSwipeStyle = () => {
-    if (isRemoving) {
-      return {
-        transform: `translateX(${dragOffset.x > 0 ? '100%' : '-100%'})`,
-        opacity: 0,
-        transition: 'all 0.2s ease-out'
-      }
-    }
-    
-    if (isDragging) {
-      const opacity = Math.max(0.7, 1 - Math.abs(dragOffset.x) / 200)
-      return {
-        transform: `translateX(${dragOffset.x}px) rotate(${dragOffset.x * 0.1}deg)`,
-        opacity,
-        transition: 'none'
-      }
-    }
-    
-    return {
-      transform: 'translateX(0px) rotate(0deg)',
-      opacity: 1,
-      transition: 'all 0.2s ease-out'
-    }
-  }
-
-  return {
-    bind,
-    isDragging,
-    isRemoving,
-    getSwipeStyle,
-    resetPosition
-  }
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd
+  } as const;
 }
