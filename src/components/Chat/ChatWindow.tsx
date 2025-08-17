@@ -42,7 +42,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   
-  const { socket } = useSocket()
+  const { emit, on, off, isConnected } = useSocket()
   const { sendMessage, typingUsers } = useRealTimeMessages()
 
   // Scroll to bottom when new messages arrive
@@ -81,7 +81,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
 
   // Listen for new messages
   useEffect(() => {
-    if (!socket) return
+    if (!isConnected) return
 
     const handleNewMessage = (data: { conversationId: string; message: Message }) => {
       if (data.conversationId === conversationId) {
@@ -89,25 +89,25 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
       }
     }
 
-    socket.on('new_message', handleNewMessage)
+    on('new_message', handleNewMessage)
 
     return () => {
-      socket.off('new_message', handleNewMessage)
+      off('new_message', handleNewMessage)
     }
-  }, [socket, conversationId])
+  }, [isConnected, on, off, conversationId])
 
   // Handle typing indicators
   useEffect(() => {
-    if (!socket) return
+    if (!isConnected) return
 
     let typingTimeout: NodeJS.Timeout
 
     const handleTyping = () => {
-      socket.emit('typing', { conversationId, userId: currentUserId })
+      emit('typing', { conversationId, userId: currentUserId })
       
       clearTimeout(typingTimeout)
       typingTimeout = setTimeout(() => {
-        socket.emit('stop_typing', { conversationId, userId: currentUserId })
+        emit('stop_typing', { conversationId, userId: currentUserId })
       }, 1000)
     }
 
@@ -120,7 +120,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
         clearTimeout(typingTimeout)
       }
     }
-  }, [socket, conversationId, currentUserId])
+  }, [isConnected, emit, conversationId, currentUserId])
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault()

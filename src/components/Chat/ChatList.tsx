@@ -54,7 +54,7 @@ export const ChatList: React.FC<ChatListProps> = ({
   const [showNewChat, setShowNewChat] = useState(false)
   const [searchUsers, setSearchUsers] = useState('')
   
-  const { socket } = useSocket()
+  const { on, off, isConnected } = useSocket()
 
   // Load conversations
   useEffect(() => {
@@ -111,7 +111,7 @@ export const ChatList: React.FC<ChatListProps> = ({
 
   // Listen for new messages to update conversation list
   useEffect(() => {
-    if (!socket) return
+    if (!isConnected) return
 
     const handleNewMessage = (data: { conversationId: string; message: Message }) => {
       setConversations(prev => 
@@ -131,12 +131,12 @@ export const ChatList: React.FC<ChatListProps> = ({
       )
     }
 
-    socket.on('new_message', handleNewMessage)
+    on('new_message', handleNewMessage)
 
     return () => {
-      socket.off('new_message', handleNewMessage)
+      off('new_message', handleNewMessage)
     }
-  }, [socket])
+  }, [isConnected, on, off])
 
   const filteredConversations = conversations.filter(conv =>
     conv.participant.full_name.toLowerCase().includes(searchQuery.toLowerCase())

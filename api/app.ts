@@ -17,6 +17,7 @@ import messagesRoutes from './routes/messages.js';
 import errorsRoutes from './routes/errors.js';
 import healthRoutes from './routes/health.js';
 import beneficiariesRoutes from './routes/beneficiaries.js';
+import websocketRoutes from './routes/websocket.js';
 
 // Import custom middleware
 import { sanitizeInput } from './middleware/validation.js';
@@ -129,6 +130,7 @@ app.use('/api/tasks', tasksRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/errors', errorsRoutes);
 app.use('/api/beneficiaries', beneficiariesRoutes);
+app.use('/api/websocket', websocketRoutes);
 app.use('/api', healthRoutes);
 
 /**

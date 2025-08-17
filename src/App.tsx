@@ -22,6 +22,9 @@ import { OnboardingTestButton } from './components/onboarding/OnboardingTestButt
 import { useOnboarding } from './hooks/useOnboarding'
 import { onboardingSteps } from './constants/onboardingSteps.tsx'
 import { PWAWrapper } from './components/pwa/PWAWrapper'
+import { RealtimeNotificationCenter } from './components/realtime/RealtimeNotificationCenter'
+import { CollaborationPanel } from './components/realtime/CollaborationPanel'
+import { WebSocketStatus } from './components/realtime/WebSocketStatus'
 
 // Inner component that uses theme-dependent hooks
 function AppContent({ 
@@ -91,6 +94,16 @@ function AppContent({
         context={actionContext}
         userId={userId}
       />
+      {/* Real-time components */}
+      <RealtimeNotificationCenter position="top-right" />
+      <CollaborationPanel position="right" minimizable={true} />
+      <WebSocketStatus 
+        variant="badge" 
+        className="fixed bottom-4 right-4 z-30" 
+        showLatency={true}
+        showReconnectButton={true}
+      />
+      
       {process.env.NODE_ENV === 'development' && (
         <OnboardingTestButton
           onReset={resetOnboarding}

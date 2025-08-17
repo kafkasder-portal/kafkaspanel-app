@@ -1,23 +1,19 @@
-import { createContext, useContext, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { websocketManager } from '@/lib/websocket/websocketManager'
 
 /**
- * Mock WebSocket bağlantısını yöneten context (Frontend-only)
+ * Enhanced WebSocket context with real WebSocket functionality
  */
 
-interface MockSocket {
-  emit: (event: string, data?: any) => void
-  on: (event: string, callback: (data: any) => void) => void
-  off: (event: string, callback?: (data: any) => void) => void
-}
-
 interface SocketContextType {
-  socket: MockSocket | null
   isConnected: boolean
   connectionError: string | null
   reconnectAttempts: number
   emit: (event: string, data?: any) => void
   on: (event: string, callback: (data: any) => void) => void
   off: (event: string, callback?: (data: any) => void) => void
+  connect: (url?: string) => Promise<boolean>
+  disconnect: () => void
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined)
@@ -25,39 +21,80 @@ const SocketContext = createContext<SocketContextType | undefined>(undefined)
 interface SocketProviderProps {
   children: ReactNode
   serverUrl?: string
+  autoConnect?: boolean
 }
 
-export function SocketProvider({ children }: SocketProviderProps) {
-  const [isConnected] = useState(false)
-  const [connectionError] = useState<string | null>(null)
-  const [reconnectAttempts] = useState(0)
+export function SocketProvider({ 
+  children, 
+  serverUrl = import.meta.env.VITE_WEBSOCKET_URL || 'ws://localhost:3001',
+  autoConnect = false // Disable auto-connect for now since we don't have a server
+}: SocketProviderProps) {
+  const [isConnected, setIsConnected] = useState(false)
+  const [connectionError, setConnectionError] = useState<string | null>(null)
+  const [reconnectAttempts, setReconnectAttempts] = useState(0)
+
+  // Update state based on WebSocket manager
+  useEffect(() => {
+    const updateStatus = () => {
+      const status = websocketManager.getConnectionStatus()
+      setIsConnected(status.isConnected)
+      setConnectionError(status.connectionError || null)
+      setReconnectAttempts(status.reconnectAttempts)
+    }
+
+    // Initial status
+    updateStatus()
+
+    // Listen for connection events
+    websocketManager.on('connect', updateStatus)
+    websocketManager.on('disconnect', updateStatus)
+    websocketManager.on('error', updateStatus)
+
+    return () => {
+      websocketManager.off('connect', updateStatus)
+      websocketManager.off('disconnect', updateStatus)
+      websocketManager.off('error', updateStatus)
+    }
+  }, [])
+
+  // Auto-connect on mount
+  useEffect(() => {
+    if (autoConnect && !isConnected) {
+      websocketManager.connect(serverUrl).catch(error => {
+        console.error('Auto-connect failed:', error)
+      })
+    }
+  }, [autoConnect, serverUrl, isConnected])
 
   const emit = (event: string, data?: any) => {
-    console.log('Mock socket emit:', event, data)
+    websocketManager.send(event, data)
   }
 
-  const on = (event: string, _callback: (data: any) => void) => {
-    console.log('Mock socket on:', event)
+  const on = (event: string, callback: (data: any) => void) => {
+    websocketManager.on(event, callback)
   }
 
-  const off = (event: string, _callback?: (data: any) => void) => {
-    console.log('Mock socket off:', event)
+  const off = (event: string, callback?: (data: any) => void) => {
+    websocketManager.off(event, callback)
   }
 
-  const mockSocket: MockSocket = {
-    emit,
-    on,
-    off
+  const connect = async (url?: string): Promise<boolean> => {
+    return await websocketManager.connect(url || serverUrl)
+  }
+
+  const disconnect = () => {
+    websocketManager.disconnect()
   }
 
   const value: SocketContextType = {
-    socket: mockSocket,
     isConnected,
     connectionError,
     reconnectAttempts,
     emit,
     on,
-    off
+    off,
+    connect,
+    disconnect
   }
 
   return (
