@@ -44,6 +44,6 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"],
-  "exclude": ["vite.config.ts", "node_modules", "dist", "api/**/*", "**/*.test.ts", "**/*.test.tsx", "**/__tests__/**/*", "src/lib/ai/moduleController.ts", "src/lib/ai/workflowEngine.ts", "src/lib/ai/aiAssistantManager.ts"],
+      "exclude": ["vite.config.ts", "node_modules", "dist", "api/**/*", "**/*.test.ts", "**/*.test.tsx", "**/__tests__/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

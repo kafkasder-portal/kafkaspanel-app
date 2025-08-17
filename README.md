@@ -16,6 +16,7 @@ Modern, TypeScript tabanlı React uygulaması ile Supabase backend kullanılarak
 - **Error Tracking**: Merkezi hata kayıt sistemi
 
 ### 🎯 Teknik Özellikler
+- **Modern UI**: ShadCN/UI ile modern sidebar sistemi
 - **Real-time**: Supabase Realtime ile canlı güncellemeler
 - **Offline Support**: PWA desteği ve cache stratejileri
 - **Performance Monitoring**: Web Vitals ve API performans takibi
@@ -23,6 +24,7 @@ Modern, TypeScript tabanlı React uygulaması ile Supabase backend kullanılarak
 - **Testing**: Comprehensive test coverage ile Vitest
 - **Type Safety**: Full TypeScript implementation
 - **Security**: Row Level Security (RLS) policies
+- **Responsive Design**: Mobile-first responsive tasarım
 
 ## 📋 Gereksinimler
 

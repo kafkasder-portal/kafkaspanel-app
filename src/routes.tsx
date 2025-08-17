@@ -34,6 +34,7 @@ const SacrificeShares = lazy(() => import('./pages/donations/SacrificeShares'))
 const RamadanPeriods = lazy(() => import('./pages/donations/RamadanPeriods'))
 const PiggyBankTracking = lazy(() => import('./pages/donations/PiggyBankTracking'))
 const BulkProvisioning = lazy(() => import('./pages/donations/BulkProvisioning'))
+const Corporate = lazy(() => import('./pages/donations/Corporate'))
 
 // Messages
 const MessagesIndex = lazy(() => import('./pages/messages/Index'))
@@ -226,6 +227,11 @@ function AppRoutes() {
       <Route path="/donations/bulk-provisioning" element={
         <ProtectedRoute>
           {withDonationsSuspense(BulkProvisioning)}
+        </ProtectedRoute>
+      } />
+      <Route path="/donations/corporate" element={
+        <ProtectedRoute>
+          {withDonationsSuspense(Corporate)}
         </ProtectedRoute>
       } />
       

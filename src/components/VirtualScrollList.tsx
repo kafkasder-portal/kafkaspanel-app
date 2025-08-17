@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { useViewportOptimization } from '../hooks/useViewportOptimization';
+// useViewportOptimization hook'u kaldırıldı - responsive sidebar kullanılıyor
 
 interface VirtualScrollListProps<T> {
   items: T[];
@@ -19,15 +19,12 @@ export function VirtualScrollList<T>({
   className = ''
 }: VirtualScrollListProps<T>) {
   const [scrollTop, setScrollTop] = useState(0);
-  const { viewport } = useViewportOptimization();
+  // Responsive sidebar kullanılıyor - viewport optimizasyonu kaldırıldı
 
-  // Adjust item height for mobile
+  // Responsive sidebar kullanılıyor - viewport optimizasyonu kaldırıldı
   const adjustedItemHeight = useMemo(() => {
-    if (viewport.isMobile) {
-      return Math.max(itemHeight, 60); // Minimum touch target
-    }
     return itemHeight;
-  }, [itemHeight, viewport.isMobile]);
+  }, [itemHeight]);
 
   // Calculate visible range
   const visibleRange = useMemo(() => {
@@ -95,7 +92,7 @@ export function VirtualScrollList<T>({
 
 // Hook for managing virtual scroll state
 export const useVirtualScroll = <T,>(items: T[], itemHeight: number) => {
-  const { viewport } = useViewportOptimization();
+  // Responsive sidebar kullanılıyor - viewport optimizasyonu kaldırıldı
   
   const containerHeight = useMemo(() => {
     if (viewport.isMobile) {

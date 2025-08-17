@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, startTransition, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getAllActions } from '../lib/ai/actions'
-import { parseIntent } from '../lib/ai/intent'
+// AI imports removed - functionality disabled
 import { useTheme } from '../contexts/ThemeContext'
 import { Bot, Zap } from 'lucide-react'
 
@@ -66,7 +65,8 @@ export default function CommandPalette({ isOpen, onClose, toggleChat, onOpenAICe
     setTimeout(() => inputRef.current?.focus(), 0)
   }
 
-  const all = useMemo(() => getAllActions(), [])
+  // AI functionality temporarily disabled
+  const all = useMemo(() => [], [])
 
   const filtered = useMemo(() => {
     const actions = [...all]
@@ -86,8 +86,8 @@ export default function CommandPalette({ isOpen, onClose, toggleChat, onOpenAICe
     }
 
     if (!query) return actions.slice(0, 10)
-    const { action } = parseIntent(query)
-    if (action) return [action, ...actions.filter(a => a.id !== action.id)].slice(0, 10)
+    // const { action } = parseIntent(query)
+    // if (action) return [action, ...actions.filter(a => a.id !== action.id)].slice(0, 10)
     const q = query.toLowerCase()
     return actions.filter(a => a.label.toLowerCase().includes(q) || (a.keywords||[]).some(k => k.toLowerCase().includes(q))).slice(0, 10)
   }, [all, query, onOpenAICenter, onClose])

@@ -82,6 +82,37 @@ export const schemas = {
     birthDate: Joi.date().max('now').optional(),
     needCategory: Joi.string().valid('education', 'health', 'housing', 'food', 'clothing', 'other').required(),
     urgencyLevel: Joi.string().valid('low', 'medium', 'high', 'critical').required()
+  }),
+
+  // Payment schemas
+  createPayment: Joi.object({
+    aid_record_id: Joi.string().uuid().required(),
+    amount: Joi.number().positive().precision(2).required(),
+    currency: Joi.string().valid('TRY', 'USD', 'EUR').default('TRY'),
+    payment_method: Joi.string().valid('cash', 'bank_transfer', 'check', 'credit_card', 'other').required(),
+    payment_date: Joi.date().iso().optional(),
+    reference_number: Joi.string().max(100).optional(),
+    bank_name: Joi.string().max(100).optional(),
+    account_number: Joi.string().max(50).optional(),
+    status: Joi.string().valid('pending', 'processing', 'completed', 'failed', 'cancelled').default('pending'),
+    notes: Joi.string().max(1000).optional()
+  }),
+
+  updatePayment: Joi.object({
+    amount: Joi.number().positive().precision(2).optional(),
+    currency: Joi.string().valid('TRY', 'USD', 'EUR').optional(),
+    payment_method: Joi.string().valid('cash', 'bank_transfer', 'check', 'credit_card', 'other').optional(),
+    payment_date: Joi.date().iso().optional(),
+    reference_number: Joi.string().max(100).optional(),
+    bank_name: Joi.string().max(100).optional(),
+    account_number: Joi.string().max(50).optional(),
+    status: Joi.string().valid('pending', 'processing', 'completed', 'failed', 'cancelled').optional(),
+    notes: Joi.string().max(1000).optional()
+  }),
+
+  processPayment: Joi.object({
+    reference_number: Joi.string().max(100).optional(),
+    notes: Joi.string().max(1000).optional()
   })
 };
 

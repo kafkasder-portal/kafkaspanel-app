@@ -2,7 +2,8 @@ import { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../store/auth'
 import { useTheme } from '../contexts/ThemeContext'
-import type { ActionContext } from '../lib/ai/actions'
+// AI types removed - functionality disabled
+type ActionContext = any
 
 export function useAICommandCenter() {
   const [isOpen, setIsOpen] = useState(false)

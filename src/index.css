@@ -1,6 +1,7 @@
 /* Import optimized color system */
 @import './styles/colors-optimized.css';
-@import './styles/mobile-responsiveness.css';
+@import './styles/clean-sidebar-theme.css';
+@import './styles/globals.css';
 
 @tailwind base;
 @tailwind components;
@@ -75,6 +76,14 @@
     --tracking-financial-tight: -0.025em;
     --tracking-financial-normal: 0em;
     --tracking-financial-wide: 0.025em;
+    
+    /* Sidebar Colors - Light Theme - Modern Corporate */
+    --sidebar-bg: 248 250 252; /* slate-50 - Soft background */
+    --sidebar-text: 30 41 59; /* slate-800 - Strong text */
+    --sidebar-text-muted: 71 85 105; /* slate-600 - Muted text */
+    --sidebar-hover: 241 245 249; /* slate-100 - Subtle hover */
+    --sidebar-active: 59 130 246; /* blue-500 - Active state */
+    --sidebar-border: 203 213 225; /* slate-300 - Defined border */
   }
 
   .dark {
@@ -97,6 +106,14 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    
+    /* Sidebar Colors - Dark Theme - Modern Corporate */
+    --sidebar-bg: 17 24 39; /* slate-900 - Deep background */
+    --sidebar-text: 241 245 249; /* slate-100 - Clear text */
+    --sidebar-text-muted: 148 163 184; /* slate-400 - Muted text */
+    --sidebar-hover: 30 41 59; /* slate-800 - Subtle hover */
+    --sidebar-active: 59 130 246; /* blue-500 - Consistent active */
+    --sidebar-border: 51 65 85; /* slate-700 - Defined border */
   }
 }
 

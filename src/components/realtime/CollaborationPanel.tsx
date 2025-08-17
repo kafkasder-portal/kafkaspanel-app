@@ -1,299 +1,271 @@
-/**
- * Collaboration Panel Component
- * TypeScript best practices ile gerçek zamanlı işbirliği paneli
- */
-
 import React, { useState, useEffect } from 'react';
-import { Users, MessageCircle, Activity, Minus } from 'lucide-react';
-import { useCollaboration, useTypingIndicator } from '@/hooks/useWebSocket';
-import { useAuthStore } from '@/store/auth';
-import type { CollaborationUser } from '@/lib/websocket/collaborationManager';
+import { Users, MessageCircle, Video, Share2, Eye, Edit3, Clock } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
+import { Card } from '../ui/card';
+import { Avatar } from '../ui/avatar';
+import { ScrollArea } from '../ui/scroll-area';
+import { Separator } from '../ui/separator';
+import { AvatarWithFallback } from '../AvatarWithFallback';
 
-interface CollaborationPanelProps {
-  readonly className?: string;
-  readonly roomId?: string;
-  readonly roomName?: string;
-  readonly position?: 'right' | 'left' | 'bottom';
-  readonly minimizable?: boolean;
+export interface CollaborationUser {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+  status: 'online' | 'away' | 'busy' | 'offline';
+  activity: 'viewing' | 'editing' | 'idle';
+  lastSeen?: Date;
+  currentPage?: string;
 }
 
-export const CollaborationPanel: React.FC<CollaborationPanelProps> = ({
-  className = '',
-  roomId,
-  roomName,
-  position = 'right',
-  minimizable = true
+export interface CollaborationSession {
+  id: string;
+  name: string;
+  type: 'document' | 'meeting' | 'review';
+  participants: CollaborationUser[];
+  startTime: Date;
+  isActive: boolean;
+}
+
+interface CollaborationPanelProps {
+  className?: string;
+  currentUser?: CollaborationUser;
+}
+
+const CollaborationPanel: React.FC<CollaborationPanelProps> = ({ 
+  className,
+  currentUser 
 }) => {
-  const { user } = useAuthStore();
-  const {
-    activeUsers,
-    currentRoom,
-    isInitialized,
-    joinRoom,
-    leaveRoom,
-    updateUserStatus,
-    logActivity
-  } = useCollaboration(user ? {
-    id: user.id,
-    name: (user as any).name || user.email,
-    role: user.role || 'user'
-  } : undefined);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [activeUsers, setActiveUsers] = useState<CollaborationUser[]>([]);
+  const [sessions, setSessions] = useState<CollaborationSession[]>([]);
 
-  const { typingUsers, isAnyoneTyping } = useTypingIndicator(roomId);
-  
-  const [isMinimized, setIsMinimized] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState<CollaborationUser['status']>('online');
-
-  // Auto-join room if provided
   useEffect(() => {
-    if (roomId && isInitialized && roomId !== currentRoom) {
-      joinRoom(roomId, roomName);
+    // Mock collaboration data
+    const mockUsers: CollaborationUser[] = [
+      {
+        id: '1',
+        name: 'Ahmet Yılmaz',
+        email: 'ahmet@example.com',
+        status: 'online',
+        activity: 'editing',
+        currentPage: 'Proje Yönetimi'
+      },
+      {
+        id: '2',
+        name: 'Fatma Kaya',
+        email: 'fatma@example.com',
+        status: 'online',
+        activity: 'viewing',
+        currentPage: 'Dashboard'
+      },
+      {
+        id: '3',
+        name: 'Mehmet Demir',
+        email: 'mehmet@example.com',
+        status: 'away',
+        activity: 'idle',
+        lastSeen: new Date(Date.now() - 300000)
+      }
+    ];
+
+    const mockSessions: CollaborationSession[] = [
+      {
+        id: '1',
+        name: 'Proje Planlama Toplantısı',
+        type: 'meeting',
+        participants: mockUsers.slice(0, 2),
+        startTime: new Date(Date.now() - 900000),
+        isActive: true
+      }
+    ];
+
+    setActiveUsers(mockUsers);
+    setSessions(mockSessions);
+  }, []);
+
+  const getStatusColor = (status: CollaborationUser['status']) => {
+    switch (status) {
+      case 'online':
+        return 'bg-green-500';
+      case 'away':
+        return 'bg-yellow-500';
+      case 'busy':
+        return 'bg-red-500';
+      default:
+        return 'bg-gray-400';
     }
-  }, [roomId, roomName, isInitialized, currentRoom, joinRoom]);
+  };
 
-  // Log activity when component mounts/unmounts
-  useEffect(() => {
-    if (isInitialized && roomId) {
-      logActivity({
-        action: 'viewing',
-        resource: {
-          type: 'room',
-          id: roomId,
-          name: roomName || roomId
-        }
-      });
+  const getActivityIcon = (activity: CollaborationUser['activity']) => {
+    switch (activity) {
+      case 'editing':
+        return <Edit3 className="h-3 w-3 text-blue-500" />;
+      case 'viewing':
+        return <Eye className="h-3 w-3 text-green-500" />;
+      default:
+        return <Clock className="h-3 w-3 text-gray-400" />;
     }
-  }, [isInitialized, roomId, roomName, logActivity]);
-
-  const handleStatusChange = (status: CollaborationUser['status']) => {
-    setSelectedStatus(status);
-    updateUserStatus(status);
   };
 
-  const handleLeaveRoom = () => {
-    leaveRoom();
-  };
-
-  const getStatusColor = (status: CollaborationUser['status']): string => {
-    const colors = {
-      online: 'bg-green-400',
-      away: 'bg-yellow-400',
-      busy: 'bg-red-400',
-      offline: 'bg-gray-400'
-    };
-    return colors[status];
-  };
-
-  const getStatusLabel = (status: CollaborationUser['status']): string => {
-    const labels = {
-      online: 'Çevrimiçi',
-      away: 'Uzakta',
-      busy: 'Meşgul',
-      offline: 'Çevrimdışı'
-    };
-    return labels[status];
-  };
-
-  const formatLastSeen = (lastSeen: Date): string => {
+  const formatDuration = (startTime: Date) => {
     const now = new Date();
-    const diff = now.getTime() - lastSeen.getTime();
+    const diff = now.getTime() - startTime.getTime();
     const minutes = Math.floor(diff / 60000);
     
-    if (minutes < 1) return 'Şimdi';
-    if (minutes < 60) return `${minutes} dk önce`;
-    
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours} sa önce`;
-    
-    const days = Math.floor(hours / 24);
-    return `${days} gün önce`;
+    if (minutes < 60) return `${minutes} dakika`;
+    return `${Math.floor(minutes / 60)} saat ${minutes % 60} dakika`;
   };
 
-  const positionClasses = {
-    right: 'right-4 top-1/2 transform -translate-y-1/2',
-    left: 'left-4 top-1/2 transform -translate-y-1/2',
-    bottom: 'bottom-4 left-1/2 transform -translate-x-1/2'
-  };
-
-  if (!isInitialized) {
-    return null;
-  }
+  const onlineUsers = activeUsers.filter(user => user.status === 'online');
+  const totalActiveUsers = activeUsers.length;
 
   return (
-    <div className={`fixed ${positionClasses[position]} z-40 ${className}`}>
-      <div className={`
-        bg-white rounded-lg shadow-lg border border-gray-200 
-        transition-all duration-300 ease-in-out
-        ${isMinimized ? 'w-16 h-16' : 'w-80 max-h-96'}
-      `}>
-        
-        {/* Header */}
-        <div className="p-4 border-b border-gray-100 flex items-center justify-between">
-          {!isMinimized && (
+    <div className={`${className}`}>
+      <Card className="w-full">
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Users className="h-5 w-5 text-muted-foreground" />
+              <h3 className="font-semibold">İşbirliği</h3>
+              <Badge variant="secondary" className="ml-2">
+                {onlineUsers.length} çevrimiçi
+              </Badge>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              {isExpanded ? 'Küçült' : 'Genişlet'}
+            </Button>
+          </div>
+
+          {/* Active Users */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-muted-foreground">Aktif Kullanıcılar</h4>
+            <ScrollArea className={isExpanded ? "h-32" : "h-20"}>
+              <div className="space-y-2">
+                {activeUsers.map((user) => (
+                  <div key={user.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50">
+                    <div className="relative">
+                      <AvatarWithFallback
+                        src={user.avatar}
+                        alt={user.name}
+                        fallback={user.name.split(' ').map(n => n[0]).join('')}
+                        className="h-8 w-8"
+                      />
+                      <div 
+                        className={`absolute -bottom-1 -right-1 h-3 w-3 rounded-full border-2 border-background ${
+                          getStatusColor(user.status)
+                        }`}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium truncate">{user.name}</p>
+                        {getActivityIcon(user.activity)}
+                      </div>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {user.currentPage || 'Çevrimdışı'}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                        <MessageCircle className="h-3 w-3" />
+                      </Button>
+                      {user.status === 'online' && (
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                          <Video className="h-3 w-3" />
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </div>
+
+          {isExpanded && (
             <>
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-blue-500" />
-                <h3 className="font-semibold text-gray-900">
-                  {currentRoom ? 'İşbirliği' : 'Çevrimdışı'}
-                </h3>
-                {activeUsers.length > 0 && (
-                  <span className="text-sm text-gray-500">
-                    ({activeUsers.length} kullanıcı)
-                  </span>
+              <Separator className="my-4" />
+              
+              {/* Active Sessions */}
+              <div className="space-y-3">
+                <h4 className="text-sm font-medium text-muted-foreground">Aktif Oturumlar</h4>
+                {sessions.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">Aktif oturum yok</p>
+                ) : (
+                  <div className="space-y-2">
+                    {sessions.map((session) => (
+                      <Card key={session.id} className="p-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <h5 className="text-sm font-medium">{session.name}</h5>
+                          <Badge 
+                            variant={session.isActive ? "default" : "secondary"}
+                            className="text-xs"
+                          >
+                            {session.isActive ? 'Aktif' : 'Beklemede'}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                          <Clock className="h-3 w-3" />
+                          <span>Süre: {formatDuration(session.startTime)}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="flex -space-x-1">
+                            {session.participants.slice(0, 3).map((participant) => (
+                              <AvatarWithFallback
+                                key={participant.id}
+                                src={participant.avatar}
+                                alt={participant.name}
+                                fallback={participant.name.split(' ').map(n => n[0]).join('')}
+                                className="h-6 w-6 border-2 border-background"
+                              />
+                            ))}
+                            {session.participants.length > 3 && (
+                              <div className="h-6 w-6 rounded-full bg-muted border-2 border-background flex items-center justify-center">
+                                <span className="text-xs font-medium">
+                                  +{session.participants.length - 3}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <Button variant="outline" size="sm" className="ml-auto">
+                            <Share2 className="h-3 w-3 mr-1" />
+                            Katıl
+                          </Button>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
                 )}
               </div>
+
+              <Separator className="my-4" />
               
-              <div className="flex items-center gap-1">
-                {currentRoom && (
-                  <button
-                    onClick={handleLeaveRoom}
-                    className="p-1 hover:bg-gray-100 rounded text-red-500"
-                    title="Odadan ayrıl"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                )}
-                
-                {minimizable && (
-                  <button
-                    onClick={() => setIsMinimized(!isMinimized)}
-                    className="p-1 hover:bg-gray-100 rounded"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                )}
+              {/* Quick Actions */}
+              <div className="space-y-3">
+                <h4 className="text-sm font-medium text-muted-foreground">Hızlı İşlemler</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button variant="outline" size="sm" className="justify-start">
+                    <Video className="h-4 w-4 mr-2" />
+                    Toplantı Başlat
+                  </Button>
+                  <Button variant="outline" size="sm" className="justify-start">
+                    <Share2 className="h-4 w-4 mr-2" />
+                    Ekran Paylaş
+                  </Button>
+                </div>
               </div>
             </>
           )}
-          
-          {isMinimized && (
-            <button
-              onClick={() => setIsMinimized(false)}
-              className="w-full h-full flex items-center justify-center"
-            >
-              <Users className="w-5 h-5 text-blue-500" />
-              {activeUsers.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 text-white text-xs rounded-full flex items-center justify-center">
-                  {activeUsers.length}
-                </span>
-              )}
-            </button>
-          )}
         </div>
-
-        {!isMinimized && (
-          <>
-            {/* Status Selector */}
-            {currentRoom && (
-              <div className="p-3 border-b border-gray-100">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm font-medium text-gray-700">Durumunuz:</span>
-                </div>
-                <select
-                  value={selectedStatus}
-                  onChange={(e) => handleStatusChange(e.target.value as CollaborationUser['status'])}
-                  className="w-full text-sm border border-gray-200 rounded px-2 py-1"
-                >
-                  <option value="online">🟢 Çevrimiçi</option>
-                  <option value="away">🟡 Uzakta</option>
-                  <option value="busy">🔴 Meşgul</option>
-                </select>
-              </div>
-            )}
-
-            {/* Active Users */}
-            <div className="p-3 max-h-48 overflow-y-auto">
-              {activeUsers.length === 0 ? (
-                <div className="text-center text-gray-500 py-4">
-                  <Users className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                  <p className="text-sm">Aktif kullanıcı yok</p>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">
-                    Aktif Kullanıcılar ({activeUsers.length})
-                  </h4>
-                  
-                  {activeUsers.map((collaborationUser) => (
-                    <div
-                      key={collaborationUser.id}
-                      className="flex items-center gap-3 p-2 rounded hover:bg-gray-50"
-                    >
-                      {/* Avatar */}
-                      <div className="relative">
-                        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                          {collaborationUser.name.charAt(0).toUpperCase()}
-                        </div>
-                        <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white ${getStatusColor(collaborationUser.status)}`} />
-                      </div>
-                      
-                      {/* User Info */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-gray-900 truncate">
-                            {collaborationUser.name}
-                          </span>
-                          {collaborationUser.id === user?.id && (
-                            <span className="text-xs text-blue-500">(Sen)</span>
-                          )}
-                        </div>
-                        
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
-                          <span>{getStatusLabel(collaborationUser.status)}</span>
-                          {collaborationUser.status !== 'online' && (
-                            <span>• {formatLastSeen(collaborationUser.lastSeen)}</span>
-                          )}
-                        </div>
-                        
-                        {collaborationUser.currentAction && (
-                          <div className="flex items-center gap-1 text-xs text-blue-600">
-                            <Activity className="w-3 h-3" />
-                            <span>{collaborationUser.currentAction}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Typing Indicators */}
-            {isAnyoneTyping && (
-              <div className="p-3 border-t border-gray-100">
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                  </div>
-                  <span>
-                    {typingUsers.length === 1 
-                      ? `${typingUsers[0].userName} yazıyor...`
-                      : `${typingUsers.length} kişi yazıyor...`
-                    }
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* Room Info */}
-            {currentRoom && (
-              <div className="p-3 border-t border-gray-100 bg-gray-50">
-                <div className="text-xs text-gray-600">
-                  <div className="flex items-center gap-1 mb-1">
-                    <MessageCircle className="w-3 h-3" />
-                    <span>Oda: {roomName || currentRoom}</span>
-                  </div>
-                  <div className="text-gray-500">
-                    Gerçek zamanlı işbirliği aktif
-                  </div>
-                </div>
-              </div>
-            )}
-          </>
-        )}
-      </div>
+      </Card>
     </div>
   );
 };
+
+export default CollaborationPanel;
+export { CollaborationPanel };

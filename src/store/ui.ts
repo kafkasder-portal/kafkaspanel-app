@@ -12,18 +12,6 @@ export const usePagination = create<PaginationState>((set) => ({
   setPage: (page) => set({ page }),
 }))
 
-interface UIState {
-  sidebarCollapsed: boolean
-  isMobileSidebarOpen: boolean
-  toggleSidebar: () => void
-  setMobileSidebarOpen: (open: boolean) => void
-}
-
-export const useUIStore = create<UIState>((set) => ({
-  sidebarCollapsed: false,
-  isMobileSidebarOpen: false,
-  toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
-  setMobileSidebarOpen: (open: boolean) => set({ isMobileSidebarOpen: open })
-}))
+// Eski sidebar state kaldırıldı - yeni temiz sidebar kullanılıyor
 
 

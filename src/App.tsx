@@ -1,4 +1,22 @@
-import { DashboardLayout } from './layouts/DashboardLayout'
+import { 
+  SidebarProvider, 
+  SidebarInset, 
+  SidebarTrigger, 
+  useSidebar,
+} from "./components/ui/sidebar"
+import { Separator } from "./components/ui/separator"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "./components/ui/breadcrumb"
+import { memo, useState, useEffect } from "react"
+import { startTransition } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import AppRoutes from './routes'
 import { Toaster } from 'sonner'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -7,8 +25,6 @@ import { SocketProvider } from './contexts/SocketContext'
 import { OfflineProvider } from './contexts/OfflineContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { LanguageProvider } from './contexts/LanguageContext'
-import ChatContainer from './components/Chat/ChatContainer'
-import { useState, useEffect, startTransition } from 'react'
 import CommandPalette from './components/CommandPalette'
 import AICommandCenter from './components/AICommandCenter'
 import { useAICommandCenter } from './hooks/useAICommandCenter'
@@ -18,27 +34,16 @@ import { queryClient, cacheUtils } from './lib/queryClient'
 import OfflineIndicator from './components/OfflineIndicator'
 import { useAuthStore } from './store/auth'
 import { OnboardingModal } from './components/onboarding/OnboardingModal'
-import { OnboardingTestButton } from './components/onboarding/OnboardingTestButton'
 import { useOnboarding } from './hooks/useOnboarding'
 import { onboardingSteps } from './constants/onboardingSteps.tsx'
-import { PWAWrapper } from './components/pwa/PWAWrapper'
-import { RealtimeNotificationCenter } from './components/realtime/RealtimeNotificationCenter'
-import { CollaborationPanel } from './components/realtime/CollaborationPanel'
-import { WebSocketStatus } from './components/realtime/WebSocketStatus'
-import { MobileLayout } from './components/mobile/MobileLayout'
-import { useViewportOptimization } from './hooks/useViewportOptimization'
 
-// Inner component that uses theme-dependent hooks
-function AppContent({ 
-  user, 
-  resetOnboarding, 
-  setShowOnboarding 
-}: { 
-  user: any
-  resetOnboarding: () => void
-  setShowOnboarding: (show: boolean) => void
-}) {
-  const { isMobile } = useViewportOptimization()
+// Import our modular components
+import { AppSidebar } from './components/AppSidebar'
+import { HeaderActions } from './components/HeaderActions'
+
+// ==================== MAIN APP LAYOUT ====================
+const AppLayout = memo(function AppLayout() {
+  const { toggleSidebar } = useSidebar()
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isCmdOpen, setIsCmdOpen] = useState(false)
   const {
@@ -71,47 +76,34 @@ function AppContent({
     </ErrorBoundary>
   )
 
-  return isMobile ? (
-    <MobileLayout showNavigation={true}>
-      {content}
-      <Toaster
-        position="top-center"
-        expand={false}
-        richColors
-        closeButton
-      />
-      <PWAPrompt />
-      <OfflineIndicator />
-      {user && (
-        <ChatContainer
-          currentUserId={user.id}
-          isOpen={isChatOpen}
-          onToggle={toggleChat}
-        />
-      )}
-      <CommandPalette
-        isOpen={isCmdOpen}
-        onClose={() => setIsCmdOpen(false)}
-        toggleChat={toggleChat}
-        onOpenAICenter={openCommandCenter}
-      />
-      <AICommandCenter
-        isOpen={isAIOpen}
-        onClose={closeCommandCenter}
-        context={actionContext}
-        userId={userId}
-      />
-      <RealtimeNotificationCenter position="top-right" />
-      <WebSocketStatus
-        variant="badge"
-        className="fixed bottom-20 right-4 z-30"
-        showLatency={true}
-        showReconnectButton={true}
-      />
-    </MobileLayout>
-  ) : (
-    <DashboardLayout onOpenAICenter={openCommandCenter}>
-      {content}
+  return (
+    <>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4 flex-1">
+            <SidebarTrigger className="-ml-1" />
+            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#">
+                    Ana Sayfa
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Dashboard</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+          <div className="px-4">
+            <HeaderActions />
+          </div>
+        </header>
+        {content}
+      </SidebarInset>
       <Toaster
         position="top-right"
         expand={true}
@@ -120,13 +112,14 @@ function AppContent({
       />
       <PWAPrompt />
       <OfflineIndicator />
-      {user && (
+      {/* Chat container temporarily disabled */}
+      {/* {user && (
         <ChatContainer
           currentUserId={user.id}
           isOpen={isChatOpen}
           onToggle={toggleChat}
         />
-      )}
+      )} */}
       <CommandPalette
         isOpen={isCmdOpen}
         onClose={() => setIsCmdOpen(false)}
@@ -139,30 +132,14 @@ function AppContent({
         context={actionContext}
         userId={userId}
       />
-      {/* Real-time components */}
-      <RealtimeNotificationCenter position="top-right" />
-      <CollaborationPanel position="right" minimizable={true} />
-      <WebSocketStatus 
-        variant="badge" 
-        className="fixed bottom-4 right-4 z-30" 
-        showLatency={true}
-        showReconnectButton={true}
-      />
-      
-      {process.env.NODE_ENV === 'development' && (
-        <OnboardingTestButton
-          onReset={resetOnboarding}
-          onStart={() => setShowOnboarding(true)}
-        />
-      )}
-    </DashboardLayout>
+    </>
   )
-}
+})
 
+// ==================== MAIN APP ====================
 export default function App() {
   const { initializing, initialize } = useAuthStore()
-  const { user } = useAuthStore()
-  const { showOnboarding, completeOnboarding, resetOnboarding, setShowOnboarding, closeOnboarding } = useOnboarding()
+  const { showOnboarding, completeOnboarding, closeOnboarding } = useOnboarding()
 
   // Initialize auth on app start
   useEffect(() => {
@@ -206,26 +183,15 @@ export default function App() {
           <QueryClientProvider client={queryClient}>
             <OfflineProvider>
               <SocketProvider>
-                <PWAWrapper
-                  showInstallBanner={true}
-                  showUpdateNotification={true}
-                  showOfflineStatus={true}
-                  installBannerVariant="floating"
-                  updateNotificationVariant="toast"
-                  offlineStatusVariant="icon"
-                >
-                  <AppContent 
-                    user={user}
-                    resetOnboarding={resetOnboarding}
-                    setShowOnboarding={setShowOnboarding}
-                  />
+                <SidebarProvider defaultOpen={false}>
+                  <AppLayout />
                   <OnboardingModal
                     isOpen={showOnboarding}
                     onClose={closeOnboarding}
                     onComplete={completeOnboarding}
                     steps={onboardingSteps}
                   />
-                </PWAWrapper>
+                </SidebarProvider>
               </SocketProvider>
             </OfflineProvider>
             <ReactQueryDevtools initialIsOpen={false} />

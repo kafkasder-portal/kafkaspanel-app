@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { authenticate } from '../middleware/auth';
 
 dotenv.config();
 
@@ -12,23 +13,7 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY!
 );
 
-// Middleware to extract user from authorization header
-const authenticateUser = async (req: Request, res: Response, next: any) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Authorization required' });
-  }
-
-  const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
-  if (error || !user) {
-    return res.status(401).json({ error: 'Invalid token' });
-  }
-
-  req.user = user;
-  next();
-};
+// Using centralized authentication middleware from auth.ts
 
 // Helper function to log task activity
 const logTaskActivity = async (taskId: string, userId: string, action: string, details: any = {}) => {
@@ -48,7 +33,7 @@ const logTaskActivity = async (taskId: string, userId: string, action: string, d
 };
 
 // GET /api/tasks - Get all tasks for authenticated user
-router.get('/', authenticateUser, async (req: Request, res: Response) => {
+router.get('/', authenticate, async (req: Request, res: Response) => {
   try {
     const { status, priority, assigned_to } = req.query;
     
@@ -109,7 +94,7 @@ router.get('/', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // GET /api/tasks/:id - Get single task
-router.get('/:id', authenticateUser, async (req: Request, res: Response) => {
+router.get('/:id', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     
@@ -163,7 +148,7 @@ router.get('/:id', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // POST /api/tasks - Create new task
-router.post('/', authenticateUser, async (req: Request, res: Response) => {
+router.post('/', authenticate, async (req: Request, res: Response) => {
   try {
     const { title, description, priority = 'medium', assigned_to, due_date } = req.body;
 
@@ -208,7 +193,7 @@ router.post('/', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // PUT /api/tasks/:id - Update task
-router.put('/:id', authenticateUser, async (req: Request, res: Response) => {
+router.put('/:id', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, description, priority, status, assigned_to, due_date } = req.body;
@@ -293,7 +278,7 @@ router.put('/:id', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // DELETE /api/tasks/:id - Delete task
-router.delete('/:id', authenticateUser, async (req: Request, res: Response) => {
+router.delete('/:id', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
@@ -316,7 +301,7 @@ router.delete('/:id', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // POST /api/tasks/:id/comments - Add comment to task
-router.post('/:id/comments', authenticateUser, async (req: Request, res: Response) => {
+router.post('/:id/comments', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { content } = req.body;
@@ -357,7 +342,7 @@ router.post('/:id/comments', authenticateUser, async (req: Request, res: Respons
 });
 
 // PUT /api/tasks/:id/comments/:commentId - Update comment
-router.put('/:id/comments/:commentId', authenticateUser, async (req: Request, res: Response) => {
+router.put('/:id/comments/:commentId', authenticate, async (req: Request, res: Response) => {
   try {
     const { commentId } = req.params;
     const { content } = req.body;
@@ -397,7 +382,7 @@ router.put('/:id/comments/:commentId', authenticateUser, async (req: Request, re
 });
 
 // DELETE /api/tasks/:id/comments/:commentId - Delete comment
-router.delete('/:id/comments/:commentId', authenticateUser, async (req: Request, res: Response) => {
+router.delete('/:id/comments/:commentId', authenticate, async (req: Request, res: Response) => {
   try {
     const { commentId } = req.params;
 
@@ -420,7 +405,7 @@ router.delete('/:id/comments/:commentId', authenticateUser, async (req: Request,
 });
 
 // POST /api/tasks/:id/attachments - Add attachment to task
-router.post('/:id/attachments', authenticateUser, async (req: Request, res: Response) => {
+router.post('/:id/attachments', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { file_name, file_path, file_size, mime_type } = req.body;
@@ -464,7 +449,7 @@ router.post('/:id/attachments', authenticateUser, async (req: Request, res: Resp
 });
 
 // DELETE /api/tasks/:id/attachments/:attachmentId - Delete attachment
-router.delete('/:id/attachments/:attachmentId', authenticateUser, async (req: Request, res: Response) => {
+router.delete('/:id/attachments/:attachmentId', authenticate, async (req: Request, res: Response) => {
   try {
     const { attachmentId } = req.params;
 
@@ -510,7 +495,7 @@ router.delete('/:id/attachments/:attachmentId', authenticateUser, async (req: Re
 });
 
 // GET /api/tasks/:id/activities - Get task activities
-router.get('/:id/activities', authenticateUser, async (req: Request, res: Response) => {
+router.get('/:id/activities', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     

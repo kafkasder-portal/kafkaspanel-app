@@ -1,0 +1,219 @@
+/* 🎨 Modern Clean Sidebar Theme - Ultra Minimal & Clean */
+
+@layer components {
+  /* ========================================
+   * SIDEBAR CONTAINER - Modern & Clean
+   * ======================================== */
+  .sidebar-modern {
+    @apply border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  }
+
+  /* ========================================
+   * SIDEBAR HEADER - Clean Brand Identity
+   * ======================================== */
+  .sidebar-header-modern {
+    @apply border-b px-2 py-2;
+  }
+
+  .sidebar-brand-modern {
+    @apply w-full justify-start gap-2 px-2 transition-all duration-200 ease-out;
+  }
+  
+  .sidebar-brand-modern:hover {
+    @apply bg-accent/50;
+  }
+
+  .sidebar-brand-icon-modern {
+    @apply flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm;
+    transition: all 0.2s ease-out;
+  }
+
+  .sidebar-brand-icon-modern:hover {
+    @apply shadow-md;
+    transform: scale(1.05);
+  }
+
+  /* ========================================
+   * SIDEBAR CONTENT - Clean Navigation
+   * ======================================== */
+  .sidebar-content-modern {
+    @apply px-2 py-2;
+  }
+
+  .sidebar-group-modern {
+    @apply py-2;
+  }
+
+  .sidebar-group-label-modern {
+    @apply px-2 text-xs font-semibold text-muted-foreground;
+  }
+
+  .sidebar-menu-button-modern {
+    @apply w-full justify-start gap-2 px-2 transition-all duration-200 ease-out rounded-md;
+  }
+  
+  .sidebar-menu-button-modern:hover {
+    @apply bg-accent/50;
+    transform: translateX(2px);
+  }
+
+  .sidebar-menu-icon-modern {
+    @apply h-4 w-4;
+  }
+
+  .sidebar-menu-text-modern {
+    @apply truncate;
+  }
+
+  .sidebar-menu-badge-modern {
+    @apply ml-auto h-5 px-1 text-xs;
+  }
+
+  /* ========================================
+   * SIDEBAR FOOTER - Clean User Section
+   * ======================================== */
+  .sidebar-footer-modern {
+    @apply border-t px-2 py-2;
+  }
+
+  .sidebar-user-modern {
+    @apply w-full justify-start gap-2 px-2 transition-all duration-200 ease-out;
+  }
+  
+  .sidebar-user-modern:hover {
+    @apply bg-accent/50;
+  }
+
+  .sidebar-user-avatar-modern {
+    @apply h-6 w-6;
+  }
+
+  /* ========================================
+   * POPOVER & DROPDOWN - Clean Overlays
+   * ======================================== */
+  .sidebar-popover-modern {
+    @apply w-56;
+    background-color: hsl(var(--background));
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+    backdrop-filter: blur(8px);
+    animation: sidebar-popover-slide-in 0.2s ease-out;
+  }
+
+  .sidebar-dropdown-modern {
+    @apply w-56;
+  }
+
+  /* ========================================
+   * ANIMATIONS - Smooth & Clean
+   * ======================================== */
+  @keyframes sidebar-popover-slide-in {
+    from {
+      opacity: 0;
+      transform: translateX(-10px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  .sidebar-fade-in {
+    animation: sidebar-fade-in 0.3s ease-out;
+  }
+
+  @keyframes sidebar-fade-in {
+    from { 
+      opacity: 0; 
+      transform: translateY(-10px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  /* ========================================
+   * RESPONSIVE - Mobile Optimized
+   * ======================================== */
+  @media (max-width: 768px) {
+    .sidebar-modern {
+      background-color: hsl(var(--background) / 0.98);
+    }
+    
+    .sidebar-content-modern {
+      @apply px-1 py-1;
+    }
+    
+    .sidebar-popover-modern {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 90vw;
+      max-width: 300px;
+      z-index: 100;
+    }
+  }
+
+  /* ========================================
+   * DARK MODE - Enhanced Contrast
+   * ======================================== */
+  .dark .sidebar-modern {
+    background-color: hsl(var(--background) / 0.9);
+    border-color: hsl(var(--border) / 0.2);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  }
+
+  /* ========================================
+   * FOCUS STATES - Accessibility
+   * ======================================== */
+  .sidebar-menu-button-modern:focus-visible {
+    @apply outline-none ring-2 ring-offset-2 ring-primary;
+  }
+
+  .sidebar-user-modern:focus-visible {
+    @apply outline-none ring-2 ring-offset-2 ring-primary;
+  }
+
+  /* ========================================
+   * HOVER EFFECTS - Micro-interactions
+   * ======================================== */
+  .sidebar-hover-lift {
+    transition: all 0.2s ease-out;
+  }
+
+  .sidebar-hover-lift:hover {
+    @apply shadow-md;
+    transform: translateY(-1px);
+  }
+
+  /* ========================================
+   * UTILITY CLASSES
+   * ======================================== */
+  .sidebar-text-truncate {
+    @apply truncate;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sidebar-icon-shake {
+    animation: sidebar-icon-shake 0.5s ease-in-out;
+  }
+
+  @keyframes sidebar-icon-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+  }
+
+  /* ========================================
+   * PERFORMANCE OPTIMIZATIONS
+   * ======================================== */
+  .sidebar-optimized {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+}

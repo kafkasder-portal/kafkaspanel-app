@@ -1,34 +1,168 @@
-/**
- * Theme Hook
- * TypeScript best practices ile tema yönetimi hook'u
- */
+import { useState, useEffect, useCallback, useMemo } from "react"
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { 
-  themeManager, 
-  type ThemeConfig, 
-  type ThemeColors,
-  type ThemeMode,
-  type ThemeAccent
-} from '@/lib/theme/themeManager';
+// Local storage with error handling
+const safeLocalStorage = {
+  getItem: (key: string): string | null => {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  },
+  setItem: (key: string, value: string): void => {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      // Silent fail for quota exceeded or other errors
+    }
+  },
+  removeItem: (key: string): void => {
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      // Silent fail
+    }
+  },
+};
 
-interface ThemeState {
-  readonly config: ThemeConfig;
-  readonly colors: ThemeColors;
-  readonly isDark: boolean;
+// Type definitions
+export type ThemeMode = 'light' | 'dark' | 'system';
+export type ThemeAccent = 'blue' | 'green' | 'purple' | 'orange' | 'red';
+
+interface ThemeConfig {
+  mode: ThemeMode;
+  accent: ThemeAccent;
+  fontSize: 'small' | 'medium' | 'large';
+  reducedMotion: boolean;
+  highContrast: boolean;
 }
 
-interface ThemeActions {
-  readonly setMode: (mode: ThemeMode) => void;
-  readonly toggleMode: () => void;
-  readonly setAccent: (accent: ThemeAccent) => void;
-  readonly setFontSize: (size: 'small' | 'medium' | 'large') => void;
-  readonly setReducedMotion: (reduced: boolean) => void;
-  readonly setHighContrast: (contrast: boolean) => void;
+interface ThemeColors {
+  background: string;
+  surface: string;
+  text: string;
+  textSecondary: string;
+  primary: string;
+  border: string;
+  error: string;
+  warning: string;
+  success: string;
+  info: string;
 }
 
-export function useTheme(): ThemeState & ThemeActions {
-  const [config, setConfig] = useState<ThemeConfig>(themeManager.getConfig());
+// Simple theme manager
+class SimpleThemeManager {
+  public config: ThemeConfig = {
+    mode: 'system',
+    accent: 'blue',
+    fontSize: 'medium',
+    reducedMotion: false,
+    highContrast: false
+  };
+
+  private listeners: Set<(config: ThemeConfig) => void> = new Set();
+
+  constructor() {
+    this.loadConfig();
+  }
+
+  private loadConfig() {
+    const saved = safeLocalStorage.getItem('themeConfig');
+    if (saved) {
+      try {
+        this.config = { ...this.config, ...JSON.parse(saved) };
+      } catch {
+        // Use default config
+      }
+    }
+  }
+
+  private saveConfig() {
+    safeLocalStorage.setItem('themeConfig', JSON.stringify(this.config));
+  }
+
+  subscribe(callback: (config: ThemeConfig) => void) {
+    this.listeners.add(callback);
+    callback(this.config);
+    
+    return () => {
+      this.listeners.delete(callback);
+    };
+  }
+
+  private notify() {
+    this.listeners.forEach(callback => callback(this.config));
+  }
+
+  setMode(mode: ThemeMode) {
+    this.config.mode = mode;
+    this.saveConfig();
+    this.notify();
+    this.applyTheme();
+  }
+
+  toggleMode() {
+    const newMode = this.config.mode === 'dark' ? 'light' : 'dark';
+    this.setMode(newMode);
+  }
+
+  setAccent(accent: ThemeAccent) {
+    this.config.accent = accent;
+    this.saveConfig();
+    this.notify();
+  }
+
+  setFontSize(size: 'small' | 'medium' | 'large') {
+    this.config.fontSize = size;
+    this.saveConfig();
+    this.notify();
+  }
+
+  setReducedMotion(reduced: boolean) {
+    this.config.reducedMotion = reduced;
+    this.saveConfig();
+    this.notify();
+  }
+
+  setHighContrast(contrast: boolean) {
+    this.config.highContrast = contrast;
+    this.saveConfig();
+    this.notify();
+  }
+
+  getColors(): ThemeColors {
+    const isDark = this.isDarkMode();
+    return {
+      background: isDark ? '#0f0f23' : '#ffffff',
+      surface: isDark ? '#1a1a2e' : '#f8f9fa',
+      text: isDark ? '#ffffff' : '#000000',
+      textSecondary: isDark ? '#a0a0a0' : '#666666',
+      primary: '#3b82f6',
+      border: isDark ? '#2d2d44' : '#e5e7eb',
+      error: '#ef4444',
+      warning: '#f59e0b',
+      success: '#10b981',
+      info: '#3b82f6'
+    };
+  }
+
+  isDarkMode(): boolean {
+    if (this.config.mode === 'system') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return this.config.mode === 'dark';
+  }
+
+  private applyTheme() {
+    const isDark = this.isDarkMode();
+    document.documentElement.classList.toggle('dark', isDark);
+  }
+}
+
+const themeManager = new SimpleThemeManager();
+
+export function useTheme() {
+  const [config, setConfig] = useState<ThemeConfig>(themeManager.config);
   const [colors, setColors] = useState<ThemeColors>(themeManager.getColors());
   const [isDark, setIsDark] = useState<boolean>(themeManager.isDarkMode());
 

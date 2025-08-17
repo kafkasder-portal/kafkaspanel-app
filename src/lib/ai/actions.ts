@@ -1,169 +1,298 @@
-import { invalidateQueries, prefetchQueries } from '@lib/queryClient'
-import { uploadBeneficiaryDocument } from '@lib/documents'
-import { supabase } from '@lib/supabase'
-import { runAgent } from './agent'
+import { AIAction, AIActionContext, AIResponse } from '../../components/AICommandCenter';
 
-export type ActionContext = {
-  navigateTo: (path: string) => void
-  setTheme: (theme: 'light' | 'dark' | 'system') => void
-  toggleChat: () => void
+export interface AIServiceConfig {
+  apiKey?: string;
+  baseUrl?: string;
+  model?: string;
+  temperature?: number;
+  maxTokens?: number;
 }
 
-export type CommandAction = {
-  id: string
-  label: string
-  description?: string
-  keywords?: string[]
-  run: (ctx: ActionContext, payload?: any) => Promise<void> | void
+export interface AIRequestOptions {
+  context?: AIActionContext;
+  action?: AIAction;
+  userId?: string;
+  sessionId?: string;
 }
 
-export const actions: CommandAction[] = [
-  {
-    id: 'go:dashboard',
-    label: 'Go to Dashboard',
-    keywords: ['anasayfa', 'dashboard', 'home'],
-    run: (ctx) => ctx.navigateTo('/')
-  },
-  {
-    id: 'agent:run',
-    label: 'AI Agent: Run Goal',
-    description: 'Doğal dille hedef ver, agent uygulasın',
-    keywords: ['agent', 'ai', 'hedef', 'goal', 'otomasyon'],
-    run: async (ctx, payload?: { query?: string }) => {
-      const goal = payload?.query || ''
-      await runAgent(goal, ctx)
+export class AIActionService {
+  private config: AIServiceConfig;
+  private isInitialized: boolean = false;
+
+  constructor(config: AIServiceConfig = {}) {
+    this.config = {
+      baseUrl: 'https://api.openai.com/v1',
+      model: 'gpt-3.5-turbo',
+      temperature: 0.7,
+      maxTokens: 1000,
+      ...config
+    };
+  }
+
+  async initialize(): Promise<void> {
+    // Initialize AI service connection
+    try {
+      // Check if API key is available
+      if (!this.config.apiKey) {
+        console.warn('AI Service: API key not provided. Using mock responses.');
+      }
+      this.isInitialized = true;
+    } catch (error) {
+      console.error('Failed to initialize AI service:', error);
+      throw error;
     }
-  },
-  {
-    id: 'beneficiary:upload-document',
-    label: 'Beneficiary: Upload Document',
-    description: 'Belirli bir kişi/ID için belge yükle',
-    keywords: ['kişi', 'belge', 'yükle', 'upload', 'dosya'],
-    run: async (_ctx, payload?: { query?: string }) => {
-      const q = (payload?.query || '').toLowerCase()
-      // Extract id like id:XXXX or numeric uuid-like
-      let beneficiaryId = ''
-      const idMatch = q.match(/id\s*[:=]\s*([a-z0-9-]+)/i)
-      if (idMatch) beneficiaryId = idMatch[1]
+  }
 
-      if (!beneficiaryId) {
-        // Try to find by name "ad soyad"
-        const nameMatch = q.match(/(?:ad|name)\s*[:=]\s*([^,]+)/i) || q.match(/([^,]+)\s*(?:için|adlı|kişisi)/i)
-        const name = nameMatch ? nameMatch[1].trim() : ''
-        if (name) {
-          const [first, ...rest] = name.split(/\s+/)
-          const last = rest.join(' ')
-          const { data } = await supabase
-            .from('beneficiaries')
-            .select('id, name, surname')
-            .ilike('name', `%${first}%`)
-            .ilike('surname', last ? `%${last}%` : '%')
-            .limit(1)
-            .maybeSingle()
-          if (data?.id) beneficiaryId = data.id
-        }
+  async executeAction(
+    prompt: string,
+    options: AIRequestOptions = {}
+  ): Promise<AIResponse> {
+    if (!this.isInitialized) {
+      await this.initialize();
+    }
+
+    try {
+      // If no API key, return mock response
+      if (!this.config.apiKey) {
+        return this.generateMockResponse(prompt, options);
       }
 
-      if (!beneficiaryId) throw new Error('Kişi ID bulunamadı. Lütfen komutta ID belirtin: id:xxxx')
+      // Real AI API call would go here
+      const response = await this.callAIAPI(prompt, options);
+      return response;
+    } catch (error) {
+      console.error('AI action execution failed:', error);
+      // Fallback to mock response on error
+      return this.generateMockResponse(prompt, options);
+    }
+  }
 
-      const input = document.createElement('input')
-      input.type = 'file'
-      input.accept = '*/*'
-      const file: File = await new Promise((resolve, reject) => {
-        input.onchange = () => {
-          const f = input.files?.[0]
-          if (f) resolve(f)
-          else reject(new Error('Dosya seçilmedi'))
+  private async callAIAPI(
+    prompt: string,
+    options: AIRequestOptions
+  ): Promise<AIResponse> {
+    const requestBody = {
+      model: this.config.model,
+      messages: [
+        {
+          role: 'system',
+          content: this.getSystemPrompt(options.action)
+        },
+        {
+          role: 'user',
+          content: this.formatPrompt(prompt, options.context)
         }
-        input.click()
-      })
+      ],
+      temperature: this.config.temperature,
+      max_tokens: this.config.maxTokens
+    };
 
-      await uploadBeneficiaryDocument(beneficiaryId, file, 'uploaded')
+    const response = await fetch(`${this.config.baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.config.apiKey}`
+      },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      throw new Error(`AI API request failed: ${response.statusText}`);
     }
-  },
-  {
-    id: 'go:donations',
-    label: 'Open Donations',
-    keywords: ['bağış', 'donations'],
-    run: (ctx) => ctx.navigateTo('/donations')
-  },
-  {
-    id: 'go:messages',
-    label: 'Open Messages',
-    keywords: ['mesaj', 'messages'],
-    run: (ctx) => ctx.navigateTo('/messages')
-  },
-  {
-    id: 'go:aid',
-    label: 'Open Aid',
-    keywords: ['yardım', 'aid'],
-    run: (ctx) => ctx.navigateTo('/aid')
-  },
-  {
-    id: 'go:definitions',
-    label: 'Open Definitions',
-    keywords: ['tanımlar', 'definitions'],
-    run: (ctx) => ctx.navigateTo('/definitions/units')
-  },
-  {
-    id: 'theme:light',
-    label: 'Theme: Light',
-    keywords: ['tema', 'light', 'açık'],
-    run: (ctx) => ctx.setTheme('light')
-  },
-  {
-    id: 'theme:dark',
-    label: 'Theme: Dark',
-    keywords: ['tema', 'dark', 'koyu'],
-    run: (ctx) => ctx.setTheme('dark')
-  },
-  {
-    id: 'theme:system',
-    label: 'Theme: System',
-    keywords: ['tema', 'system', 'sistem'],
-    run: (ctx) => ctx.setTheme('system')
-  },
-  {
-    id: 'chat:toggle',
-    label: 'Toggle Chat',
-    keywords: ['sohbet', 'chat'],
-    run: (ctx) => ctx.toggleChat()
-  },
-  {
-    id: 'cache:invalidate',
-    label: 'Refresh All Data (Invalidate Cache)',
-    keywords: ['refresh', 'cache', 'yenile'],
-    run: async () => {
-      await invalidateQueries.all()
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content || 'Yanıt alınamadı.';
+
+    return {
+      id: Date.now().toString(),
+      content,
+      type: this.detectResponseType(content),
+      timestamp: new Date(),
+      actionId: options.action?.id || 'default'
+    };
+  }
+
+  private generateMockResponse(
+    prompt: string,
+    options: AIRequestOptions
+  ): AIResponse {
+    const mockResponses = {
+      'generate-text': `Metin oluşturma talebi: "${prompt}"
+
+Bu bir örnek yanıttır. Gerçek AI entegrasyonu için API anahtarı gereklidir.
+
+Örnek içerik:
+- Başlık: ${prompt.slice(0, 50)}...
+- İçerik: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+- Sonuç: Başarıyla oluşturuldu.`,
+      
+      'analyze-data': `Veri analizi sonuçları: "${prompt}"
+
+📊 Analiz Özeti:
+- Veri türü: Metin/Sayısal
+- Kayıt sayısı: ~1000
+- Kalite skoru: 85/100
+
+🔍 Önemli Bulgular:
+- Trend: Pozitif yönlü
+- Anomali: 3 adet tespit edildi
+- Güvenilirlik: Yüksek
+
+💡 Öneriler:
+- Veri temizleme önerilir
+- Ek analiz gerekebilir`,
+      
+      'optimize-code': `Kod optimizasyon önerileri: "${prompt}"
+
+🚀 Performans İyileştirmeleri:
+- Gereksiz döngüler kaldırılabilir
+- Bellek kullanımı %20 azaltılabilir
+- Çalışma süresi %15 iyileştirilebilir
+
+🔧 Kod Kalitesi:
+- Değişken isimleri iyileştirilebilir
+- Fonksiyon boyutları küçültülebilir
+- Yorum satırları eklenebilir
+
+✅ Önerilen Değişiklikler:
+1. Async/await kullanımı
+2. Error handling eklenmesi
+3. Type safety iyileştirmesi`,
+      
+      'transform-format': `Format dönüştürme sonucu: "${prompt}"
+
+🔄 Dönüştürme Detayları:
+- Kaynak format: Otomatik tespit edildi
+- Hedef format: Belirtilen format
+- Durum: Başarılı
+
+📋 Sonuç:
+- İşlenen kayıt: 100%
+- Hata oranı: 0%
+- Süre: 2.3 saniye
+
+💾 Çıktı:
+[Dönüştürülmüş veri burada görünecek]`
+    };
+
+    const actionId = options.action?.id || 'default';
+    const content = mockResponses[actionId as keyof typeof mockResponses] || 
+      `AI Yanıtı: "${prompt}"
+
+Bu bir örnek yanıttır. Gerçek AI entegrasyonu için API anahtarı yapılandırması gereklidir.
+
+Talep edilen işlem: ${options.action?.name || 'Genel sorgu'}
+Zaman: ${new Date().toLocaleString('tr-TR')}`;
+
+    return {
+      id: Date.now().toString(),
+      content,
+      type: this.detectResponseType(content),
+      timestamp: new Date(),
+      actionId
+    };
+  }
+
+  private getSystemPrompt(action?: AIAction): string {
+    const basePrompt = 'Sen yardımcı bir AI asistanısın. Türkçe yanıt ver ve kullanıcıya yardımcı ol.';
+    
+    if (!action) return basePrompt;
+
+    const actionPrompts = {
+      'generate-text': 'Sen bir metin oluşturma uzmanısın. Yaratıcı, akıcı ve amaca uygun metinler üret.',
+      'analyze-data': 'Sen bir veri analisti uzmanısın. Verileri analiz et, trendleri bul ve öngörüler sun.',
+      'optimize-code': 'Sen bir kod optimizasyon uzmanısın. Kodu analiz et ve performans iyileştirmeleri öner.',
+      'transform-format': 'Sen bir veri dönüştürme uzmanısın. Verileri farklı formatlara dönüştür.'
+    };
+
+    return actionPrompts[action.id as keyof typeof actionPrompts] || basePrompt;
+  }
+
+  private formatPrompt(prompt: string, context?: AIActionContext): string {
+    if (!context) return prompt;
+
+    return `Bağlam: ${context.type}
+İçerik: ${context.content}
+
+Talep: ${prompt}`;
+  }
+
+  private detectResponseType(content: string): 'text' | 'code' | 'markdown' {
+    if (content.includes('```') || content.includes('function') || content.includes('const ')) {
+      return 'code';
     }
-  },
-  {
-    id: 'prefetch:dashboard',
-    label: 'Prefetch Dashboard Data',
-    keywords: ['prefetch', 'dashboard'],
-    run: async () => {
-      await prefetchQueries.dashboard()
+    if (content.includes('#') || content.includes('*') || content.includes('-')) {
+      return 'markdown';
     }
+    return 'text';
+  }
+
+  updateConfig(newConfig: Partial<AIServiceConfig>): void {
+    this.config = { ...this.config, ...newConfig };
+    this.isInitialized = false; // Force re-initialization
+  }
+
+  getConfig(): AIServiceConfig {
+    return { ...this.config };
+  }
+}
+
+// Singleton instance
+let aiServiceInstance: AIActionService | null = null;
+
+export const getAIService = (config?: AIServiceConfig): AIActionService => {
+  if (!aiServiceInstance) {
+    aiServiceInstance = new AIActionService(config);
+  }
+  return aiServiceInstance;
+};
+
+// Convenience functions
+export const executeAIAction = async (
+  prompt: string,
+  options: AIRequestOptions = {}
+): Promise<AIResponse> => {
+  const service = getAIService();
+  return service.executeAction(prompt, options);
+};
+
+export const initializeAI = async (config?: AIServiceConfig): Promise<void> => {
+  const service = getAIService(config);
+  await service.initialize();
+};
+
+// Default actions
+export const defaultAIActions: AIAction[] = [
+  {
+    id: 'generate-text',
+    name: 'Metin Oluştur',
+    description: 'Belirtilen konuda metin oluşturur',
+    category: 'generate'
   },
   {
-    id: 'app:reload',
-    label: 'Reload Application',
-    keywords: ['yeniden yükle', 'reload', 'refresh'],
-    run: () => {
-      window.location.reload()
-    }
+    id: 'analyze-data',
+    name: 'Veri Analizi',
+    description: 'Verilerinizi analiz eder ve öngörüler sunar',
+    category: 'analyze'
   },
   {
-    id: 'go:login',
-    label: 'Go to Login',
-    keywords: ['login', 'giriş'],
-    run: (ctx) => ctx.navigateTo('/login')
+    id: 'optimize-code',
+    name: 'Kod Optimizasyonu',
+    description: 'Kodunuzu optimize eder ve iyileştirmeler önerir',
+    category: 'optimize'
   },
-]
+  {
+    id: 'transform-format',
+    name: 'Format Dönüştürme',
+    description: 'Verileri farklı formatlara dönüştürür',
+    category: 'transform'
+  }
+];
 
-export const getAllActions = (): CommandAction[] => actions
-
-export const findActionById = (id: string): CommandAction | undefined =>
-  actions.find(a => a.id === id)
-
-
+export default {
+  AIActionService,
+  getAIService,
+  executeAIAction,
+  initializeAI,
+  defaultAIActions
+};

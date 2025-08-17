@@ -1,36 +1,14 @@
-import { 
-  Coins, 
-  FileText, 
-  TrendingUp,
-  Calendar,
-  MessageSquare,
-  PieChart,
-  Activity,
-  Settings,
-  Database,
-  X,
-  BarChart3,
-  MapPin
-} from 'lucide-react'
+import { useState } from 'react'
+import { Database, Settings, FileText, BarChart3, MessageSquare, MapPin } from 'lucide-react'
 import { TotalDonationsCard, MonthlyGrowthCard, ActiveBeneficiariesCard, FundDistributionCard } from '@components/FinancialCard'
-import { Link } from 'react-router-dom'
-import { DashboardCharts } from '@components/DashboardCharts'
-import { DashboardCustomizer } from '@components/dashboard/DashboardCustomizer'
-import { CacheMonitor } from '@components/performance/CacheMonitor'
-import { ReportGenerator } from '@components/reports/ReportGenerator'
-import { ChartDashboard } from '@components/charts/ChartDashboard'
-import { WhatsAppManager } from '@components/whatsapp/WhatsAppManager'
-import { MapDashboard } from '@components/maps/MapDashboard'
 import { useDashboardCustomization } from '@hooks/useDashboardCustomization'
 import { Button } from '@components/ui/button'
-import { useState } from 'react'
 
 export default function DashboardIndex() {
   const [showCustomizer, setShowCustomizer] = useState(false)
   const [showCacheMonitor, setShowCacheMonitor] = useState(false)
   const [showReportGenerator, setShowReportGenerator] = useState(false)
   const [showChartDashboard, setShowChartDashboard] = useState(false)
-  const [showWhatsAppManager, setShowWhatsAppManager] = useState(false)
   const [showMapDashboard, setShowMapDashboard] = useState(false)
   const { settings, updateWidgets } = useDashboardCustomization()
 
@@ -79,15 +57,6 @@ export default function DashboardIndex() {
             >
               <BarChart3 className="w-4 h-4 mr-1" />
               Grafikler
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowWhatsAppManager(true)}
-              className="text-white hover:bg-white/10"
-            >
-              <MessageSquare className="w-4 h-4 mr-1" />
-              WhatsApp
             </Button>
             <Button
               variant="ghost"

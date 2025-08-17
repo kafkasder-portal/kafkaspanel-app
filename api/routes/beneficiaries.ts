@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { authenticate } from '../middleware/auth';
 
 dotenv.config();
 
@@ -12,23 +13,7 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY!
 );
 
-// Middleware to extract user from authorization header
-const authenticateUser = async (req: Request, res: Response, next: any) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Authorization required' });
-  }
-
-  const token = authHeader.substring(7);
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
-  if (error || !user) {
-    return res.status(401).json({ error: 'Invalid token' });
-  }
-
-  (req as any).user = user;
-  next();
-};
+// Using centralized authentication middleware from auth.ts
 
 // GET /api/beneficiaries - Get all beneficiaries
 router.get('/', async (_req: Request, res: Response) => {
@@ -78,7 +63,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 // POST /api/beneficiaries - Create new beneficiary
-router.post('/', authenticateUser, async (req: Request, res: Response) => {
+router.post('/', authenticate, async (req: Request, res: Response) => {
   try {
     const beneficiaryData = req.body;
     
@@ -101,7 +86,7 @@ router.post('/', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // PUT /api/beneficiaries/:id - Update beneficiary
-router.put('/:id', authenticateUser, async (req: Request, res: Response) => {
+router.put('/:id', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const updateData = req.body;
@@ -126,7 +111,7 @@ router.put('/:id', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // DELETE /api/beneficiaries/:id - Delete beneficiary
-router.delete('/:id', authenticateUser, async (req: Request, res: Response) => {
+router.delete('/:id', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     

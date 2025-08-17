@@ -3,6 +3,8 @@
  * Replaces console statements with proper logging
  */
 
+import { env } from './env'
+
 export enum LogLevel {
   DEBUG = 0,
   INFO = 1,
@@ -23,8 +25,8 @@ class Logger {
   private isDevelopment: boolean;
 
   constructor() {
-    this.level = (process.env.NODE_ENV === 'development' ? LogLevel.DEBUG : LogLevel.INFO);
-    this.isDevelopment = process.env.NODE_ENV === 'development';
+    this.level = (env.isDevelopment ? LogLevel.DEBUG : LogLevel.INFO);
+    this.isDevelopment = env.isDevelopment;
   }
 
   private formatMessage(level: string, message: string, context?: LogContext): string {

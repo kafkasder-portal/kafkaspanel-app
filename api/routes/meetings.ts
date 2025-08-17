@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { authenticate } from '../middleware/auth';
 
 dotenv.config();
 
@@ -12,26 +13,10 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY!
 );
 
-// Middleware to extract user from authorization header
-const authenticateUser = async (req: Request, res: Response, next: any) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Authorization required' });
-  }
-
-  const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
-  if (error || !user) {
-    return res.status(401).json({ error: 'Invalid token' });
-  }
-
-  req.user = user;
-  next();
-};
+// Using centralized authentication middleware from auth.ts
 
 // GET /api/meetings - Get all meetings for authenticated user
-router.get('/', authenticateUser, async (_req: Request, res: Response) => {
+router.get('/', authenticate, async (_req: Request, res: Response) => {
   try {
     const { data: meetings, error } = await supabase
       .from('meetings')
@@ -62,7 +47,7 @@ router.get('/', authenticateUser, async (_req: Request, res: Response) => {
 });
 
 // GET /api/meetings/:id - Get single meeting
-router.get('/:id', authenticateUser, async (req: Request, res: Response) => {
+router.get('/:id', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     
@@ -126,7 +111,7 @@ router.get('/:id', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // POST /api/meetings - Create new meeting
-router.post('/', authenticateUser, async (req: Request, res: Response) => {
+router.post('/', authenticate, async (req: Request, res: Response) => {
   try {
     const { title, description, start_date, end_date, location, meeting_type, meeting_link, participants = [] } = req.body;
 
@@ -181,7 +166,7 @@ router.post('/', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // PUT /api/meetings/:id - Update meeting
-router.put('/:id', authenticateUser, async (req: Request, res: Response) => {
+router.put('/:id', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, description, start_date, end_date, location, meeting_type, meeting_link, status } = req.body;
@@ -221,7 +206,7 @@ router.put('/:id', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // DELETE /api/meetings/:id - Delete meeting
-router.delete('/:id', authenticateUser, async (req: Request, res: Response) => {
+router.delete('/:id', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
@@ -244,7 +229,7 @@ router.delete('/:id', authenticateUser, async (req: Request, res: Response) => {
 });
 
 // POST /api/meetings/:id/participants - Add participant to meeting
-router.post('/:id/participants', authenticateUser, async (req: Request, res: Response) => {
+router.post('/:id/participants', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { user_id, role = 'attendee' } = req.body;
@@ -297,7 +282,7 @@ router.post('/:id/participants', authenticateUser, async (req: Request, res: Res
 });
 
 // PUT /api/meetings/:id/participants/:participantId - Update participant response
-router.put('/:id/participants/:participantId', authenticateUser, async (req: Request, res: Response) => {
+router.put('/:id/participants/:participantId', authenticate, async (req: Request, res: Response) => {
   try {
     const { participantId } = req.params;
     const { response_status, attendance_status } = req.body;
@@ -336,7 +321,7 @@ router.put('/:id/participants/:participantId', authenticateUser, async (req: Req
 });
 
 // POST /api/meetings/:id/agenda - Add agenda item
-router.post('/:id/agenda', authenticateUser, async (req: Request, res: Response) => {
+router.post('/:id/agenda', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, description, presenter_id, duration_minutes, order_index } = req.body;
@@ -389,7 +374,7 @@ router.post('/:id/agenda', authenticateUser, async (req: Request, res: Response)
 });
 
 // POST /api/meetings/:id/notes - Add meeting note
-router.post('/:id/notes', authenticateUser, async (req: Request, res: Response) => {
+router.post('/:id/notes', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { content } = req.body;
@@ -424,7 +409,7 @@ router.post('/:id/notes', authenticateUser, async (req: Request, res: Response) 
 });
 
 // POST /api/meetings/:id/action-items - Add action item
-router.post('/:id/action-items', authenticateUser, async (req: Request, res: Response) => {
+router.post('/:id/action-items', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, description, assigned_to, due_date } = req.body;

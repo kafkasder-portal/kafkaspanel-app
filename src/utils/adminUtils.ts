@@ -3,12 +3,10 @@
 
 export async function assignTempAdminRole() {
   // Implementation would go here
-  console.log('Assigning temp admin role')
 }
 
 export async function checkUserProfile() {
   // Implementation would go here
-  console.log('Checking user profile')
 }
 
 export async function getCurrentUserRole() {

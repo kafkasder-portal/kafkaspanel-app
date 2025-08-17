@@ -1,3 +1,5 @@
+import { env } from './env'
+
 // Performance monitoring utilities
 interface PerformanceMetrics {
   loadTime?: number
@@ -26,7 +28,7 @@ class PerformanceMonitor {
   constructor(config: Partial<PerformanceConfig> = {}) {
     this.config = {
       enableMonitoring: true,
-      logToConsole: process.env.NODE_ENV === 'development',
+      logToConsole: env.isDevelopment,
       sendToAnalytics: false,
       threshold: {
         loadTime: 3000,
@@ -210,7 +212,7 @@ export function usePerformanceMonitoring(componentName: string) {
 
 // Bundle size monitoring
 export function measureBundleSize(): void {
-  if (process.env.NODE_ENV === 'development') return
+  if (env.isDevelopment) return
 
   const scriptElements = document.querySelectorAll('script[src]')
   let totalSize = 0

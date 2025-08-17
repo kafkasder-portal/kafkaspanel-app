@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { authenticate } from '../middleware/auth';
 
 dotenv.config();
 
@@ -12,26 +13,10 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY!
 );
 
-// Middleware to extract user from authorization header
-const authenticateUser = async (req: Request, res: Response, next: any) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Authorization required' });
-  }
-
-  const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
-  if (error || !user) {
-    return res.status(401).json({ error: 'Invalid token' });
-  }
-
-  req.user = user;
-  next();
-};
+// Using centralized authentication middleware from auth.ts
 
 // GET /api/conversations - Get all conversations for authenticated user
-router.get('/conversations', authenticateUser, async (req: Request, res: Response) => {
+router.get('/conversations', authenticate, async (req: Request, res: Response) => {
   try {
     const { data: conversations, error } = await supabase
       .from('conversations')
@@ -75,7 +60,7 @@ router.get('/conversations', authenticateUser, async (req: Request, res: Respons
 });
 
 // GET /api/conversations/:id - Get single conversation with messages
-router.get('/conversations/:id', authenticateUser, async (req: Request, res: Response) => {
+router.get('/conversations/:id', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { limit = 50, offset = 0 } = req.query;
@@ -163,7 +148,7 @@ router.get('/conversations/:id', authenticateUser, async (req: Request, res: Res
 });
 
 // POST /api/conversations - Create new conversation
-router.post('/conversations', authenticateUser, async (req: Request, res: Response) => {
+router.post('/conversations', authenticate, async (req: Request, res: Response) => {
   try {
     const { title, description, type = 'group', is_private = false, participants = [] } = req.body;
 
@@ -225,7 +210,7 @@ router.post('/conversations', authenticateUser, async (req: Request, res: Respon
 });
 
 // PUT /api/conversations/:id - Update conversation
-router.put('/conversations/:id', authenticateUser, async (req: Request, res: Response) => {
+router.put('/conversations/:id', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, description, is_archived } = req.body;
@@ -260,7 +245,7 @@ router.put('/conversations/:id', authenticateUser, async (req: Request, res: Res
 });
 
 // POST /api/conversations/:id/participants - Add participant to conversation
-router.post('/conversations/:id/participants', authenticateUser, async (req: Request, res: Response) => {
+router.post('/conversations/:id/participants', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { user_id, role = 'member' } = req.body;
@@ -310,7 +295,7 @@ router.post('/conversations/:id/participants', authenticateUser, async (req: Req
 });
 
 // DELETE /api/conversations/:id/participants/:userId - Remove participant
-router.delete('/conversations/:id/participants/:userId', authenticateUser, async (req: Request, res: Response) => {
+router.delete('/conversations/:id/participants/:userId', authenticate, async (req: Request, res: Response) => {
   try {
     const { id, userId } = req.params;
 
@@ -350,7 +335,7 @@ router.delete('/conversations/:id/participants/:userId', authenticateUser, async
 });
 
 // POST /api/conversations/:id/messages - Send message to conversation
-router.post('/conversations/:id/messages', authenticateUser, async (req: Request, res: Response) => {
+router.post('/conversations/:id/messages', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { content, message_type = 'text', file_path, file_name, file_size, reply_to } = req.body;
@@ -413,7 +398,7 @@ router.post('/conversations/:id/messages', authenticateUser, async (req: Request
 });
 
 // PUT /api/messages/:messageId - Update message
-router.put('/messages/:messageId', authenticateUser, async (req: Request, res: Response) => {
+router.put('/messages/:messageId', authenticate, async (req: Request, res: Response) => {
   try {
     const { messageId } = req.params;
     const { content } = req.body;
@@ -454,7 +439,7 @@ router.put('/messages/:messageId', authenticateUser, async (req: Request, res: R
 });
 
 // DELETE /api/messages/:messageId - Delete message
-router.delete('/messages/:messageId', authenticateUser, async (req: Request, res: Response) => {
+router.delete('/messages/:messageId', authenticate, async (req: Request, res: Response) => {
   try {
     const { messageId } = req.params;
 
@@ -502,7 +487,7 @@ router.delete('/messages/:messageId', authenticateUser, async (req: Request, res
 });
 
 // POST /api/messages/:messageId/reactions - Add reaction to message
-router.post('/messages/:messageId/reactions', authenticateUser, async (req: Request, res: Response) => {
+router.post('/messages/:messageId/reactions', authenticate, async (req: Request, res: Response) => {
   try {
     const { messageId } = req.params;
     const { emoji } = req.body;
@@ -540,7 +525,7 @@ router.post('/messages/:messageId/reactions', authenticateUser, async (req: Requ
 });
 
 // DELETE /api/messages/:messageId/reactions/:reactionId - Remove reaction
-router.delete('/messages/:messageId/reactions/:reactionId', authenticateUser, async (req: Request, res: Response) => {
+router.delete('/messages/:messageId/reactions/:reactionId', authenticate, async (req: Request, res: Response) => {
   try {
     const { reactionId } = req.params;
 
@@ -563,7 +548,7 @@ router.delete('/messages/:messageId/reactions/:reactionId', authenticateUser, as
 });
 
 // GET /api/conversations/:id/unread-count - Get unread message count
-router.get('/conversations/:id/unread-count', authenticateUser, async (req: Request, res: Response) => {
+router.get('/conversations/:id/unread-count', authenticate, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 

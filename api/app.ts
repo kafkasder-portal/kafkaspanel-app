@@ -18,6 +18,11 @@ import errorsRoutes from './routes/errors.js';
 import healthRoutes from './routes/health.js';
 import beneficiariesRoutes from './routes/beneficiaries.js';
 import websocketRoutes from './routes/websocket.js';
+import applicationsRoutes from './routes/applications.js';
+import aidRecordsRoutes from './routes/aid_records.js';
+import paymentsRoutes from './routes/payments.js';
+import documentsRoutes from './routes/documents.js';
+import usersRoutes from './routes/users.js';
 
 // Import custom middleware
 import { sanitizeInput } from './middleware/validation.js';
@@ -131,6 +136,11 @@ app.use('/api/messages', messagesRoutes);
 app.use('/api/errors', errorsRoutes);
 app.use('/api/beneficiaries', beneficiariesRoutes);
 app.use('/api/websocket', websocketRoutes);
+app.use('/api/applications', applicationsRoutes);
+app.use('/api/aid_records', aidRecordsRoutes);
+app.use('/api/payments', paymentsRoutes);
+app.use('/api/documents', documentsRoutes);
+app.use('/api/users', usersRoutes);
 app.use('/api', healthRoutes);
 
 /**
