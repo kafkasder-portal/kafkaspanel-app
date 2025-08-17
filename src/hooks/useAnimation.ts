@@ -271,7 +271,7 @@ export function useStaggerAnimation(
 
     setIsAnimating(true);
     const animations = animationLibrary.stagger(
-      children,
+      Array.from(children),
       animationName,
       staggerDelay,
       config

@@ -260,7 +260,7 @@ export class AnimationLibrary {
     const animation = ANIMATIONS[animationName];
     const config = { ...animation.config, ...customConfig };
 
-    return this.animateCustom(element, animation.keyframes, config);
+    return this.animateCustom(element, [...animation.keyframes], config);
   }
 
   /**

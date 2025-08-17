@@ -12,7 +12,7 @@ const toUserRole = (role: string): UserRole | undefined => {
 }
 import AdvancedSearch from './AdvancedSearch'
 import NotificationSystem from './notifications/NotificationSystem'
-import { ThemeToggle } from './ThemeToggle'
+import { ThemeToggle } from './theme/ThemeToggle'
 import { useCreateDemoAccount } from '../hooks/useDemoAccount'
 import { Bot } from 'lucide-react'
 
