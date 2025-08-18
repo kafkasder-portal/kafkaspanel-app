@@ -187,6 +187,7 @@ export const AppSidebar = memo(function AppSidebar() {
                               className="relative w-full"
                               tooltip={item.title}
                               onClick={() => handleIconClick(item)}
+                              asChild={false}
                             >
                               <motion.div
                                 whileHover={{ rotate: 10 }}
