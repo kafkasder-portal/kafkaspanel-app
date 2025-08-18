@@ -77,22 +77,21 @@ export default function DashboardIndex() {
 
       {/* Finansal İstatistik Kartları */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-        <TotalDonationsCard 
+        <TotalDonationsCard
           totalDonations={45230}
-          monthlyChange={8.2}
-          trend={[42000, 43500, 44200, 45230]}
+          change={8.2}
         />
-        <ActiveBeneficiariesCard 
+        <ActiveBeneficiariesCard
           count={1234}
-          monthlyChange={12}
+          change={12}
         />
-        <MonthlyGrowthCard 
+        <MonthlyGrowthCard
           growthRate={15.4}
           period="Son 30 gün"
         />
-        <FundDistributionCard 
+        <FundDistributionCard
           distributionRate={87}
-          target={85}
+          status="good"
         />
       </div>
 
@@ -121,7 +120,7 @@ export default function DashboardIndex() {
         />
         <QuickAccessCard
           title="Rapor Oluştur"
-          description="Yardım raporu hazırla"
+          description="Yard��m raporu hazırla"
           icon={<PieChart className="h-6 w-6" />}
           color="bg-chart-7"
           link="/aid/reports"
