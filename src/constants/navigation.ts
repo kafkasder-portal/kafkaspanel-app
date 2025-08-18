@@ -100,7 +100,7 @@ export const navigation: NavigationItem[] = [
       { title: "Bağış Kasası", url: "/donations/vault", description: "Bağış kasa yönetimi" },
       { title: "Kurumsal", url: "/donations/institutions", description: "Kurumsal bağışçılar" },
       { title: "Nakit Bağışlar", url: "/donations/cash", description: "Nakit bağış kayıtları" },
-      { title: "Banka Bağışları", url: "/donations/bank", description: "Banka transferi bağışları" },
+      { title: "Banka Bağışları", url: "/donations/bank", description: "Banka transferi bağ��şları" },
       { title: "Kredi Kartı", url: "/donations/credit-card", description: "Kredi kartı bağışları" },
       { title: "Online Bağışlar", url: "/donations/online", description: "Online platform bağışları" },
       { title: "Bağış Numaraları", url: "/donations/numbers", description: "Bağış takip numaraları" },
@@ -189,7 +189,7 @@ export const navigation: NavigationItem[] = [
       { title: "Yetki Grupları", url: "/definitions/permission-groups", description: "Kullanıcı yetki grupları" },
       { title: "Binalar", url: "/definitions/buildings", description: "Bina ve lokasyon tanımları" },
       { title: "Dahili Hatlar", url: "/definitions/internal-lines", description: "İç telefon hatları" },
-      { title: "Süreç Akı��ları", url: "/definitions/process-flows", description: "Süreç yönetimi" },
+      { title: "Süreç Akışları", url: "/definitions/process-flows", description: "Süreç yönetimi" },
       { title: "Pasaport Formatları", url: "/definitions/passport-formats", description: "Pasaport veri formatları" },
       { title: "Ülke/Şehirler", url: "/definitions/countries-cities", description: "Coğrafi tanımlar" },
       { title: "Kurum Türleri", url: "/definitions/institution-types", description: "Kurum kategori tanımları" },
@@ -241,21 +241,21 @@ export const supportNavigation = [
   {
     title: "Yardım",
     icon: HelpCircle,
-    href: "/help",
+    url: "/help",
     description: "Kullanım kılavuzu ve SSS",
     subPages: []
   },
   {
     title: "Dokümantasyon",
     icon: BookOpen,
-    href: "/docs",
+    url: "/docs",
     description: "Teknik dokümantasyon",
     subPages: []
   },
   {
     title: "İletişim",
     icon: Phone,
-    href: "/contact",
+    url: "/contact",
     description: "Destek ekibi ile iletişim",
     subPages: []
   }
