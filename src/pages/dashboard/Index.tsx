@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { Database, Settings, FileText, BarChart3, MessageSquare, MapPin, Coins, PieChart, Activity, TrendingUp, Calendar } from 'lucide-react'
 import { TotalDonationsCard, MonthlyGrowthCard, ActiveBeneficiariesCard, FundDistributionCard } from '../../components/FinancialCard'
 import { useDashboardCustomization } from '../../hooks/useDashboardCustomization'
-import { Button } from '@components/ui/button'
-import DashboardCharts from '@components/DashboardCharts'
-import DashboardCustomizer from '@components/DashboardCustomizer'
+import { Button } from '../../components/ui/button'
+import DashboardCharts from '../../components/DashboardCharts'
+import DashboardCustomizer from '../../components/DashboardCustomizer'
 
 export default function DashboardIndex() {
   const [showCustomizer, setShowCustomizer] = useState(false)
