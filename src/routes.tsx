@@ -140,16 +140,22 @@ const Translations = lazy(() => import('./pages/definitions/Translations'))
 const GeneralSettings = lazy(() => import('./pages/definitions/GeneralSettings'))
 const DefinitionsModuleInfo = lazy(() => import('./pages/definitions/ModuleInfo'))
 
+// Create wrapped components
+const DashboardIndexWithSuspense = withDashboardSuspense(DashboardIndex)
+const DonationsListWithSuspense = withDonationsSuspense(DonationsList)
+const DonationVaultWithSuspense = withDonationsSuspense(DonationVault)
+const InstitutionsWithSuspense = withDonationsSuspense(Institutions)
+
 function AppRoutes() {
   return (
     <Routes>
       {/* Login route */}
       <Route path="/login" element={<Login />} />
-      
+
       {/* Dashboard */}
       <Route path="/" element={
         <ProtectedRoute>
-          {React.createElement(withDashboardSuspense(DashboardIndex))}
+          <DashboardIndexWithSuspense />
         </ProtectedRoute>
       } />
       
