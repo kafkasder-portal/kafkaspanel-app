@@ -406,6 +406,7 @@ export const AppSidebar = memo(function AppSidebar() {
                         <motion.div
                           whileHover={{ y: -2 }}
                           transition={{ duration: 0.2 }}
+                          className="group-data-[collapsible=icon]:hidden"
                         >
                           <ChevronUp className="ml-auto size-4" />
                         </motion.div>
