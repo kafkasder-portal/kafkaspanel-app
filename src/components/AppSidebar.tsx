@@ -280,34 +280,33 @@ export const AppSidebar = memo(function AppSidebar() {
                           open={openPopover === `support-${item.title}`}
                           onOpenChange={(open) => setOpenPopover(open ? `support-${item.title}` : null)}
                         >
-                          <PopoverTrigger asChild>
-                            <motion.div
-                              whileHover={{ scale: 1.02, x: 2 }}
-                              whileTap={{ scale: 0.98 }}
-                              transition={{ duration: 0.2 }}
+                          <motion.div
+                            whileHover={{ scale: 1.02, x: 2 }}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ duration: 0.2 }}
+                            className="w-full"
+                          >
+                            <SidebarMenuButton
                               className="w-full"
+                              tooltip={item.title}
+                              onClick={() => handleSupportIconClick(item)}
                             >
-                              <SidebarMenuButton
-                                className="w-full"
-                                tooltip={item.title}
+                              <motion.div
+                                whileHover={{ rotate: 10 }}
+                                transition={{ duration: 0.2 }}
                               >
-                                <motion.div
-                                  whileHover={{ rotate: 10 }}
-                                  transition={{ duration: 0.2 }}
-                                >
-                                  <item.icon className="size-4" />
-                                </motion.div>
-                                <span className="group-data-[collapsible=icon]:hidden">{item.title}</span>
-                                <motion.div
-                                  whileHover={{ x: 3 }}
-                                  transition={{ duration: 0.2 }}
-                                  className="group-data-[collapsible=icon]:hidden"
-                                >
-                                  <ChevronRight className="ml-auto size-4" />
-                                </motion.div>
-                              </SidebarMenuButton>
-                            </motion.div>
-                          </PopoverTrigger>
+                                <item.icon className="size-4" />
+                              </motion.div>
+                              <span className="group-data-[collapsible=icon]:hidden">{item.title}</span>
+                              <motion.div
+                                whileHover={{ x: 3 }}
+                                transition={{ duration: 0.2 }}
+                                className="group-data-[collapsible=icon]:hidden"
+                              >
+                                <ChevronRight className="ml-auto size-4" />
+                              </motion.div>
+                            </SidebarMenuButton>
+                          </motion.div>
                           <PopoverContent 
                             side="right" 
                             align="start" 
