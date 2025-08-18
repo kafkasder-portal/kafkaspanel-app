@@ -3,6 +3,7 @@ import { Database, Settings, FileText, BarChart3, MessageSquare, MapPin, Coins, 
 import { TotalDonationsCard, MonthlyGrowthCard, ActiveBeneficiariesCard, FundDistributionCard } from '@components/FinancialCard'
 import { useDashboardCustomization } from '@hooks/useDashboardCustomization'
 import { Button } from '@components/ui/button'
+import DashboardCharts from '@components/DashboardCharts'
 
 export default function DashboardIndex() {
   const [showCustomizer, setShowCustomizer] = useState(false)
