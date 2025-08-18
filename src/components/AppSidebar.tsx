@@ -1,4 +1,4 @@
-import { memo } from "react"
+import React, { memo, startTransition } from "react"
 import { motion } from "motion/react"
 import { useNavigate } from 'react-router-dom'
 import { useSidebar } from "./ui/sidebar"
@@ -83,18 +83,41 @@ const staggerItem = {
 }
 
 export const AppSidebar = memo(function AppSidebar() {
-  const { isMobile } = useSidebar()
+  const { isMobile, setOpenMobile } = useSidebar()
   const { user, profile } = useAuthStore()
   const userProfile = profile
   const navigate = useNavigate()
   const { isDark, toggleMode } = useTheme()
+  const [openPopover, setOpenPopover] = React.useState<string | null>(null)
 
   const handleNavigation = (url: string) => {
-    navigate(url)
-    // Close sidebar on mobile after navigation
+    startTransition(() => {
+      navigate(url)
+    })
+    // Close popover and sidebar
+    setOpenPopover(null)
     if (isMobile) {
-      // You might want to add a method to close sidebar here
+      setOpenMobile(false)
     }
+  }
+
+  const handleIconClick = (item: any) => {
+    // Navigate to main module page if URL exists
+    if (item.url) {
+      handleNavigation(item.url)
+    }
+    // Also open/toggle popover for sub-pages
+    setOpenPopover(openPopover === item.title ? null : item.title)
+  }
+
+  const handleSupportIconClick = (item: any) => {
+    // Navigate to support page if URL exists
+    if (item.url) {
+      handleNavigation(item.url)
+    }
+    // Also open/toggle popover for sub-pages
+    const popoverKey = `support-${item.title}`
+    setOpenPopover(openPopover === popoverKey ? null : popoverKey)
   }
 
   const handleLogout = () => {
@@ -104,8 +127,8 @@ export const AppSidebar = memo(function AppSidebar() {
 
   return (
     <TooltipProvider>
-      <Sidebar variant="inset" collapsible="icon">
-        <SidebarHeader>
+      <Sidebar variant="inset" collapsible="icon" className="data-[state=collapsed]:w-16">
+        <SidebarHeader className="border-b border-sidebar-border pb-4">
           <SidebarMenu>
             <SidebarMenuItem>
               <motion.div
@@ -113,18 +136,18 @@ export const AppSidebar = memo(function AppSidebar() {
                 animate="visible"
                 variants={fadeIn}
               >
-                <SidebarMenuButton size="lg" className="data-[size=lg]:h-12">
-                  <motion.div 
-                    className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground"
+                <SidebarMenuButton size="lg" className="data-[size=lg]:h-14 p-3">
+                  <motion.div
+                    className="flex aspect-square size-10 items-center justify-center rounded-lg bg-brand text-white shadow-lg"
                     whileHover={{ scale: 1.05, rotate: 5 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Building2 className="size-4" />
+                    <Building2 className="size-5" />
                   </motion.div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate">Kafkas Portal</span>
-                    <span className="truncate text-xs text-muted-foreground">Enterprise</span>
+                  <div className="grid flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
+                    <span className="truncate text-base font-semibold text-sidebar-foreground">Kafkas Portal</span>
+                    <span className="truncate text-xs text-sidebar-text-muted">Dernek Yönetim Sistemi</span>
                   </div>
                 </SidebarMenuButton>
               </motion.div>
@@ -134,8 +157,8 @@ export const AppSidebar = memo(function AppSidebar() {
 
         <SidebarContent>
           {/* Ana Navigasyon */}
-          <SidebarGroup>
-            <SidebarGroupLabel>Navigasyon</SidebarGroupLabel>
+          <SidebarGroup className="px-3 py-2">
+            <SidebarGroupLabel className="mb-2 text-sidebar-text-muted font-semibold">Ana Menü</SidebarGroupLabel>
             <SidebarGroupContent>
               <motion.div
                 initial="hidden"
@@ -146,66 +169,79 @@ export const AppSidebar = memo(function AppSidebar() {
                   {navigation.map((item, index) => (
                     <motion.div key={item.title} variants={staggerItem}>
                       <SidebarMenuItem>
-                        <Popover>
-                          <PopoverTrigger className="w-full">
-                            <motion.div
-                              whileHover={{ scale: 1.02, x: 2 }}
-                              whileTap={{ scale: 0.98 }}
-                              transition={{ duration: 0.2 }}
+                        <Popover
+                          open={openPopover === item.title}
+                          onOpenChange={(open) => setOpenPopover(open ? item.title : null)}
+                        >
+                          <motion.div
+                            whileHover={{ scale: 1.02, x: 2 }}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ duration: 0.2 }}
+                            className="w-full"
+                          >
+                            <SidebarMenuButton
+                              className="relative w-full h-10 px-3"
+                              tooltip={item.title}
+                              onClick={() => handleIconClick(item)}
+                              asChild={false}
                             >
-                              <SidebarMenuButton className="relative w-full">
+                              <motion.div
+                                whileHover={{ rotate: 10 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                <item.icon className="size-4" />
+                              </motion.div>
+                              <span className="group-data-[collapsible=icon]:hidden font-medium">{item.title}</span>
+                              {item.badge && (
                                 <motion.div
-                                  whileHover={{ rotate: 10 }}
-                                  transition={{ duration: 0.2 }}
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  transition={{ delay: index * 0.1 + 0.3, duration: 0.3 }}
+                                  className="group-data-[collapsible=icon]:hidden"
                                 >
-                                  <item.icon className="size-4" />
+                                  <Badge variant="secondary" className="ml-auto h-5 w-auto px-2 text-xs badge">
+                                    {item.badge}
+                                  </Badge>
                                 </motion.div>
-                                <span>{item.title}</span>
-                                {item.badge && (
-                                  <motion.div
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    transition={{ delay: index * 0.1 + 0.3, duration: 0.3 }}
-                                  >
-                                    <Badge variant="secondary" className="ml-auto h-5 w-auto px-1.5 text-xs">
-                                      {item.badge}
-                                    </Badge>
-                                  </motion.div>
-                                )}
-                                <motion.div
-                                  whileHover={{ x: 3 }}
-                                  transition={{ duration: 0.2 }}
-                                >
-                                  <ChevronRight className="ml-auto size-4" />
-                                </motion.div>
-                              </SidebarMenuButton>
-                            </motion.div>
-                          </PopoverTrigger>
-                          <PopoverContent 
-                            side="right" 
-                            align="start" 
-                            sideOffset={8}
-                            className="w-56 p-3"
+                              )}
+                              <motion.div
+                                whileHover={{ x: 3 }}
+                                transition={{ duration: 0.2 }}
+                                className="group-data-[collapsible=icon]:hidden"
+                              >
+                                <ChevronRight className="ml-auto size-4" />
+                              </motion.div>
+                            </SidebarMenuButton>
+                          </motion.div>
+                          <PopoverContent
+                            side="right"
+                            align="start"
+                            sideOffset={12}
+                            className="w-64 p-4 sidebar-popover-content"
                           >
                             <motion.div
                               initial="hidden"
                               animate="visible"
                               variants={staggerContainer}
-                              className="space-y-1"
+                              className="space-y-2"
                             >
-                              <motion.div 
-                                className="flex items-center gap-2 pb-2 border-b"
+                              <motion.div
+                                className="flex items-center gap-3 pb-3 mb-3 border-b border-border"
                                 variants={staggerItem}
                               >
-                                <item.icon className="size-4" />
-                                <span className="font-medium">{item.title}</span>
-                                {item.badge && (
-                                  <Badge variant="secondary" className="h-5 w-auto px-1.5 text-xs">
-                                    {item.badge}
-                                  </Badge>
-                                )}
+                                <div className="p-2 rounded-lg bg-brand/10">
+                                  <item.icon className="size-4 text-brand" />
+                                </div>
+                                <div className="flex-1">
+                                  <span className="font-semibold text-sm">{item.title}</span>
+                                  {item.badge && (
+                                    <Badge variant="secondary" className="ml-2 h-5 w-auto px-2 text-xs">
+                                      {item.badge}
+                                    </Badge>
+                                  )}
+                                </div>
                               </motion.div>
-                              {item.subPages.map((subPage, subIndex) => (
+                              {item.subPages?.map((subPage, subIndex) => (
                                 <motion.div key={subIndex} variants={staggerItem}>
                                   <motion.div
                                     whileHover={{ scale: 1.02, x: 2 }}
@@ -214,10 +250,15 @@ export const AppSidebar = memo(function AppSidebar() {
                                     <Button
                                       variant="ghost"
                                       size="sm"
-                                      className="w-full justify-start h-8"
+                                      className="w-full justify-start h-9 px-3 text-sm popover-submenu-item hover:bg-brand/5 hover:text-brand"
                                       onClick={() => handleNavigation(subPage.url)}
                                     >
-                                      {subPage.title}
+                                      <span className="truncate">{subPage.title}</span>
+                                      {subPage.isNew && (
+                                        <Badge variant="secondary" className="ml-auto h-4 px-1.5 text-xs bg-green-100 text-green-700">
+                                          Yeni
+                                        </Badge>
+                                      )}
                                     </Button>
                                   </motion.div>
                                 </motion.div>
@@ -234,7 +275,8 @@ export const AppSidebar = memo(function AppSidebar() {
           </SidebarGroup>
 
           {/* Destek */}
-          <SidebarGroup className="mt-auto">
+          <SidebarGroup className="mt-auto px-3 py-2 border-t border-sidebar-border pt-4">
+            <SidebarGroupLabel className="mb-2 text-sidebar-text-muted font-semibold">Sistem</SidebarGroupLabel>
             <SidebarGroupContent>
               <motion.div
                 initial="hidden"
@@ -245,50 +287,60 @@ export const AppSidebar = memo(function AppSidebar() {
                   {supportItems.map((item) => (
                     <motion.div key={item.title} variants={staggerItem}>
                       <SidebarMenuItem>
-                        <Popover>
-                          <PopoverTrigger className="w-full">
-                            <motion.div
-                              whileHover={{ scale: 1.02, x: 2 }}
-                              whileTap={{ scale: 0.98 }}
-                              transition={{ duration: 0.2 }}
+                        <Popover
+                          open={openPopover === `support-${item.title}`}
+                          onOpenChange={(open) => setOpenPopover(open ? `support-${item.title}` : null)}
+                        >
+                          <motion.div
+                            whileHover={{ scale: 1.02, x: 2 }}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ duration: 0.2 }}
+                            className="w-full"
+                          >
+                            <SidebarMenuButton
+                              className="w-full h-10 px-3"
+                              tooltip={item.title}
+                              onClick={() => handleSupportIconClick(item)}
+                              asChild={false}
                             >
-                              <SidebarMenuButton className="w-full">
-                                <motion.div
-                                  whileHover={{ rotate: 10 }}
-                                  transition={{ duration: 0.2 }}
-                                >
-                                  <item.icon className="size-4" />
-                                </motion.div>
-                                <span>{item.title}</span>
-                                <motion.div
-                                  whileHover={{ x: 3 }}
-                                  transition={{ duration: 0.2 }}
-                                >
-                                  <ChevronRight className="ml-auto size-4" />
-                                </motion.div>
-                              </SidebarMenuButton>
-                            </motion.div>
-                          </PopoverTrigger>
-                          <PopoverContent 
-                            side="right" 
-                            align="start" 
-                            sideOffset={8}
-                            className="w-56 p-3"
+                              <motion.div
+                                whileHover={{ rotate: 10 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                <item.icon className="size-4" />
+                              </motion.div>
+                              <span className="group-data-[collapsible=icon]:hidden font-medium">{item.title}</span>
+                              <motion.div
+                                whileHover={{ x: 3 }}
+                                transition={{ duration: 0.2 }}
+                                className="group-data-[collapsible=icon]:hidden"
+                              >
+                                <ChevronRight className="ml-auto size-4" />
+                              </motion.div>
+                            </SidebarMenuButton>
+                          </motion.div>
+                          <PopoverContent
+                            side="right"
+                            align="start"
+                            sideOffset={12}
+                            className="w-64 p-4 sidebar-popover-content"
                           >
                             <motion.div
                               initial="hidden"
                               animate="visible"
                               variants={staggerContainer}
-                              className="space-y-1"
+                              className="space-y-2"
                             >
-                              <motion.div 
-                                className="flex items-center gap-2 pb-2 border-b"
+                              <motion.div
+                                className="flex items-center gap-3 pb-3 mb-3 border-b border-border"
                                 variants={staggerItem}
                               >
-                                <item.icon className="size-4" />
-                                <span className="font-medium">{item.title}</span>
+                                <div className="p-2 rounded-lg bg-brand/10">
+                                  <item.icon className="size-4 text-brand" />
+                                </div>
+                                <span className="font-semibold text-sm">{item.title}</span>
                               </motion.div>
-                              {item.subPages.map((subPage, index) => (
+                              {item.subPages?.map((subPage, index) => (
                                 <motion.div key={index} variants={staggerItem}>
                                   <motion.div
                                     whileHover={{ scale: 1.02, x: 2 }}
@@ -297,10 +349,10 @@ export const AppSidebar = memo(function AppSidebar() {
                                     <Button
                                       variant="ghost"
                                       size="sm"
-                                      className="w-full justify-start h-8"
+                                      className="w-full justify-start h-9 px-3 text-sm popover-submenu-item hover:bg-brand/5 hover:text-brand"
                                       onClick={() => handleNavigation(subPage.url)}
                                     >
-                                      {subPage.title}
+                                      <span className="truncate">{subPage.title}</span>
                                     </Button>
                                   </motion.div>
                                 </motion.div>
@@ -317,7 +369,7 @@ export const AppSidebar = memo(function AppSidebar() {
           </SidebarGroup>
         </SidebarContent>
 
-        <SidebarFooter>
+        <SidebarFooter className="border-t border-sidebar-border pt-4 mt-4">
           <SidebarMenu>
             {/* Theme Toggle */}
             <SidebarMenuItem>
@@ -329,8 +381,9 @@ export const AppSidebar = memo(function AppSidebar() {
                 <Button
                   variant="ghost"
                   size="lg"
-                  className="w-full justify-start px-2"
+                  className="w-full justify-start px-3 h-12 theme-toggle-button"
                   onClick={toggleMode}
+                  title={isDark ? 'Açık Tema' : 'Koyu Tema'}
                 >
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: isDark ? 180 : 0 }}
@@ -344,8 +397,8 @@ export const AppSidebar = memo(function AppSidebar() {
                       <Moon className="size-4" />
                     )}
                   </motion.div>
-                  <span className="ml-2">
-                    {isDark ? 'Light Mode' : 'Dark Mode'}
+                  <span className="ml-3 group-data-[collapsible=icon]:hidden font-medium">
+                    {isDark ? 'Açık Tema' : 'Koyu Tema'}
                   </span>
                 </Button>
               </motion.div>
@@ -367,7 +420,7 @@ export const AppSidebar = memo(function AppSidebar() {
                     >
                       <SidebarMenuButton
                         size="lg"
-                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground w-full"
+                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground w-full h-14 p-3 user-profile-dropdown"
                       >
                         <motion.div
                           whileHover={{ scale: 1.1, rotate: 5 }}
@@ -380,17 +433,18 @@ export const AppSidebar = memo(function AppSidebar() {
                             </AvatarFallback>
                           </Avatar>
                         </motion.div>
-                        <div className="grid flex-1 text-left text-sm leading-tight">
-                          <span className="truncate">
+                        <div className="grid flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
+                          <span className="truncate font-medium text-sidebar-foreground">
                             {userProfile?.full_name || user?.email?.split('@')[0] || 'Kullanıcı'}
                           </span>
-                          <span className="truncate text-xs text-muted-foreground">
+                          <span className="truncate text-xs text-sidebar-text-muted">
                             {user?.email}
                           </span>
                         </div>
                         <motion.div
                           whileHover={{ y: -2 }}
                           transition={{ duration: 0.2 }}
+                          className="group-data-[collapsible=icon]:hidden"
                         >
                           <ChevronUp className="ml-auto size-4" />
                         </motion.div>

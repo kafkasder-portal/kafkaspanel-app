@@ -14,6 +14,8 @@ import {
 } from "./components/ui/breadcrumb"
 import { memo, useState, useEffect } from "react"
 import { startTransition } from 'react'
+import { useSidebar } from "./components/ui/sidebar"
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 
 import AppRoutes from './routes'
 import { Toaster } from 'sonner'
@@ -43,6 +45,7 @@ import { HeaderActions } from './components/HeaderActions'
 const AppLayout = memo(function AppLayout() {
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isCmdOpen, setIsCmdOpen] = useState(false)
+  const { toggleSidebar } = useSidebar()
   const {
     isOpen: isAIOpen,
     openCommandCenter,
@@ -50,6 +53,28 @@ const AppLayout = memo(function AppLayout() {
     actionContext,
     userId
   } = useAICommandCenter()
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    onToggleSidebar: toggleSidebar,
+    onSearch: () => setIsCmdOpen(true),
+    onCloseModal: () => {
+      setIsCmdOpen(false)
+      closeCommandCenter()
+    },
+    onHelp: () => {
+      // Navigate to help page
+      startTransition(() => {
+        window.location.href = '/help'
+      })
+    },
+    onSettings: () => {
+      // Navigate to settings
+      startTransition(() => {
+        window.location.href = '/settings'
+      })
+    }
+  })
 
   useEffect(() => {
     const open = () => {

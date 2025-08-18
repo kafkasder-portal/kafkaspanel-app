@@ -31,14 +31,89 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #030213;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0.25 0 0);
+  --sidebar-primary: var(--brand-primary);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.94 0.01 220);
+  --sidebar-accent-foreground: oklch(0.15 0 0);
+  --sidebar-border: oklch(0.9 0.005 220);
+  --sidebar-ring: var(--brand-primary);
+
+  /* Corporate Theme Extensions */
+  --brand-primary-50: 240 249 255;
+  --brand-primary-100: 219 234 254;
+  --brand-primary-200: 191 219 254;
+  --brand-primary-300: 147 197 253;
+  --brand-primary-400: 96 165 250;
+  --brand-primary-500: 59 130 246;
+  --brand-primary-600: 37 99 235;
+  --brand-primary-700: 29 78 216;
+  --brand-primary-800: 30 64 175;
+  --brand-primary-900: 30 58 138;
+  --brand-primary: var(--brand-primary-600);
+
+  /* Financial Status Colors - WCAG AA Compliant */
+  --financial-success: 34 197 94;
+  --financial-success-light: 220 252 231;
+  --financial-warning: 245 158 11;
+  --financial-warning-light: 254 249 195;
+  --financial-error: 239 68 68;
+  --financial-error-light: 254 226 226;
+  --financial-info: 59 130 246;
+  --financial-info-light: 219 234 254;
+  --financial-primary: var(--brand-primary);
+
+  /* Neutral Color Scale */
+  --neutral-50: 250 250 250;
+  --neutral-100: 244 244 245;
+  --neutral-200: 228 228 231;
+  --neutral-300: 212 212 216;
+  --neutral-400: 161 161 170;
+  --neutral-500: 113 113 122;
+  --neutral-600: 82 82 91;
+  --neutral-700: 63 63 70;
+  --neutral-800: 39 39 42;
+  --neutral-900: 24 24 27;
+
+  /* Typography System */
+  --font-financial-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-financial-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-financial-xs: 0.75rem; /* 12px */
+  --text-financial-sm: 0.875rem; /* 14px */
+  --text-financial-base: 1rem; /* 16px */
+  --text-financial-lg: 1.125rem; /* 18px */
+  --text-financial-xl: 1.25rem; /* 20px */
+  --text-financial-2xl: 1.5rem; /* 24px */
+  --text-financial-3xl: 1.875rem; /* 30px */
+  --text-financial-4xl: 2.25rem; /* 36px */
+
+  --leading-financial-tight: 1.25;
+  --leading-financial-normal: 1.5;
+  --leading-financial-relaxed: 1.75;
+
+  --tracking-financial-tight: -0.025em;
+  --tracking-financial-normal: 0;
+  --tracking-financial-wide: 0.025em;
+
+  /* Sidebar Enhancements */
+  --sidebar-bg: var(--sidebar);
+  --sidebar-text: var(--sidebar-foreground);
+  --sidebar-text-muted: oklch(0.55 0 0);
+  --sidebar-hover: var(--sidebar-accent);
+  --sidebar-active: var(--brand-primary);
+  --sidebar-border: var(--sidebar-border);
+
+  /* Chart Color System */
+  --chart-primary: var(--brand-primary);
+  --chart-secondary: var(--financial-success);
+  --chart-tertiary: var(--financial-warning);
+  --chart-quaternary: var(--financial-info);
+  --chart-quinary: 168 85 247; /* Purple */
+  --chart-senary: 236 72 153; /* Pink */
+  --chart-septenary: 34 197 94; /* Green */
+  --chart-octonary: 249 115 22; /* Orange */
 }
 
 .dark {
@@ -68,14 +143,34 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --sidebar: oklch(0.15 0.01 220);
+  --sidebar-foreground: oklch(0.9 0 0);
+  --sidebar-primary: var(--brand-primary);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.22 0.015 220);
+  --sidebar-accent-foreground: oklch(0.92 0 0);
+  --sidebar-border: oklch(0.25 0.01 220);
+  --sidebar-ring: var(--brand-primary);
+
+  /* Corporate Dark Theme Extensions */
+  --brand-primary: 96 165 250;
+  --financial-success: 34 197 94;
+  --financial-success-light: 20 83 45;
+  --financial-warning: 245 158 11;
+  --financial-warning-light: 120 53 15;
+  --financial-error: 239 68 68;
+  --financial-error-light: 127 29 29;
+  --financial-info: 96 165 250;
+  --financial-info-light: 30 58 138;
+  --financial-primary: var(--brand-primary);
+
+  /* Dark Sidebar Enhancements */
+  --sidebar-bg: var(--sidebar);
+  --sidebar-text: var(--sidebar-foreground);
+  --sidebar-text-muted: oklch(0.7 0 0);
+  --sidebar-hover: var(--sidebar-accent);
+  --sidebar-active: var(--brand-primary);
+  --sidebar-border: var(--sidebar-border);
 }
 
 @theme inline {
@@ -117,6 +212,49 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Corporate Color Extensions */
+  --color-brand-50: rgb(var(--brand-primary-50));
+  --color-brand-100: rgb(var(--brand-primary-100));
+  --color-brand-200: rgb(var(--brand-primary-200));
+  --color-brand-300: rgb(var(--brand-primary-300));
+  --color-brand-400: rgb(var(--brand-primary-400));
+  --color-brand-500: rgb(var(--brand-primary-500));
+  --color-brand-600: rgb(var(--brand-primary-600));
+  --color-brand-700: rgb(var(--brand-primary-700));
+  --color-brand-800: rgb(var(--brand-primary-800));
+  --color-brand-900: rgb(var(--brand-primary-900));
+  --color-brand: rgb(var(--brand-primary));
+
+  --color-financial-primary: rgb(var(--financial-primary));
+  --color-financial-success: rgb(var(--financial-success));
+  --color-financial-success-light: rgb(var(--financial-success-light));
+  --color-financial-warning: rgb(var(--financial-warning));
+  --color-financial-warning-light: rgb(var(--financial-warning-light));
+  --color-financial-error: rgb(var(--financial-error));
+  --color-financial-error-light: rgb(var(--financial-error-light));
+  --color-financial-info: rgb(var(--financial-info));
+  --color-financial-info-light: rgb(var(--financial-info-light));
+
+  --color-neutral-50: rgb(var(--neutral-50));
+  --color-neutral-100: rgb(var(--neutral-100));
+  --color-neutral-200: rgb(var(--neutral-200));
+  --color-neutral-300: rgb(var(--neutral-300));
+  --color-neutral-400: rgb(var(--neutral-400));
+  --color-neutral-500: rgb(var(--neutral-500));
+  --color-neutral-600: rgb(var(--neutral-600));
+  --color-neutral-700: rgb(var(--neutral-700));
+  --color-neutral-800: rgb(var(--neutral-800));
+  --color-neutral-900: rgb(var(--neutral-900));
+
+  --color-chart-primary: rgb(var(--chart-primary));
+  --color-chart-secondary: rgb(var(--chart-secondary));
+  --color-chart-tertiary: rgb(var(--chart-tertiary));
+  --color-chart-quaternary: rgb(var(--chart-quaternary));
+  --color-chart-quinary: rgb(var(--chart-quinary));
+  --color-chart-senary: rgb(var(--chart-senary));
+  --color-chart-septenary: rgb(var(--chart-septenary));
+  --color-chart-octonary: rgb(var(--chart-octonary));
 }
 
 @layer base {
@@ -186,4 +324,228 @@
 
 html {
   font-size: var(--font-size);
+}
+
+/* Enhanced Sidebar Styling */
+
+/* Sidebar menu button improvements */
+[data-sidebar="menu-button"] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 6px;
+}
+
+[data-sidebar="menu-button"]:hover {
+  background: hsl(var(--sidebar-accent));
+  color: hsl(var(--sidebar-accent-foreground));
+  transform: translateX(2px);
+}
+
+[data-sidebar="menu-button"][data-active="true"] {
+  background: hsl(var(--sidebar-active));
+  color: white;
+  font-weight: 500;
+}
+
+/* Popover content styling */
+[data-radix-popper-content-wrapper] {
+  z-index: 50;
+}
+
+.sidebar-popover-content {
+  background: hsl(var(--popover));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Sidebar group label improvements */
+[data-sidebar="group-label"] {
+  color: hsl(var(--sidebar-text-muted));
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+}
+
+/* Better scrollbar for sidebar content */
+[data-sidebar="content"] {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--sidebar-border)) transparent;
+}
+
+[data-sidebar="content"]::-webkit-scrollbar {
+  width: 4px;
+}
+
+[data-sidebar="content"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-sidebar="content"]::-webkit-scrollbar-thumb {
+  background: hsl(var(--sidebar-border));
+  border-radius: 2px;
+}
+
+[data-sidebar="content"]::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--sidebar-accent));
+}
+
+/* Sidebar footer improvements */
+[data-sidebar="footer"] {
+  border-top: 1px solid hsl(var(--sidebar-border));
+  margin-top: auto;
+}
+
+/* Theme toggle button styling */
+.theme-toggle-button {
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  background: hsl(var(--sidebar-accent));
+  color: hsl(var(--sidebar-accent-foreground));
+}
+
+/* User profile dropdown improvements */
+.user-profile-dropdown {
+  min-width: 240px;
+}
+
+/* Sidebar brand logo area */
+[data-sidebar="header"] .aspect-square {
+  background: linear-gradient(135deg, hsl(var(--brand-primary)), hsl(var(--brand-600)));
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar state transitions */
+[data-slot="sidebar-container"] {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Badge improvements */
+[data-sidebar="menu"] .badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: hsl(var(--financial-info));
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+}
+
+/* Sub-menu improvements */
+.popover-submenu-item:hover {
+  background: hsl(var(--sidebar-accent));
+  color: hsl(var(--sidebar-accent-foreground));
+  transform: translateX(2px);
+  transition: all 0.2s ease;
+}
+
+/* Dark theme specific improvements */
+.dark [data-sidebar="menu-button"]:hover {
+  background: hsl(var(--sidebar-accent));
+  color: hsl(var(--sidebar-accent-foreground));
+}
+
+.dark [data-sidebar="header"] .aspect-square {
+  background: linear-gradient(135deg, hsl(var(--brand-primary)), hsl(var(--brand-500)));
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 768px) {
+  [data-mobile="true"] [data-sidebar="content"] {
+    padding: 1rem;
+  }
+
+  [data-mobile="true"] [data-sidebar="menu-button"] {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+}
+
+/* Focus states for accessibility */
+[data-sidebar="menu-button"]:focus-visible {
+  outline: 2px solid hsl(var(--sidebar-ring));
+  outline-offset: 2px;
+}
+
+/* Improved spacing for sidebar items */
+[data-sidebar="menu"] {
+  gap: 2px;
+}
+
+[data-sidebar="group"] {
+  padding: 0.75rem;
+}
+
+[data-sidebar="group"] + [data-sidebar="group"] {
+  border-top: 1px solid hsl(var(--sidebar-border));
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+}
+
+/* Enhanced theme consistency */
+.financial-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.financial-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Header styling improvements */
+header {
+  background: hsl(var(--background));
+  border-bottom: 1px solid hsl(var(--border));
+  backdrop-filter: blur(8px);
+}
+
+/* Better button consistency */
+.btn-primary {
+  background: hsl(var(--brand-primary));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: hsl(var(--brand-700));
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Dashboard card improvements */
+.dashboard-widget {
+  background: hsl(var(--card));
+  border-radius: 12px;
+  border: 1px solid hsl(var(--border));
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.dashboard-widget:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Improved input styling */
+.form-input {
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  padding: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: hsl(var(--brand-primary));
+  box-shadow: 0 0 0 3px hsla(var(--brand-primary), 0.1);
+  outline: none;
 }

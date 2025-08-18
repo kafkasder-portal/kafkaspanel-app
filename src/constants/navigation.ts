@@ -1,178 +1,285 @@
-import {
-  Home,
-  BarChart3,
-  Users,
-  FileText,
-  Settings,
-  HelpCircle,
+import { 
+  LayoutDashboard, 
+  Heart, 
+  Coins, 
+  GraduationCap, 
+  MessageSquare, 
   Calendar,
-  FolderOpen,
-  MessageSquare,
-  DollarSign,
-  Building2,
+  FolderTree,
+  PieChart,
+  Settings,
+  Users,
+  Database,
+  FileText,
+  BarChart3,
+  MapPin,
+  Building,
+  Globe,
+  Phone,
+  Mail,
+  CreditCard,
+  Banknote,
+  HandHeart,
+  UserCheck,
   TrendingUp,
+  Target,
+  Activity,
+  ClipboardList,
+  HelpCircle,
+  BookOpen,
+  Shield,
   Bell,
-  User2,
-  LogOut,
-  ChevronRight,
-  Search,
-  Moon,
-  Sun,
-} from "lucide-react"
-
-export interface SubPage {
-  title: string
-  url: string
-}
+  Archive,
+  Filter,
+  Search
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 export interface NavigationItem {
   title: string
-  icon: any
+  icon: LucideIcon
+  url?: string
   badge?: string
-  subPages: SubPage[]
+  badgeVariant?: 'default' | 'secondary' | 'destructive' | 'outline'
+  subPages: Array<{
+    title: string
+    url: string
+    description?: string
+    badge?: string
+    isNew?: boolean
+  }>
 }
 
-// Ana navigasyon öğeleri ve alt sayfaları
+export interface SearchableItem {
+  title: string
+  description: string
+  url: string
+  icon?: LucideIcon
+  badge?: string
+  category: string
+  parent?: string
+}
+
 export const navigation: NavigationItem[] = [
   {
-    title: "Ana Sayfa",
-    icon: Home,
+    title: "Dashboard",
+    icon: LayoutDashboard,
+    url: "/",
+    badge: "3",
     subPages: [
-      { title: "Dashboard", url: "/" },
-      { title: "Genel Bakış", url: "/dashboard" },
-      { title: "Hızlı Eylemler", url: "/quick-actions" },
+      { title: "Genel Bakış", url: "/", description: "Ana dashboard görünümü" },
+      { title: "Analitik", url: "/analytics", description: "Detaylı analiz ve raporlar" },
+      { title: "Performans", url: "/system/performance", description: "Sistem performans metrikleri" }
     ]
   },
   {
     title: "Yardım Yönetimi",
-    icon: BarChart3,
-    badge: "Yeni",
+    icon: Heart,
+    url: "/aid",
+    badge: "12",
     subPages: [
-      { title: "Başvurular", url: "/aid/applications" },
-      { title: "Yararlanıcılar", url: "/aid/beneficiaries" },
-      { title: "Yardım Kayıtları", url: "/aid/records" },
-      { title: "Raporlar", url: "/aid/reports" },
+      { title: "Başvurular", url: "/aid/applications", description: "Yardım başvurularını yönet" },
+      { title: "Yararlanıcılar", url: "/aid/beneficiaries", description: "Yararlanıcı kayıtları" },
+      { title: "Yararlanıcı Detayı", url: "/aid/beneficiaries/1", description: "Detaylı yararlanıcı bilgileri" },
+      { title: "Raporlar", url: "/aid/reports", description: "Yardım raporları" },
+      { title: "Nakit Kasası", url: "/aid/cash-vault", description: "Nakit yardım kasası" },
+      { title: "Banka Emirleri", url: "/aid/bank-orders", description: "Banka havale emirleri" },
+      { title: "Nakit İşlemler", url: "/aid/cash-operations", description: "Nakit yardım i��lemleri" },
+      { title: "Ayni İşlemler", url: "/aid/in-kind-operations", description: "Ayni yardım işlemleri" },
+      { title: "Hizmet Takibi", url: "/aid/service-tracking", description: "Hizmet yardımı takibi" },
+      { title: "Hastane Sevkleri", url: "/aid/hospital-referrals", description: "Sağlık yardımı sevkleri" },
+      { title: "Parametreler", url: "/aid/parameters", description: "Yardım parametreleri" },
+      { title: "Veri Kontrolü", url: "/aid/data-control", description: "Veri doğrulama" },
+      { title: "Modül Bilgisi", url: "/aid/module-info", description: "Modül dokümantasyonu" }
     ]
   },
   {
     title: "Bağış Yönetimi",
-    icon: DollarSign,
+    icon: Coins,
+    url: "/donations",
     subPages: [
-      { title: "Nakit Bağışlar", url: "/donations/cash" },
-      { title: "Banka Bağışları", url: "/donations/bank" },
-      { title: "Toplu Sağlama", url: "/donations/bulk" },
-      { title: "Bağış Analizi", url: "/donations/analytics" },
+      { title: "Bağışlar", url: "/donations", description: "Tüm bağış kayıtları" },
+      { title: "Bağış Kasası", url: "/donations/vault", description: "Bağış kasa yönetimi" },
+      { title: "Kurumsal", url: "/donations/institutions", description: "Kurumsal bağışçılar" },
+      { title: "Nakit Bağışlar", url: "/donations/cash", description: "Nakit bağış kayıtları" },
+      { title: "Banka Bağışları", url: "/donations/bank", description: "Banka transferi bağışları" },
+      { title: "Kredi Kartı", url: "/donations/credit-card", description: "Kredi kartı bağışları" },
+      { title: "Online Bağışlar", url: "/donations/online", description: "Online platform bağışları" },
+      { title: "Bağış Numaraları", url: "/donations/numbers", description: "Bağış takip numaraları" },
+      { title: "Finansman Tanımları", url: "/donations/funding-definitions", description: "Bağış kategorileri" },
+      { title: "Kurban Dönemleri", url: "/donations/sacrifice-periods", description: "Kurban organizasyonu" },
+      { title: "Kurban Hisseleri", url: "/donations/sacrifice-shares", description: "Kurban hisse yönetimi" },
+      { title: "Ramazan Dönemleri", url: "/donations/ramadan-periods", description: "Ramazan kampanyaları" },
+      { title: "Kumbara Takibi", url: "/donations/piggy-bank", description: "Kumbara bağış takibi" },
+      { title: "Toplu Provizyon", url: "/donations/bulk-provisioning", description: "Toplu bağış provizyon" },
+      { title: "Kurumsal Bağışlar", url: "/donations/corporate", description: "Kurumsal bağış yönetimi" }
     ]
   },
   {
     title: "Burs Yönetimi",
-    icon: FileText,
+    icon: GraduationCap,
+    url: "/scholarship",
+    badge: "Yeni",
+    badgeVariant: "secondary" as const,
     subPages: [
-      { title: "Burs Başvuruları", url: "/scholarship/applications" },
-      { title: "Öğrenci Yönetimi", url: "/scholarship/students" },
-      { title: "Kampanyalar", url: "/scholarship/campaigns" },
-      { title: "Raporlar", url: "/scholarship/reports" },
+      { title: "Burs Programı", url: "/scholarship", description: "Ana burs programı" },
+      { title: "Yetim/Öğrenci", url: "/scholarship/orphans-students", description: "Öğrenci kayıt ve takibi" },
+      { title: "Burs Raporları", url: "/scholarship/reports", description: "Burs analiz raporları" },
+      { title: "Görsel Yönetim", url: "/scholarship/visual-management", description: "Öğrenci fotoğraf yönetimi" },
+      { title: "Burs Tanımları", url: "/scholarship/definitions", description: "Burs türü tanımları" },
+      { title: "Takip Kategorileri", url: "/scholarship/tracking-categories", description: "Öğrenci kategorileri" },
+      { title: "Yetim Formu", url: "/scholarship/orphan-form", description: "Öğrenci başvuru formu" },
+      { title: "Yetim Mektupları", url: "/scholarship/orphan-letters", description: "Mektup yazışmaları" },
+      { title: "Burs Kampanyaları", url: "/scholarship/campaigns", description: "Burs kampanya yönetimi" },
+      { title: "Okullar", url: "/scholarship/schools", description: "Okul kayıtları" },
+      { title: "Form Tanımları", url: "/scholarship/form-definitions", description: "Dinamik form yapısı" },
+      { title: "Fiyat Tanımları", url: "/scholarship/price-definitions", description: "Burs miktarları" },
+      { title: "Adres Etiketleri", url: "/scholarship/address-labels", description: "Posta etiketi sistemi" },
+      { title: "Veri Kontrolü", url: "/scholarship/data-control", description: "Öğrenci veri doğrulama" },
+      { title: "Modül Bilgisi", url: "/scholarship/module-info", description: "Burs modülü dokümantasyonu" }
+    ]
+  },
+  {
+    title: "Mesajlaşma",
+    icon: MessageSquare,
+    url: "/messages",
+    subPages: [
+      { title: "Mesajlar", url: "/messages", description: "Tüm mesajlaşma" },
+      { title: "Toplu Gönderim", url: "/messages/bulk-send", description: "Toplu SMS/Email gönderimi" },
+      { title: "Gelişmiş Toplu Gönderim", url: "/messages/bulk-send-enhanced", description: "Gelişmiş gönderim se��enekleri", isNew: true },
+      { title: "Gruplar", url: "/messages/groups", description: "Mesaj grupları yönetimi" },
+      { title: "Şablonlar", url: "/messages/templates", description: "Mesaj şablonları" },
+      { title: "SMS Teslimatları", url: "/messages/sms-deliveries", description: "SMS teslimat raporları" },
+      { title: "Email Teslimatları", url: "/messages/email-deliveries", description: "Email teslimat raporları" },
+      { title: "Analitik", url: "/messages/analytics", description: "Mesajlaşma analitikleri" },
+      { title: "Modül Bilgisi", url: "/messages/module-info", description: "Mesajlaşma modülü bilgisi" }
     ]
   },
   {
     title: "Fon Yönetimi",
-    icon: Building2,
+    icon: PieChart,
+    url: "/fund/movements",
     subPages: [
-      { title: "Fon Kartları", url: "/fund/cards" },
-      { title: "Fon Analizi", url: "/fund/analytics" },
-      { title: "Performans Takibi", url: "/fund/performance" },
-      { title: "Raporlar", url: "/fund/reports" },
+      { title: "Fon Hareketleri", url: "/fund/movements", description: "Tüm fon hareketleri" },
+      { title: "Kapsamlı Rapor", url: "/fund/complete-report", description: "Detaylı fon raporu" },
+      { title: "Fon Bölgeleri", url: "/fund/regions", description: "Bölgesel fon dağılımı" },
+      { title: "Çalışma Alanları", url: "/fund/work-areas", description: "Fon kullanım alanları" },
+      { title: "Fon Tanımları", url: "/fund/definitions", description: "Fon türü tanımlar��" },
+      { title: "Faaliyet Tanımları", url: "/fund/activity-definitions", description: "Faaliyet kategorileri" },
+      { title: "Kaynak/Gider", url: "/fund/sources-expenses", description: "Gelir gider analizi" },
+      { title: "Yardım Kategorileri", url: "/fund/aid-categories", description: "Yardım kategori tanımları" }
     ]
   },
   {
-    title: "Mesaj Yönetimi",
-    icon: MessageSquare,
-    badge: "12",
+    title: "Sistem Yönetimi",
+    icon: Settings,
+    url: "/security/settings",
     subPages: [
-      { title: "Toplu Gönderim", url: "/messages/bulk" },
-      { title: "Gelişmiş Gönderim", url: "/messages/enhanced" },
-      { title: "Analitik", url: "/messages/analytics" },
-      { title: "Şablonlar", url: "/messages/templates" },
+      { title: "Güvenlik Ayarları", url: "/security/settings", description: "Sistem güvenlik ayarları" },
+      { title: "Uyarı Mesajları", url: "/system/warning-messages", description: "Sistem uyarı yönetimi" },
+      { title: "Yapısal Kontroller", url: "/system/structural-controls", description: "Veri bütünlüğü kontrolleri" },
+      { title: "Yerel IP'ler", url: "/system/local-ips", description: "Yerel ağ IP yönetimi" },
+      { title: "IP Engelleme", url: "/system/ip-blocking", description: "IP güvenlik kuralları" },
+      { title: "Kullanıcı Yönetimi", url: "/system/user-management", description: "Sistem kullanıcı yönetimi" },
+      { title: "Performans", url: "/system/performance", description: "Sistem performans izleme" }
+    ]
+  },
+  {
+    title: "Tanımlamalar",
+    icon: Database,
+    url: "/definitions",
+    subPages: [
+      { title: "Tanımlamalar", url: "/definitions", description: "Genel sistem tanımları" },
+      { title: "Birim Rolleri", url: "/definitions/unit-roles", description: "Organizasyon birim rolleri" },
+      { title: "Birimler", url: "/definitions/units", description: "Organizasyon birimleri" },
+      { title: "Kullanıcı Hesapları", url: "/definitions/user-accounts", description: "Kullanıcı hesap yönetimi" },
+      { title: "Yetki Grupları", url: "/definitions/permission-groups", description: "Kullanıcı yetki grupları" },
+      { title: "Binalar", url: "/definitions/buildings", description: "Bina ve lokasyon tanımları" },
+      { title: "Dahili Hatlar", url: "/definitions/internal-lines", description: "İç telefon hatları" },
+      { title: "Süreç Akışları", url: "/definitions/process-flows", description: "Süreç yönetimi" },
+      { title: "Pasaport Formatları", url: "/definitions/passport-formats", description: "Pasaport veri formatları" },
+      { title: "Ülke/Şehirler", url: "/definitions/countries-cities", description: "Coğrafi tanımlar" },
+      { title: "Kurum Türleri", url: "/definitions/institution-types", description: "Kurum kategori tanımları" },
+      { title: "Kurum Durumları", url: "/definitions/institution-status", description: "Kurum durum tanımları" },
+      { title: "Bağış Yöntemleri", url: "/definitions/donation-methods", description: "Bağış yöntem tanımları" },
+      { title: "Teslimat Türleri", url: "/definitions/delivery-types", description: "Teslimat yöntem tanımları" },
+      { title: "Toplantı Talepleri", url: "/definitions/meeting-requests", description: "Toplantı t��rü tanımları" },
+      { title: "GSM Kodları", url: "/definitions/gsm-codes", description: "GSM operatör kodları" },
+      { title: "Arayüz Dilleri", url: "/definitions/interface-languages", description: "Çoklu dil desteği" },
+      { title: "Çeviriler", url: "/definitions/translations", description: "Dil çeviri yönetimi" },
+      { title: "Genel Ayarlar", url: "/definitions/general-settings", description: "Sistem genel ayarları" },
+      { title: "Modül Bilgisi", url: "/definitions/module-info", description: "Tanımlamalar modül bilgisi" }
     ]
   },
   {
     title: "Toplantılar",
     icon: Calendar,
+    url: "/meetings",
     subPages: [
-      { title: "Toplantı Listesi", url: "/meetings" },
-      { title: "Yeni Toplantı", url: "/meetings/new" },
-      { title: "Takvim Görünümü", url: "/meetings/calendar" },
+      { title: "Toplantı Takvimi", url: "/meetings", description: "Toplantı programı" },
+      { title: "Yeni Toplantı", url: "/meetings/new", description: "Toplantı planla" },
+      { title: "Geçmiş Toplantılar", url: "/meetings/history", description: "Toplantı arşivi" }
+    ]
+  },
+  {
+    title: "İç Mesajlar",
+    icon: MessageSquare,
+    url: "/internal-messages",
+    subPages: [
+      { title: "Gelen Kutusu", url: "/internal-messages", description: "Gelen iç mesajlar" },
+      { title: "Gönderilen", url: "/internal-messages/sent", description: "Gönderilen mesajlar" },
+      { title: "Yeni Mesaj", url: "/internal-messages/new", description: "Yeni iç mesaj" }
     ]
   },
   {
     title: "Görevler",
-    icon: FolderOpen,
+    icon: ClipboardList,
+    url: "/tasks",
     subPages: [
-      { title: "Görev Listesi", url: "/tasks" },
-      { title: "Yeni Görev", url: "/tasks/new" },
-      { title: "Görev Analizi", url: "/tasks/analytics" },
+      { title: "Görev Listesi", url: "/tasks", description: "Aktif görevler" },
+      { title: "Tamamlanan", url: "/tasks/completed", description: "Tamamlanan görevler" },
+      { title: "Yeni Görev", url: "/tasks/new", description: "Yeni görev oluştur" }
     ]
-  },
-  {
-    title: "Kullanıcı Yönetimi",
-    icon: Users,
-    subPages: [
-      { title: "Kullanıcı Listesi", url: "/users" },
-      { title: "Roller", url: "/users/roles" },
-      { title: "İzinler", url: "/users/permissions" },
-    ]
-  },
-  {
-    title: "Analitik",
-    icon: TrendingUp,
-    subPages: [
-      { title: "Genel Analitik", url: "/analytics" },
-      { title: "Raporlar", url: "/analytics/reports" },
-      { title: "Performans", url: "/analytics/performance" },
-    ]
-  },
+  }
 ]
 
-// Yardım ve ayarlar öğeleri
-export const supportItems: NavigationItem[] = [
-  {
-    title: "Ayarlar",
-    icon: Settings,
-    subPages: [
-      { title: "Genel Ayarlar", url: "/settings" },
-      { title: "Güvenlik", url: "/security" },
-      { title: "Bildirimler", url: "/notifications" },
-      { title: "Tema", url: "/theme" },
-    ]
-  },
+// Support navigation items
+export const supportNavigation = [
   {
     title: "Yardım",
     icon: HelpCircle,
-    subPages: [
-      { title: "Yardım Merkezi", url: "/help" },
-      { title: "İletişim", url: "/contact" },
-      { title: "Klavye Kısayolları", url: "/shortcuts" },
-      { title: "Geri Bildirim", url: "/feedback" },
-    ]
+    url: "/help",
+    description: "Kullanım kılavuzu ve SSS",
+    subPages: []
   },
+  {
+    title: "Dokümantasyon",
+    icon: BookOpen,
+    url: "/docs",
+    description: "Teknik dokümantasyon",
+    subPages: []
+  },
+  {
+    title: "İletişim",
+    icon: Phone,
+    url: "/contact",
+    description: "Destek ekibi ile iletişim",
+    subPages: []
+  }
 ]
 
-// Arama için tüm sayfaları düz liste halinde topla
-export const getAllPages = () => {
-  return [
-    ...navigation.flatMap(item => 
-      item.subPages.map(subPage => ({
-        ...subPage,
-        category: item.title,
-        icon: item.icon
-      }))
-    ),
-    ...supportItems.flatMap(item => 
-      item.subPages.map(subPage => ({
-        ...subPage,
-        category: item.title,
-        icon: item.icon
-      }))
-    )
-  ]
-}
+// Quick access items for search
+export const quickAccessItems = [
+  { title: 'Dashboard', url: '/', icon: LayoutDashboard, category: 'Ana Sayfa' },
+  { title: 'Yeni Başvuru', url: '/aid/applications', icon: Heart, category: 'Hızlı İşlem' },
+  { title: 'Bağış Kaydı', url: '/donations/cash', icon: Coins, category: 'Hızlı İşlem' },
+  { title: 'Toplu Mesaj', url: '/messages/bulk-send', icon: MessageSquare, category: 'Hızlı İşlem' },
+  { title: 'Yeni Toplantı', url: '/meetings/new', icon: Calendar, category: 'Hızlı İşlem' },
+  { title: 'Raporlar', url: '/aid/reports', icon: FileText, category: 'Raporlama' },
+  { title: 'Analitik', url: '/analytics', icon: BarChart3, category: 'Raporlama' },
+  { title: 'Performans', url: '/system/performance', icon: Activity, category: 'Sistem' },
+  { title: 'Ayarlar', url: '/settings', icon: Settings, category: 'Sistem' }
+]
+
+// Export alias for backward compatibility
+export const supportItems = supportNavigation
