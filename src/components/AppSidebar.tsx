@@ -271,7 +271,7 @@ export const AppSidebar = memo(function AppSidebar() {
                                 >
                                   <item.icon className="size-4" />
                                 </motion.div>
-                                <span>{item.title}</span>
+                                <span className="group-data-[collapsible=icon]:hidden">{item.title}</span>
                                 <motion.div
                                   whileHover={{ x: 3 }}
                                   transition={{ duration: 0.2 }}
