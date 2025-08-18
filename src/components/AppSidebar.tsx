@@ -253,7 +253,10 @@ export const AppSidebar = memo(function AppSidebar() {
                   {supportItems.map((item) => (
                     <motion.div key={item.title} variants={staggerItem}>
                       <SidebarMenuItem>
-                        <Popover>
+                        <Popover
+                          open={openPopover === `support-${item.title}`}
+                          onOpenChange={(open) => setOpenPopover(open ? `support-${item.title}` : null)}
+                        >
                           <PopoverTrigger asChild>
                             <motion.div
                               whileHover={{ scale: 1.02, x: 2 }}
