@@ -1,4 +1,4 @@
-import { memo } from "react"
+import { memo, startTransition } from "react"
 import { motion } from "motion/react"
 import { useNavigate } from 'react-router-dom'
 import { useSidebar } from "./ui/sidebar"
