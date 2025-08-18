@@ -91,9 +91,7 @@ export const AppSidebar = memo(function AppSidebar() {
   const [openPopover, setOpenPopover] = React.useState<string | null>(null)
 
   const handleNavigation = (url: string) => {
-    console.log('handleNavigation called with URL:', url)
     startTransition(() => {
-      console.log('Navigating to:', url)
       navigate(url)
     })
     // Close popover and sidebar
