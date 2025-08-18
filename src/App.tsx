@@ -14,6 +14,8 @@ import {
 } from "./components/ui/breadcrumb"
 import { memo, useState, useEffect } from "react"
 import { startTransition } from 'react'
+import { useSidebar } from "./components/ui/sidebar"
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts'
 
 import AppRoutes from './routes'
 import { Toaster } from 'sonner'
