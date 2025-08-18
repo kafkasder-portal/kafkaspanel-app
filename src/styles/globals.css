@@ -1,8 +1,5 @@
 @custom-variant dark (&:is(.dark *));
 
-/* Import sidebar improvements */
-@import './sidebar-improvements.css';
-
 :root {
   --font-size: 14px;
   --background: #ffffff;
