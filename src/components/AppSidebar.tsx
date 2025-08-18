@@ -104,11 +104,8 @@ export const AppSidebar = memo(function AppSidebar() {
   }
 
   const handleIconClick = (item: any) => {
-    console.log('🚀 Icon clicked:', item.title, 'URL:', item.url)
-    alert(`Clicked: ${item.title}`) // Simple test
     // Navigate to main module page if URL exists
     if (item.url) {
-      console.log('🎯 Navigating to:', item.url)
       handleNavigation(item.url)
     }
     // Also open/toggle popover for sub-pages
