@@ -42,7 +42,7 @@ export function TotalDonationsCard({
   }).format(totalDonations)
 
   return (
-    <Card className={`hover:shadow-md transition-shadow ${className}`}>
+    <Card className={`financial-card dashboard-widget ${className}`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
@@ -80,7 +80,7 @@ export function MonthlyGrowthCard({
   const isPositive = growthRate > 0
   
   return (
-    <Card className={`hover:shadow-md transition-shadow ${className}`}>
+    <Card className={`financial-card dashboard-widget ${className}`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
@@ -112,7 +112,7 @@ export function ActiveBeneficiariesCard({
   const formattedCount = new Intl.NumberFormat('tr-TR').format(count)
   
   return (
-    <Card className={`hover:shadow-md transition-shadow ${className}`}>
+    <Card className={`financial-card dashboard-widget ${className}`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
@@ -174,7 +174,7 @@ export function FundDistributionCard({
   }
   
   return (
-    <Card className={`hover:shadow-md transition-shadow ${className}`}>
+    <Card className={`financial-card dashboard-widget ${className}`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
