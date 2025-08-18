@@ -110,6 +110,16 @@ export const AppSidebar = memo(function AppSidebar() {
     setOpenPopover(openPopover === item.title ? null : item.title)
   }
 
+  const handleSupportIconClick = (item: any) => {
+    // Navigate to support page if URL exists
+    if (item.url) {
+      handleNavigation(item.url)
+    }
+    // Also open/toggle popover for sub-pages
+    const popoverKey = `support-${item.title}`
+    setOpenPopover(openPopover === popoverKey ? null : popoverKey)
+  }
+
   const handleLogout = () => {
     // Implement logout logic
     console.log('Logout clicked')
