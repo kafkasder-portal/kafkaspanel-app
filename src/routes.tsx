@@ -511,6 +511,11 @@ function AppRoutes() {
           {withSystemSuspense(UserManagement)}
         </ProtectedRoute>
       } />
+      <Route path="/system/performance" element={
+        <ProtectedRoute>
+          {withSystemSuspense(SystemPerformance)}
+        </ProtectedRoute>
+      } />
       
       {/* Definitions routes */}
       <Route path="/definitions" element={
