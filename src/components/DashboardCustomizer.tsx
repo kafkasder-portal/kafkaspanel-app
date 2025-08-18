@@ -12,7 +12,7 @@ interface DashboardCustomizerProps {
   onClose: () => void
 }
 
-export default function DashboardCustomizer({ isOpen, onClose }: DashboardCustomizerProps) {
+const DashboardCustomizer = memo(function DashboardCustomizer({ isOpen, onClose }: DashboardCustomizerProps) {
   const [selectedTheme, setSelectedTheme] = React.useState('default')
   const [widgetSettings, setWidgetSettings] = React.useState({
     financialCards: true,
@@ -242,4 +242,6 @@ export default function DashboardCustomizer({ isOpen, onClose }: DashboardCustom
       </DialogContent>
     </Dialog>
   )
-}
+})
+
+export default DashboardCustomizer
