@@ -149,24 +149,24 @@ function AppRoutes() {
       {/* Dashboard */}
       <Route path="/" element={
         <ProtectedRoute>
-          {withDashboardSuspense(DashboardIndex)}
+          {React.createElement(withDashboardSuspense(DashboardIndex))}
         </ProtectedRoute>
       } />
       
       {/* Donations routes */}
       <Route path="/donations" element={
         <ProtectedRoute>
-          {withDonationsSuspense(DonationsList)}
+          {React.createElement(withDonationsSuspense(DonationsList))}
         </ProtectedRoute>
       } />
       <Route path="/donations/vault" element={
         <ProtectedRoute>
-          {withDonationsSuspense(DonationVault)}
+          {React.createElement(withDonationsSuspense(DonationVault))}
         </ProtectedRoute>
       } />
       <Route path="/donations/institutions" element={
         <ProtectedRoute>
-          {withDonationsSuspense(Institutions)}
+          {React.createElement(withDonationsSuspense(Institutions))}
         </ProtectedRoute>
       } />
       <Route path="/donations/cash" element={
