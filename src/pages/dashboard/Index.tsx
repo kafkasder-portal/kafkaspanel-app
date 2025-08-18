@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Database, Settings, FileText, BarChart3, MessageSquare, MapPin, Coins, PieChart, Activity, TrendingUp } from 'lucide-react'
+import { Database, Settings, FileText, BarChart3, MessageSquare, MapPin, Coins, PieChart, Activity, TrendingUp, Calendar } from 'lucide-react'
 import { TotalDonationsCard, MonthlyGrowthCard, ActiveBeneficiariesCard, FundDistributionCard } from '@components/FinancialCard'
 import { useDashboardCustomization } from '@hooks/useDashboardCustomization'
 import { Button } from '@components/ui/button'
