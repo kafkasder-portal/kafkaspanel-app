@@ -83,7 +83,7 @@ const staggerItem = {
 }
 
 export const AppSidebar = memo(function AppSidebar() {
-  const { isMobile } = useSidebar()
+  const { isMobile, setOpenMobile } = useSidebar()
   const { user, profile } = useAuthStore()
   const userProfile = profile
   const navigate = useNavigate()
