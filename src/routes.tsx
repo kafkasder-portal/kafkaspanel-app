@@ -152,7 +152,7 @@ function AppRoutes() {
       {/* Dashboard */}
       <Route path="/" element={
         <ProtectedRoute>
-          {withDashboardSuspense(DashboardIndex)}
+          {React.createElement(withDashboardSuspense(DashboardIndex))}
         </ProtectedRoute>
       } />
       
