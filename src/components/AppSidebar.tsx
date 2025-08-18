@@ -94,7 +94,8 @@ export const AppSidebar = memo(function AppSidebar() {
     startTransition(() => {
       navigate(url)
     })
-    // Close sidebar on mobile after navigation
+    // Close popover and sidebar
+    setOpenPopover(null)
     if (isMobile) {
       setOpenMobile(false)
     }
