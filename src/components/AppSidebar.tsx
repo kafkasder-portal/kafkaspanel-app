@@ -277,6 +277,7 @@ export const AppSidebar = memo(function AppSidebar() {
                                 <motion.div
                                   whileHover={{ x: 3 }}
                                   transition={{ duration: 0.2 }}
+                                  className="group-data-[collapsible=icon]:hidden"
                                 >
                                   <ChevronRight className="ml-auto size-4" />
                                 </motion.div>
