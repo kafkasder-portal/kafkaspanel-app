@@ -395,7 +395,7 @@ export const AppSidebar = memo(function AppSidebar() {
                             </AvatarFallback>
                           </Avatar>
                         </motion.div>
-                        <div className="grid flex-1 text-left text-sm leading-tight">
+                        <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                           <span className="truncate">
                             {userProfile?.full_name || user?.email?.split('@')[0] || 'Kullanıcı'}
                           </span>
