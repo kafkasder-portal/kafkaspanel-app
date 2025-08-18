@@ -109,7 +109,7 @@ export const navigation: NavigationItem[] = [
       { title: "Finansman Tanımları", url: "/donations/funding-definitions", description: "Bağış kategorileri" },
       { title: "Kurban Dönemleri", url: "/donations/sacrifice-periods", description: "Kurban organizasyonu" },
       { title: "Kurban Hisseleri", url: "/donations/sacrifice-shares", description: "Kurban hisse yönetimi" },
-      { title: "Ramazan Dönemleri", url: "/donations/ramadan-periods", description: "Ramazan kampanyalar��" },
+      { title: "Ramazan Dönemleri", url: "/donations/ramadan-periods", description: "Ramazan kampanyaları" },
       { title: "Kumbara Takibi", url: "/donations/piggy-bank", description: "Kumbara bağış takibi" },
       { title: "Toplu Provizyon", url: "/donations/bulk-provisioning", description: "Toplu bağış provizyon" },
       { title: "Kurumsal Bağışlar", url: "/donations/corporate", description: "Kurumsal bağış yönetimi" }
@@ -146,7 +146,7 @@ export const navigation: NavigationItem[] = [
     subPages: [
       { title: "Mesajlar", url: "/messages", description: "Tüm mesajlaşma" },
       { title: "Toplu Gönderim", url: "/messages/bulk-send", description: "Toplu SMS/Email gönderimi" },
-      { title: "Gelişmiş Toplu Gönderim", url: "/messages/bulk-send-enhanced", description: "Gelişmiş g��nderim seçenekleri", isNew: true },
+      { title: "Gelişmiş Toplu Gönderim", url: "/messages/bulk-send-enhanced", description: "Gelişmiş gönderim seçenekleri", isNew: true },
       { title: "Gruplar", url: "/messages/groups", description: "Mesaj grupları yönetimi" },
       { title: "Şablonlar", url: "/messages/templates", description: "Mesaj şablonları" },
       { title: "SMS Teslimatları", url: "/messages/sms-deliveries", description: "SMS teslimat raporları" },
@@ -173,6 +173,7 @@ export const navigation: NavigationItem[] = [
   {
     title: "Sistem Yönetimi",
     icon: Settings,
+    url: "/security/settings",
     subPages: [
       { title: "Güvenlik Ayarları", url: "/security/settings", description: "Sistem güvenlik ayarları" },
       { title: "Uyarı Mesajları", url: "/system/warning-messages", description: "Sistem uyarı yönetimi" },
