@@ -155,24 +155,24 @@ function AppRoutes() {
       {/* Dashboard */}
       <Route path="/" element={
         <ProtectedRoute>
-          <DashboardIndexWithSuspense />
+          {createSuspenseRoute(withDashboardSuspense, DashboardIndex)}
         </ProtectedRoute>
       } />
       
       {/* Donations routes */}
       <Route path="/donations" element={
         <ProtectedRoute>
-          <DonationsListWithSuspense />
+          {createSuspenseRoute(withDonationsSuspense, DonationsList)}
         </ProtectedRoute>
       } />
       <Route path="/donations/vault" element={
         <ProtectedRoute>
-          <DonationVaultWithSuspense />
+          {createSuspenseRoute(withDonationsSuspense, DonationVault)}
         </ProtectedRoute>
       } />
       <Route path="/donations/institutions" element={
         <ProtectedRoute>
-          <InstitutionsWithSuspense />
+          {createSuspenseRoute(withDonationsSuspense, Institutions)}
         </ProtectedRoute>
       } />
       <Route path="/donations/cash" element={
