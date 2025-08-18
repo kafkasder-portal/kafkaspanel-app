@@ -269,7 +269,10 @@ export const AppSidebar = memo(function AppSidebar() {
                               transition={{ duration: 0.2 }}
                               className="w-full"
                             >
-                              <SidebarMenuButton className="w-full">
+                              <SidebarMenuButton
+                                className="w-full"
+                                tooltip={item.title}
+                              >
                                 <motion.div
                                   whileHover={{ rotate: 10 }}
                                   transition={{ duration: 0.2 }}
