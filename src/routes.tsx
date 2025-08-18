@@ -140,11 +140,7 @@ const Translations = lazy(() => import('./pages/definitions/Translations'))
 const GeneralSettings = lazy(() => import('./pages/definitions/GeneralSettings'))
 const DefinitionsModuleInfo = lazy(() => import('./pages/definitions/ModuleInfo'))
 
-// Helper function to create route elements with suspense
-function createSuspenseRoute(wrapperFn: any, Component: any) {
-  const WrappedComponent = wrapperFn(Component)
-  return <WrappedComponent />
-}
+// Note: Removed createSuspenseRoute as it's redundant - using direct wrapper functions
 
 function AppRoutes() {
   return (
