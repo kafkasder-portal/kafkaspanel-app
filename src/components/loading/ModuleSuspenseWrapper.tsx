@@ -11,10 +11,10 @@ function withSuspense<P extends object>(
       <Component {...props} />
     </Suspense>
   )
-  
+
   WrappedComponent.displayName = `withSuspense(${Component.displayName || Component.name})`
-  
-  return <WrappedComponent {...props as P} />
+
+  return WrappedComponent
 }
 
 // Aid module suspense wrapper

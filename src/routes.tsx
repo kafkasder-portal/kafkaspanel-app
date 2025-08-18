@@ -1,5 +1,11 @@
-import { lazy } from 'react'
+import React, { lazy, startTransition } from 'react'
 import { Routes, Route } from 'react-router-dom'
+
+// Helper function to render wrapped components correctly
+const renderWithWrapper = (wrapperFn: any, Component: any) => {
+  const WrappedComponent = wrapperFn(Component)
+  return <WrappedComponent />
+}
 import { ProtectedRoute } from './components/ProtectedRoute'
 import {
   withAidSuspense,
@@ -104,6 +110,7 @@ const StructuralControls = lazy(() => import('./pages/system/StructuralControls'
 const LocalIPs = lazy(() => import('./pages/system/LocalIPs'))
 const IPBlocking = lazy(() => import('./pages/system/IPBlocking'))
 const UserManagement = lazy(() => import('./pages/system/UserManagement'))
+const SystemPerformance = lazy(() => import('./pages/system/Performance'))
 
 
 
@@ -140,98 +147,100 @@ const Translations = lazy(() => import('./pages/definitions/Translations'))
 const GeneralSettings = lazy(() => import('./pages/definitions/GeneralSettings'))
 const DefinitionsModuleInfo = lazy(() => import('./pages/definitions/ModuleInfo'))
 
+// Note: Removed createSuspenseRoute as it's redundant - using direct wrapper functions
+
 function AppRoutes() {
   return (
     <Routes>
       {/* Login route */}
       <Route path="/login" element={<Login />} />
-      
+
       {/* Dashboard */}
       <Route path="/" element={
         <ProtectedRoute>
-          {withDashboardSuspense(DashboardIndex)}
+          {renderWithWrapper(withDashboardSuspense, DashboardIndex)}
         </ProtectedRoute>
       } />
       
       {/* Donations routes */}
       <Route path="/donations" element={
         <ProtectedRoute>
-          {withDonationsSuspense(DonationsList)}
+          {renderWithWrapper(withDonationsSuspense, DonationsList)}
         </ProtectedRoute>
       } />
       <Route path="/donations/vault" element={
         <ProtectedRoute>
-          {withDonationsSuspense(DonationVault)}
+          {renderWithWrapper(withDonationsSuspense, DonationVault)}
         </ProtectedRoute>
       } />
       <Route path="/donations/institutions" element={
         <ProtectedRoute>
-          {withDonationsSuspense(Institutions)}
+          {renderWithWrapper(withDonationsSuspense, Institutions)}
         </ProtectedRoute>
       } />
       <Route path="/donations/cash" element={
         <ProtectedRoute>
-          {withDonationsSuspense(CashDonations)}
+          {renderWithWrapper(withDonationsSuspense, CashDonations)}
         </ProtectedRoute>
       } />
       <Route path="/donations/bank" element={
         <ProtectedRoute>
-          {withDonationsSuspense(BankDonations)}
+          {renderWithWrapper(withDonationsSuspense, BankDonations)}
         </ProtectedRoute>
       } />
       <Route path="/donations/credit-card" element={
         <ProtectedRoute>
-          {withDonationsSuspense(CreditCardDonations)}
+          {renderWithWrapper(withDonationsSuspense, CreditCardDonations)}
         </ProtectedRoute>
       } />
       <Route path="/donations/online" element={
         <ProtectedRoute>
-          {withDonationsSuspense(OnlineDonations)}
+          {renderWithWrapper(withDonationsSuspense, OnlineDonations)}
         </ProtectedRoute>
       } />
       <Route path="/donations/numbers" element={
         <ProtectedRoute>
-          {withDonationsSuspense(DonationNumbers)}
+          {renderWithWrapper(withDonationsSuspense, DonationNumbers)}
         </ProtectedRoute>
       } />
       <Route path="/donations/funding-definitions" element={
         <ProtectedRoute>
-          {withDonationsSuspense(FundingDefinitions)}
+          {renderWithWrapper(withDonationsSuspense, FundingDefinitions)}
         </ProtectedRoute>
       } />
       <Route path="/donations/sacrifice-periods" element={
         <ProtectedRoute>
-          {withDonationsSuspense(SacrificePeriods)}
+          {renderWithWrapper(withDonationsSuspense, SacrificePeriods)}
         </ProtectedRoute>
       } />
       <Route path="/donations/sacrifice-shares" element={
         <ProtectedRoute>
-          {withDonationsSuspense(SacrificeShares)}
+          {renderWithWrapper(withDonationsSuspense, SacrificeShares)}
         </ProtectedRoute>
       } />
       <Route path="/donations/ramadan-periods" element={
         <ProtectedRoute>
-          {withDonationsSuspense(RamadanPeriods)}
+          {renderWithWrapper(withDonationsSuspense, RamadanPeriods)}
         </ProtectedRoute>
       } />
       <Route path="/donations/piggy-bank" element={
         <ProtectedRoute>
-          {withDonationsSuspense(PiggyBankTracking)}
+          {renderWithWrapper(withDonationsSuspense, PiggyBankTracking)}
         </ProtectedRoute>
       } />
       <Route path="/donations/piggy-bank-tracking" element={
         <ProtectedRoute>
-          {withDonationsSuspense(PiggyBankTracking)}
+          {renderWithWrapper(withDonationsSuspense, PiggyBankTracking)}
         </ProtectedRoute>
       } />
       <Route path="/donations/bulk-provisioning" element={
         <ProtectedRoute>
-          {withDonationsSuspense(BulkProvisioning)}
+          {renderWithWrapper(withDonationsSuspense, BulkProvisioning)}
         </ProtectedRoute>
       } />
       <Route path="/donations/corporate" element={
         <ProtectedRoute>
-          {withDonationsSuspense(Corporate)}
+          {renderWithWrapper(withDonationsSuspense, Corporate)}
         </ProtectedRoute>
       } />
       
@@ -506,6 +515,11 @@ function AppRoutes() {
       <Route path="/system/user-management" element={
         <ProtectedRoute>
           {withSystemSuspense(UserManagement)}
+        </ProtectedRoute>
+      } />
+      <Route path="/system/performance" element={
+        <ProtectedRoute>
+          {withSystemSuspense(SystemPerformance)}
         </ProtectedRoute>
       } />
       
