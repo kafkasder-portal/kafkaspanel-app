@@ -95,7 +95,7 @@ export const AppSidebar = memo(function AppSidebar() {
     })
     // Close sidebar on mobile after navigation
     if (isMobile) {
-      // You might want to add a method to close sidebar here
+      setOpenMobile(false)
     }
   }
 
