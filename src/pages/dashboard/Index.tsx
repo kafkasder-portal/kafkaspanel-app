@@ -1,8 +1,12 @@
 import { useState } from 'react'
-import { Database, Settings, FileText, BarChart3, MessageSquare, MapPin } from 'lucide-react'
-import { TotalDonationsCard, MonthlyGrowthCard, ActiveBeneficiariesCard, FundDistributionCard } from '@components/FinancialCard'
-import { useDashboardCustomization } from '@hooks/useDashboardCustomization'
-import { Button } from '@components/ui/button'
+import { Link } from 'react-router-dom'
+import { Database, Settings, FileText, BarChart3, MessageSquare, MapPin, Coins, PieChart, Activity, TrendingUp, Calendar, X } from 'lucide-react'
+import { TotalDonationsCard, MonthlyGrowthCard, ActiveBeneficiariesCard, FundDistributionCard } from '../../components/FinancialCard'
+import { useDashboardCustomization } from '../../hooks/useDashboardCustomization'
+import { Button } from '../../components/ui/button'
+import DashboardCharts from '../../components/DashboardCharts'
+import DashboardCustomizer from '../../components/DashboardCustomizer'
+import CacheMonitor from '../../components/CacheMonitor'
 
 export default function DashboardIndex() {
   const [showCustomizer, setShowCustomizer] = useState(false)
@@ -73,22 +77,21 @@ export default function DashboardIndex() {
 
       {/* Finansal İstatistik Kartları */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-        <TotalDonationsCard 
+        <TotalDonationsCard
           totalDonations={45230}
-          monthlyChange={8.2}
-          trend={[42000, 43500, 44200, 45230]}
+          change={8.2}
         />
-        <ActiveBeneficiariesCard 
+        <ActiveBeneficiariesCard
           count={1234}
-          monthlyChange={12}
+          change={12}
         />
-        <MonthlyGrowthCard 
+        <MonthlyGrowthCard
           growthRate={15.4}
           period="Son 30 gün"
         />
-        <FundDistributionCard 
+        <FundDistributionCard
           distributionRate={87}
-          target={85}
+          status="good"
         />
       </div>
 
@@ -117,7 +120,7 @@ export default function DashboardIndex() {
         />
         <QuickAccessCard
           title="Rapor Oluştur"
-          description="Yardım raporu hazırla"
+          description="Yard��m raporu hazırla"
           icon={<PieChart className="h-6 w-6" />}
           color="bg-chart-7"
           link="/aid/reports"
@@ -257,7 +260,11 @@ export default function DashboardIndex() {
               </div>
             </div>
             <div className="p-6">
-              <ReportGenerator />
+              <div className="text-center py-8">
+                <FileText className="w-16 h-16 mx-auto text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium mb-2">Rapor Oluşturucu</h3>
+                <p className="text-gray-600">Yakında eklenecek...</p>
+              </div>
             </div>
           </div>
         </div>
@@ -278,28 +285,7 @@ export default function DashboardIndex() {
               </div>
             </div>
             <div className="p-6">
-              <ChartDashboard />
-            </div>
-          </div>
-        </div>
-      )}
-      {showWhatsAppManager && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-white rounded-lg shadow-2xl">
-            <div className="p-6 border-b">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">WhatsApp Yöneticisi</h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowWhatsAppManager(false)}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-            <div className="p-6">
-              <WhatsAppManager />
+              <DashboardCharts />
             </div>
           </div>
         </div>
@@ -320,7 +306,11 @@ export default function DashboardIndex() {
               </div>
             </div>
             <div className="p-6">
-              <MapDashboard />
+              <div className="text-center py-8">
+                <MapPin className="w-16 h-16 mx-auto text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium mb-2">Harita Yönetimi</h3>
+                <p className="text-gray-600">Yakında eklenecek...</p>
+              </div>
             </div>
           </div>
         </div>

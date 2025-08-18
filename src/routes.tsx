@@ -1,4 +1,4 @@
-import { lazy } from 'react'
+import React, { lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import {
@@ -140,33 +140,39 @@ const Translations = lazy(() => import('./pages/definitions/Translations'))
 const GeneralSettings = lazy(() => import('./pages/definitions/GeneralSettings'))
 const DefinitionsModuleInfo = lazy(() => import('./pages/definitions/ModuleInfo'))
 
+// Helper function to create route elements with suspense
+function createSuspenseRoute(wrapperFn: any, Component: any) {
+  const WrappedComponent = wrapperFn(Component)
+  return <WrappedComponent />
+}
+
 function AppRoutes() {
   return (
     <Routes>
       {/* Login route */}
       <Route path="/login" element={<Login />} />
-      
+
       {/* Dashboard */}
       <Route path="/" element={
         <ProtectedRoute>
-          {withDashboardSuspense(DashboardIndex)}
+          {createSuspenseRoute(withDashboardSuspense, DashboardIndex)}
         </ProtectedRoute>
       } />
       
       {/* Donations routes */}
       <Route path="/donations" element={
         <ProtectedRoute>
-          {withDonationsSuspense(DonationsList)}
+          {createSuspenseRoute(withDonationsSuspense, DonationsList)}
         </ProtectedRoute>
       } />
       <Route path="/donations/vault" element={
         <ProtectedRoute>
-          {withDonationsSuspense(DonationVault)}
+          {createSuspenseRoute(withDonationsSuspense, DonationVault)}
         </ProtectedRoute>
       } />
       <Route path="/donations/institutions" element={
         <ProtectedRoute>
-          {withDonationsSuspense(Institutions)}
+          {createSuspenseRoute(withDonationsSuspense, Institutions)}
         </ProtectedRoute>
       } />
       <Route path="/donations/cash" element={

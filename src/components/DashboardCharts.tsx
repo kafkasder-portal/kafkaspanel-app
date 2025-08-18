@@ -63,7 +63,7 @@ const LazyRechartsBundle = lazy(() => import('./RechartsBundle'));
 
 // Alternative inline component for simple charts
 
-export const DashboardCharts = () => {
+const DashboardCharts = () => {
   const [data, setData] = useState<DashboardData>({
     totalBeneficiaries: 0,
     totalDonations: 0,
