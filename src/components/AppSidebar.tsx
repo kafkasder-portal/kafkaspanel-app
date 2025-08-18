@@ -163,46 +163,45 @@ export const AppSidebar = memo(function AppSidebar() {
                           open={openPopover === item.title}
                           onOpenChange={(open) => setOpenPopover(open ? item.title : null)}
                         >
-                          <PopoverTrigger asChild>
-                            <motion.div
-                              whileHover={{ scale: 1.02, x: 2 }}
-                              whileTap={{ scale: 0.98 }}
-                              transition={{ duration: 0.2 }}
-                              className="w-full"
+                          <motion.div
+                            whileHover={{ scale: 1.02, x: 2 }}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ duration: 0.2 }}
+                            className="w-full"
+                          >
+                            <SidebarMenuButton
+                              className="relative w-full"
+                              tooltip={item.title}
+                              onClick={() => handleIconClick(item)}
                             >
-                              <SidebarMenuButton
-                                className="relative w-full"
-                                tooltip={item.title}
+                              <motion.div
+                                whileHover={{ rotate: 10 }}
+                                transition={{ duration: 0.2 }}
                               >
+                                <item.icon className="size-4" />
+                              </motion.div>
+                              <span className="group-data-[collapsible=icon]:hidden">{item.title}</span>
+                              {item.badge && (
                                 <motion.div
-                                  whileHover={{ rotate: 10 }}
-                                  transition={{ duration: 0.2 }}
-                                >
-                                  <item.icon className="size-4" />
-                                </motion.div>
-                                <span className="group-data-[collapsible=icon]:hidden">{item.title}</span>
-                                {item.badge && (
-                                  <motion.div
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    transition={{ delay: index * 0.1 + 0.3, duration: 0.3 }}
-                                    className="group-data-[collapsible=icon]:hidden"
-                                  >
-                                    <Badge variant="secondary" className="ml-auto h-5 w-auto px-1.5 text-xs">
-                                      {item.badge}
-                                    </Badge>
-                                  </motion.div>
-                                )}
-                                <motion.div
-                                  whileHover={{ x: 3 }}
-                                  transition={{ duration: 0.2 }}
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  transition={{ delay: index * 0.1 + 0.3, duration: 0.3 }}
                                   className="group-data-[collapsible=icon]:hidden"
                                 >
-                                  <ChevronRight className="ml-auto size-4" />
+                                  <Badge variant="secondary" className="ml-auto h-5 w-auto px-1.5 text-xs">
+                                    {item.badge}
+                                  </Badge>
                                 </motion.div>
-                              </SidebarMenuButton>
-                            </motion.div>
-                          </PopoverTrigger>
+                              )}
+                              <motion.div
+                                whileHover={{ x: 3 }}
+                                transition={{ duration: 0.2 }}
+                                className="group-data-[collapsible=icon]:hidden"
+                              >
+                                <ChevronRight className="ml-auto size-4" />
+                              </motion.div>
+                            </SidebarMenuButton>
+                          </motion.div>
                           <PopoverContent 
                             side="right" 
                             align="start" 
