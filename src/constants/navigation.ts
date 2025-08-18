@@ -75,6 +75,7 @@ export const navigation: NavigationItem[] = [
   {
     title: "Yardım Yönetimi",
     icon: Heart,
+    url: "/aid",
     badge: "12",
     subPages: [
       { title: "Başvurular", url: "/aid/applications", description: "Yardım başvurularını yönet" },
