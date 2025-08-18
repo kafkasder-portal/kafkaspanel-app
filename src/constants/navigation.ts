@@ -270,3 +270,6 @@ export const quickAccessItems = [
   { title: 'Performans', href: '/system/performance', icon: Activity, category: 'Sistem' },
   { title: 'Ayarlar', href: '/settings', icon: Settings, category: 'Sistem' }
 ]
+
+// Export alias for backward compatibility
+export const supportItems = supportNavigation
