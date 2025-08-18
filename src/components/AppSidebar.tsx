@@ -128,7 +128,7 @@ export const AppSidebar = memo(function AppSidebar() {
   return (
     <TooltipProvider>
       <Sidebar variant="inset" collapsible="icon" className="data-[state=collapsed]:w-16">
-        <SidebarHeader>
+        <SidebarHeader className="border-b border-sidebar-border pb-4">
           <SidebarMenu>
             <SidebarMenuItem>
               <motion.div
@@ -136,18 +136,18 @@ export const AppSidebar = memo(function AppSidebar() {
                 animate="visible"
                 variants={fadeIn}
               >
-                <SidebarMenuButton size="lg" className="data-[size=lg]:h-12">
-                  <motion.div 
-                    className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground"
+                <SidebarMenuButton size="lg" className="data-[size=lg]:h-14 p-3">
+                  <motion.div
+                    className="flex aspect-square size-10 items-center justify-center rounded-lg bg-brand text-white shadow-lg"
                     whileHover={{ scale: 1.05, rotate: 5 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Building2 className="size-4" />
+                    <Building2 className="size-5" />
                   </motion.div>
-                  <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                    <span className="truncate">Kafkas Portal</span>
-                    <span className="truncate text-xs text-muted-foreground">Enterprise</span>
+                  <div className="grid flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
+                    <span className="truncate text-base font-semibold text-sidebar-foreground">Kafkas Portal</span>
+                    <span className="truncate text-xs text-sidebar-text-muted">Dernek Yönetim Sistemi</span>
                   </div>
                 </SidebarMenuButton>
               </motion.div>
@@ -157,8 +157,8 @@ export const AppSidebar = memo(function AppSidebar() {
 
         <SidebarContent>
           {/* Ana Navigasyon */}
-          <SidebarGroup>
-            <SidebarGroupLabel>Navigasyon</SidebarGroupLabel>
+          <SidebarGroup className="px-3 py-2">
+            <SidebarGroupLabel className="mb-2 text-sidebar-text-muted font-semibold">Ana Menü</SidebarGroupLabel>
             <SidebarGroupContent>
               <motion.div
                 initial="hidden"
@@ -266,7 +266,8 @@ export const AppSidebar = memo(function AppSidebar() {
           </SidebarGroup>
 
           {/* Destek */}
-          <SidebarGroup className="mt-auto">
+          <SidebarGroup className="mt-auto px-3 py-2 border-t border-sidebar-border pt-4">
+            <SidebarGroupLabel className="mb-2 text-sidebar-text-muted font-semibold">Sistem</SidebarGroupLabel>
             <SidebarGroupContent>
               <motion.div
                 initial="hidden"
@@ -357,7 +358,7 @@ export const AppSidebar = memo(function AppSidebar() {
           </SidebarGroup>
         </SidebarContent>
 
-        <SidebarFooter>
+        <SidebarFooter className="border-t border-sidebar-border pt-4 mt-4">
           <SidebarMenu>
             {/* Theme Toggle */}
             <SidebarMenuItem>
@@ -369,9 +370,9 @@ export const AppSidebar = memo(function AppSidebar() {
                 <Button
                   variant="ghost"
                   size="lg"
-                  className="w-full justify-start px-2"
+                  className="w-full justify-start px-3 h-12 theme-toggle-button"
                   onClick={toggleMode}
-                  title={isDark ? 'Light Mode' : 'Dark Mode'}
+                  title={isDark ? 'Açık Tema' : 'Koyu Tema'}
                 >
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: isDark ? 180 : 0 }}
@@ -385,8 +386,8 @@ export const AppSidebar = memo(function AppSidebar() {
                       <Moon className="size-4" />
                     )}
                   </motion.div>
-                  <span className="ml-2 group-data-[collapsible=icon]:hidden">
-                    {isDark ? 'Light Mode' : 'Dark Mode'}
+                  <span className="ml-3 group-data-[collapsible=icon]:hidden font-medium">
+                    {isDark ? 'Açık Tema' : 'Koyu Tema'}
                   </span>
                 </Button>
               </motion.div>
@@ -408,7 +409,7 @@ export const AppSidebar = memo(function AppSidebar() {
                     >
                       <SidebarMenuButton
                         size="lg"
-                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground w-full"
+                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground w-full h-14 p-3 user-profile-dropdown"
                       >
                         <motion.div
                           whileHover={{ scale: 1.1, rotate: 5 }}
@@ -421,11 +422,11 @@ export const AppSidebar = memo(function AppSidebar() {
                             </AvatarFallback>
                           </Avatar>
                         </motion.div>
-                        <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                          <span className="truncate">
+                        <div className="grid flex-1 text-left leading-tight group-data-[collapsible=icon]:hidden">
+                          <span className="truncate font-medium text-sidebar-foreground">
                             {userProfile?.full_name || user?.email?.split('@')[0] || 'Kullanıcı'}
                           </span>
-                          <span className="truncate text-xs text-muted-foreground">
+                          <span className="truncate text-xs text-sidebar-text-muted">
                             {user?.email}
                           </span>
                         </div>
