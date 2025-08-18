@@ -325,9 +325,6 @@
   }
 }
 
-/* Import sidebar improvements */
-@import './sidebar-improvements.css';
-
 html {
   font-size: var(--font-size);
 }
