@@ -162,17 +162,17 @@ function AppRoutes() {
       {/* Donations routes */}
       <Route path="/donations" element={
         <ProtectedRoute>
-          {React.createElement(withDonationsSuspense(DonationsList))}
+          <DonationsListWithSuspense />
         </ProtectedRoute>
       } />
       <Route path="/donations/vault" element={
         <ProtectedRoute>
-          {React.createElement(withDonationsSuspense(DonationVault))}
+          <DonationVaultWithSuspense />
         </ProtectedRoute>
       } />
       <Route path="/donations/institutions" element={
         <ProtectedRoute>
-          {React.createElement(withDonationsSuspense(Institutions))}
+          <InstitutionsWithSuspense />
         </ProtectedRoute>
       } />
       <Route path="/donations/cash" element={
