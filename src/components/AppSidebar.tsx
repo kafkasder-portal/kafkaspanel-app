@@ -180,7 +180,7 @@ export const AppSidebar = memo(function AppSidebar() {
                             className="w-full"
                           >
                             <SidebarMenuButton
-                              className="relative w-full"
+                              className="relative w-full h-10 px-3"
                               tooltip={item.title}
                               onClick={() => handleIconClick(item)}
                               asChild={false}
@@ -191,7 +191,7 @@ export const AppSidebar = memo(function AppSidebar() {
                               >
                                 <item.icon className="size-4" />
                               </motion.div>
-                              <span className="group-data-[collapsible=icon]:hidden">{item.title}</span>
+                              <span className="group-data-[collapsible=icon]:hidden font-medium">{item.title}</span>
                               {item.badge && (
                                 <motion.div
                                   initial={{ scale: 0 }}
@@ -199,7 +199,7 @@ export const AppSidebar = memo(function AppSidebar() {
                                   transition={{ delay: index * 0.1 + 0.3, duration: 0.3 }}
                                   className="group-data-[collapsible=icon]:hidden"
                                 >
-                                  <Badge variant="secondary" className="ml-auto h-5 w-auto px-1.5 text-xs">
+                                  <Badge variant="secondary" className="ml-auto h-5 w-auto px-2 text-xs badge">
                                     {item.badge}
                                   </Badge>
                                 </motion.div>
@@ -213,29 +213,33 @@ export const AppSidebar = memo(function AppSidebar() {
                               </motion.div>
                             </SidebarMenuButton>
                           </motion.div>
-                          <PopoverContent 
-                            side="right" 
-                            align="start" 
-                            sideOffset={8}
-                            className="w-56 p-3"
+                          <PopoverContent
+                            side="right"
+                            align="start"
+                            sideOffset={12}
+                            className="w-64 p-4 sidebar-popover-content"
                           >
                             <motion.div
                               initial="hidden"
                               animate="visible"
                               variants={staggerContainer}
-                              className="space-y-1"
+                              className="space-y-2"
                             >
-                              <motion.div 
-                                className="flex items-center gap-2 pb-2 border-b"
+                              <motion.div
+                                className="flex items-center gap-3 pb-3 mb-3 border-b border-border"
                                 variants={staggerItem}
                               >
-                                <item.icon className="size-4" />
-                                <span className="font-medium">{item.title}</span>
-                                {item.badge && (
-                                  <Badge variant="secondary" className="h-5 w-auto px-1.5 text-xs">
-                                    {item.badge}
-                                  </Badge>
-                                )}
+                                <div className="p-2 rounded-lg bg-brand/10">
+                                  <item.icon className="size-4 text-brand" />
+                                </div>
+                                <div className="flex-1">
+                                  <span className="font-semibold text-sm">{item.title}</span>
+                                  {item.badge && (
+                                    <Badge variant="secondary" className="ml-2 h-5 w-auto px-2 text-xs">
+                                      {item.badge}
+                                    </Badge>
+                                  )}
+                                </div>
                               </motion.div>
                               {item.subPages?.map((subPage, subIndex) => (
                                 <motion.div key={subIndex} variants={staggerItem}>
@@ -246,10 +250,15 @@ export const AppSidebar = memo(function AppSidebar() {
                                     <Button
                                       variant="ghost"
                                       size="sm"
-                                      className="w-full justify-start h-8"
+                                      className="w-full justify-start h-9 px-3 text-sm popover-submenu-item hover:bg-brand/5 hover:text-brand"
                                       onClick={() => handleNavigation(subPage.url)}
                                     >
-                                      {subPage.title}
+                                      <span className="truncate">{subPage.title}</span>
+                                      {subPage.isNew && (
+                                        <Badge variant="secondary" className="ml-auto h-4 px-1.5 text-xs bg-green-100 text-green-700">
+                                          Yeni
+                                        </Badge>
+                                      )}
                                     </Button>
                                   </motion.div>
                                 </motion.div>
