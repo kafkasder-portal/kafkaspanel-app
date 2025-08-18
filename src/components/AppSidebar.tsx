@@ -101,6 +101,15 @@ export const AppSidebar = memo(function AppSidebar() {
     }
   }
 
+  const handleIconClick = (item: any) => {
+    // Navigate to main module page if URL exists
+    if (item.url) {
+      handleNavigation(item.url)
+    }
+    // Also open/toggle popover for sub-pages
+    setOpenPopover(openPopover === item.title ? null : item.title)
+  }
+
   const handleLogout = () => {
     // Implement logout logic
     console.log('Logout clicked')
