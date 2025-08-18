@@ -205,7 +205,7 @@ export const AppSidebar = memo(function AppSidebar() {
                                   </Badge>
                                 )}
                               </motion.div>
-                              {item.subPages.map((subPage, subIndex) => (
+                              {item.subPages?.map((subPage, subIndex) => (
                                 <motion.div key={subIndex} variants={staggerItem}>
                                   <motion.div
                                     whileHover={{ scale: 1.02, x: 2 }}
@@ -288,7 +288,7 @@ export const AppSidebar = memo(function AppSidebar() {
                                 <item.icon className="size-4" />
                                 <span className="font-medium">{item.title}</span>
                               </motion.div>
-                              {item.subPages.map((subPage, index) => (
+                              {item.subPages?.map((subPage, index) => (
                                 <motion.div key={index} variants={staggerItem}>
                                   <motion.div
                                     whileHover={{ scale: 1.02, x: 2 }}
