@@ -88,6 +88,7 @@ export const AppSidebar = memo(function AppSidebar() {
   const userProfile = profile
   const navigate = useNavigate()
   const { isDark, toggleMode } = useTheme()
+  const [openPopover, setOpenPopover] = React.useState<string | null>(null)
 
   const handleNavigation = (url: string) => {
     startTransition(() => {
