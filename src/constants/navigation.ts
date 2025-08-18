@@ -88,7 +88,7 @@ export const navigation: NavigationItem[] = [
       { title: "Hizmet Takibi", url: "/aid/service-tracking", description: "Hizmet yardımı takibi" },
       { title: "Hastane Sevkleri", url: "/aid/hospital-referrals", description: "Sağlık yardımı sevkleri" },
       { title: "Parametreler", url: "/aid/parameters", description: "Yardım parametreleri" },
-      { title: "Veri Kontrol��", url: "/aid/data-control", description: "Veri doğrulama" },
+      { title: "Veri Kontrolü", url: "/aid/data-control", description: "Veri doğrulama" },
       { title: "Modül Bilgisi", url: "/aid/module-info", description: "Modül dokümantasyonu" }
     ]
   },
@@ -169,13 +169,13 @@ export const navigation: NavigationItem[] = [
     title: "Sistem Yönetimi",
     icon: Settings,
     subPages: [
-      { title: "Güvenlik Ayarları", href: "/security/settings", description: "Sistem güvenlik ayarları" },
-      { title: "Uyarı Mesajları", href: "/system/warnings", description: "Sistem uyarı yönetimi" },
-      { title: "Yapısal Kontroller", href: "/system/structural", description: "Veri bütünlüğü kontrolleri" },
-      { title: "Yerel IP'ler", href: "/system/local-ips", description: "Yerel ağ IP yönetimi" },
-      { title: "IP Engelleme", href: "/system/ip-blocking", description: "IP güvenlik kuralları" },
-      { title: "Kullanıcı Yönetimi", href: "/system/users", description: "Sistem kullanıcı yönetimi" },
-      { title: "Performans", href: "/system/performance", description: "Sistem performans izleme" }
+      { title: "Güvenlik Ayarları", url: "/security/settings", description: "Sistem güvenlik ayarları" },
+      { title: "Uyarı Mesajları", url: "/system/warning-messages", description: "Sistem uyarı yönetimi" },
+      { title: "Yapısal Kontroller", url: "/system/structural-controls", description: "Veri bütünlüğü kontrolleri" },
+      { title: "Yerel IP'ler", url: "/system/local-ips", description: "Yerel ağ IP yönetimi" },
+      { title: "IP Engelleme", url: "/system/ip-blocking", description: "IP güvenlik kuralları" },
+      { title: "Kullanıcı Yönetimi", url: "/system/user-management", description: "Sistem kullanıcı yönetimi" },
+      { title: "Performans", url: "/system/performance", description: "Sistem performans izleme" }
     ]
   },
   {
