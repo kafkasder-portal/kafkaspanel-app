@@ -38,12 +38,12 @@ import type { LucideIcon } from 'lucide-react'
 export interface NavigationItem {
   title: string
   icon: LucideIcon
-  href?: string
+  url?: string
   badge?: string
   badgeVariant?: 'default' | 'secondary' | 'destructive' | 'outline'
   subPages: Array<{
     title: string
-    href?: string
+    url: string
     description?: string
     badge?: string
     isNew?: boolean
@@ -53,7 +53,7 @@ export interface NavigationItem {
 export interface SearchableItem {
   title: string
   description: string
-  href: string
+  url: string
   icon?: LucideIcon
   badge?: string
   category: string
@@ -64,12 +64,12 @@ export const navigation: NavigationItem[] = [
   {
     title: "Dashboard",
     icon: LayoutDashboard,
-    href: "/",
+    url: "/",
     badge: "3",
     subPages: [
-      { title: "Genel Bakış", href: "/", description: "Ana dashboard görünümü" },
-      { title: "Analitik", href: "/analytics", description: "Detaylı analiz ve raporlar" },
-      { title: "Performans", href: "/system/performance", description: "Sistem performans metrikleri" }
+      { title: "Genel Bakış", url: "/", description: "Ana dashboard görünümü" },
+      { title: "Analitik", url: "/analytics", description: "Detaylı analiz ve raporlar" },
+      { title: "Performans", url: "/system/performance", description: "Sistem performans metrikleri" }
     ]
   },
   {
@@ -77,40 +77,40 @@ export const navigation: NavigationItem[] = [
     icon: Heart,
     badge: "12",
     subPages: [
-      { title: "Başvurular", href: "/aid/applications", description: "Yardım başvurularını yönet" },
-      { title: "Yararlanıcılar", href: "/aid/beneficiaries", description: "Yararlanıcı kayıtları" },
-      { title: "Yararlanıcı Detayı", href: "/aid/beneficiaries-detail", description: "Detaylı yararlanıcı bilgileri" },
-      { title: "Raporlar", href: "/aid/reports", description: "Yardım raporları" },
-      { title: "Nakit Kasası", href: "/aid/cash-vault", description: "Nakit yardım kasası" },
-      { title: "Banka Emirleri", href: "/aid/bank-orders", description: "Banka havale emirleri" },
-      { title: "Nakit İşlemler", href: "/aid/cash-operations", description: "Nakit yardım işlemleri" },
-      { title: "Ayni İşlemler", href: "/aid/in-kind-operations", description: "Ayni yardım işlemleri" },
-      { title: "Hizmet Takibi", href: "/aid/service-tracking", description: "Hizmet yardımı takibi" },
-      { title: "Hastane Sevkleri", href: "/aid/hospital-referrals", description: "Sağlık yardımı sevkleri" },
-      { title: "Parametreler", href: "/aid/parameters", description: "Yardım parametreleri" },
-      { title: "Veri Kontrolü", href: "/aid/data-control", description: "Veri doğrulama" },
-      { title: "Modül Bilgisi", href: "/aid/module-info", description: "Modül dokümantasyonu" }
+      { title: "Başvurular", url: "/aid/applications", description: "Yardım başvurularını yönet" },
+      { title: "Yararlanıcılar", url: "/aid/beneficiaries", description: "Yararlanıcı kayıtları" },
+      { title: "Yararlanıcı Detayı", url: "/aid/beneficiaries-detail", description: "Detaylı yararlanıcı bilgileri" },
+      { title: "Raporlar", url: "/aid/reports", description: "Yardım raporları" },
+      { title: "Nakit Kasası", url: "/aid/cash-vault", description: "Nakit yardım kasası" },
+      { title: "Banka Emirleri", url: "/aid/bank-orders", description: "Banka havale emirleri" },
+      { title: "Nakit İşlemler", url: "/aid/cash-operations", description: "Nakit yardım işlemleri" },
+      { title: "Ayni İşlemler", url: "/aid/in-kind-operations", description: "Ayni yardım işlemleri" },
+      { title: "Hizmet Takibi", url: "/aid/service-tracking", description: "Hizmet yardımı takibi" },
+      { title: "Hastane Sevkleri", url: "/aid/hospital-referrals", description: "Sağlık yardımı sevkleri" },
+      { title: "Parametreler", url: "/aid/parameters", description: "Yardım parametreleri" },
+      { title: "Veri Kontrolü", url: "/aid/data-control", description: "Veri doğrulama" },
+      { title: "Modül Bilgisi", url: "/aid/module-info", description: "Modül dokümantasyonu" }
     ]
   },
   {
     title: "Bağış Yönetimi",
     icon: Coins,
     subPages: [
-      { title: "Bağışlar", href: "/donations", description: "Tüm bağış kayıtları" },
-      { title: "Bağış Kasası", href: "/donations/vault", description: "Bağış kasa yönetimi" },
-      { title: "Kurumsal", href: "/donations/institutions", description: "Kurumsal bağışçılar" },
-      { title: "Nakit Bağışlar", href: "/donations/cash", description: "Nakit bağış kayıtları" },
-      { title: "Banka Bağışları", href: "/donations/bank", description: "Banka transferi bağışları" },
-      { title: "Kredi Kartı", href: "/donations/credit-card", description: "Kredi kartı bağışları" },
-      { title: "Online Bağışlar", href: "/donations/online", description: "Online platform bağışları" },
-      { title: "Bağış Numaraları", href: "/donations/numbers", description: "Bağış takip numaraları" },
-      { title: "Finansman Tanımları", href: "/donations/funding-definitions", description: "Bağış kategorileri" },
-      { title: "Kurban Dönemleri", href: "/donations/sacrifice-periods", description: "Kurban organizasyonu" },
-      { title: "Kurban Hisseleri", href: "/donations/sacrifice-shares", description: "Kurban hisse yönetimi" },
-      { title: "Ramazan Dönemleri", href: "/donations/ramadan-periods", description: "Ramazan kampanyaları" },
-      { title: "Kumbara Takibi", href: "/donations/piggy-bank", description: "Kumbara bağış takibi" },
-      { title: "Toplu Provizyon", href: "/donations/bulk-provisioning", description: "Toplu bağış provizyon" },
-      { title: "Kurumsal Bağışlar", href: "/donations/corporate", description: "Kurumsal bağış yönetimi" }
+      { title: "Bağışlar", url: "/donations", description: "Tüm bağış kayıtları" },
+      { title: "Bağış Kasası", url: "/donations/vault", description: "Bağış kasa yönetimi" },
+      { title: "Kurumsal", url: "/donations/institutions", description: "Kurumsal bağışçılar" },
+      { title: "Nakit Bağışlar", url: "/donations/cash", description: "Nakit bağış kayıtları" },
+      { title: "Banka Bağışları", url: "/donations/bank", description: "Banka transferi bağışları" },
+      { title: "Kredi Kartı", url: "/donations/credit-card", description: "Kredi kartı bağışları" },
+      { title: "Online Bağışlar", url: "/donations/online", description: "Online platform bağışları" },
+      { title: "Bağış Numaraları", url: "/donations/numbers", description: "Bağış takip numaraları" },
+      { title: "Finansman Tanımları", url: "/donations/funding-definitions", description: "Bağış kategorileri" },
+      { title: "Kurban Dönemleri", url: "/donations/sacrifice-periods", description: "Kurban organizasyonu" },
+      { title: "Kurban Hisseleri", url: "/donations/sacrifice-shares", description: "Kurban hisse yönetimi" },
+      { title: "Ramazan Dönemleri", url: "/donations/ramadan-periods", description: "Ramazan kampanyaları" },
+      { title: "Kumbara Takibi", url: "/donations/piggy-bank", description: "Kumbara bağış takibi" },
+      { title: "Toplu Provizyon", url: "/donations/bulk-provisioning", description: "Toplu bağış provizyon" },
+      { title: "Kurumsal Bağışlar", url: "/donations/corporate", description: "Kurumsal bağış yönetimi" }
     ]
   },
   {
