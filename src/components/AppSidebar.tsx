@@ -108,7 +108,7 @@ export const AppSidebar = memo(function AppSidebar() {
 
   return (
     <TooltipProvider>
-      <Sidebar variant="inset" collapsible="icon">
+      <Sidebar variant="inset" collapsible="icon" className="data-[state=collapsed]:w-16">
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
