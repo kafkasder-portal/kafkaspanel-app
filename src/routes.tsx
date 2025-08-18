@@ -151,7 +151,7 @@ function AppRoutes() {
       {/* Dashboard */}
       <Route path="/" element={
         <ProtectedRoute>
-          {createSuspenseRoute(withDashboardSuspense, DashboardIndex)}
+          {withDashboardSuspense(DashboardIndex)}
         </ProtectedRoute>
       } />
       
