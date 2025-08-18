@@ -140,11 +140,11 @@ const Translations = lazy(() => import('./pages/definitions/Translations'))
 const GeneralSettings = lazy(() => import('./pages/definitions/GeneralSettings'))
 const DefinitionsModuleInfo = lazy(() => import('./pages/definitions/ModuleInfo'))
 
-// Create wrapped components
-const DashboardIndexWithSuspense = withDashboardSuspense(DashboardIndex)
-const DonationsListWithSuspense = withDonationsSuspense(DonationsList)
-const DonationVaultWithSuspense = withDonationsSuspense(DonationVault)
-const InstitutionsWithSuspense = withDonationsSuspense(Institutions)
+// Helper function to create route elements with suspense
+function createSuspenseRoute(wrapperFn: any, Component: any) {
+  const WrappedComponent = wrapperFn(Component)
+  return <WrappedComponent />
+}
 
 function AppRoutes() {
   return (
