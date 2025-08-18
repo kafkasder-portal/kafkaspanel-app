@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Database, Settings, FileText, BarChart3, MessageSquare, MapPin, Coins, PieChart, Activity, TrendingUp, Calendar } from 'lucide-react'
 import { TotalDonationsCard, MonthlyGrowthCard, ActiveBeneficiariesCard, FundDistributionCard } from '@components/FinancialCard'
-import { useDashboardCustomization } from '@hooks/useDashboardCustomization'
+import { useDashboardCustomization } from '../../hooks/useDashboardCustomization'
 import { Button } from '@components/ui/button'
 import DashboardCharts from '@components/DashboardCharts'
 import DashboardCustomizer from '@components/DashboardCustomizer'
@@ -99,7 +99,7 @@ export default function DashboardIndex() {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <QuickAccessCard
           title="Yeni Başvuru"
-          description="İhtiyaç sahibi başvurusu oluştur"
+          description="��htiyaç sahibi başvurusu oluştur"
           icon={<FileText className="h-6 w-6" />}
           color="bg-brand-primary"
           link="/aid/applications"
