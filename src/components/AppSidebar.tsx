@@ -352,6 +352,7 @@ export const AppSidebar = memo(function AppSidebar() {
                   size="lg"
                   className="w-full justify-start px-2"
                   onClick={toggleMode}
+                  title={isDark ? 'Light Mode' : 'Dark Mode'}
                 >
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: isDark ? 180 : 0 }}
