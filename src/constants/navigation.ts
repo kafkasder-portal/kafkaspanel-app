@@ -182,56 +182,56 @@ export const navigation: NavigationItem[] = [
     title: "Tanımlamalar",
     icon: Database,
     subPages: [
-      { title: "Tanımlamalar", href: "/definitions", description: "Genel sistem tanımları" },
-      { title: "Birim Rolleri", href: "/definitions/unit-roles", description: "Organizasyon birim rolleri" },
-      { title: "Birimler", href: "/definitions/units", description: "Organizasyon birimleri" },
-      { title: "Kullanıcı Hesapları", href: "/definitions/user-accounts", description: "Kullanıcı hesap yönetimi" },
-      { title: "Yetki Grupları", href: "/definitions/permission-groups", description: "Kullanıcı yetki grupları" },
-      { title: "Binalar", href: "/definitions/buildings", description: "Bina ve lokasyon tanımları" },
-      { title: "Dahili Hatlar", href: "/definitions/internal-lines", description: "İç telefon hatları" },
-      { title: "Süreç Akışları", href: "/definitions/process-flows", description: "İş süreçleri" },
-      { title: "Pasaport Formatları", href: "/definitions/passport-formats", description: "Pasaport veri formatları" },
-      { title: "Ülke/Şehirler", href: "/definitions/countries-cities", description: "Coğrafi tanımlar" },
-      { title: "Kurum Türleri", href: "/definitions/institution-types", description: "Kurum kategori tanımları" },
-      { title: "Kurum Durumları", href: "/definitions/institution-status", description: "Kurum durum tanımları" },
-      { title: "Bağış Yöntemleri", href: "/definitions/donation-methods", description: "Bağış yöntem tanımları" },
-      { title: "Teslimat Türleri", href: "/definitions/delivery-types", description: "Teslimat yöntem tanımları" },
-      { title: "Toplantı Talepleri", href: "/definitions/meeting-requests", description: "Toplantı türü tanımları" },
-      { title: "GSM Kodları", href: "/definitions/gsm-codes", description: "GSM operatör kodları" },
-      { title: "Arayüz Dilleri", href: "/definitions/languages", description: "Çoklu dil desteği" },
-      { title: "Çeviriler", href: "/definitions/translations", description: "Dil çeviri yönetimi" },
-      { title: "Genel Ayarlar", href: "/definitions/general", description: "Sistem genel ayarları" },
-      { title: "Modül Bilgisi", href: "/definitions/module-info", description: "Tanımlamalar modül bilgisi" }
+      { title: "Tanımlamalar", url: "/definitions", description: "Genel sistem tanımları" },
+      { title: "Birim Rolleri", url: "/definitions/unit-roles", description: "Organizasyon birim rolleri" },
+      { title: "Birimler", url: "/definitions/units", description: "Organizasyon birimleri" },
+      { title: "Kullanıcı Hesapları", url: "/definitions/user-accounts", description: "Kullanıcı hesap yönetimi" },
+      { title: "Yetki Grupları", url: "/definitions/permission-groups", description: "Kullanıcı yetki grupları" },
+      { title: "Binalar", url: "/definitions/buildings", description: "Bina ve lokasyon tanımları" },
+      { title: "Dahili Hatlar", url: "/definitions/internal-lines", description: "İç telefon hatları" },
+      { title: "Süreç Akı��ları", url: "/definitions/process-flows", description: "Süreç yönetimi" },
+      { title: "Pasaport Formatları", url: "/definitions/passport-formats", description: "Pasaport veri formatları" },
+      { title: "Ülke/Şehirler", url: "/definitions/countries-cities", description: "Coğrafi tanımlar" },
+      { title: "Kurum Türleri", url: "/definitions/institution-types", description: "Kurum kategori tanımları" },
+      { title: "Kurum Durumları", url: "/definitions/institution-status", description: "Kurum durum tanımları" },
+      { title: "Bağış Yöntemleri", url: "/definitions/donation-methods", description: "Bağış yöntem tanımları" },
+      { title: "Teslimat Türleri", url: "/definitions/delivery-types", description: "Teslimat yöntem tanımları" },
+      { title: "Toplantı Talepleri", url: "/definitions/meeting-requests", description: "Toplantı türü tanımları" },
+      { title: "GSM Kodları", url: "/definitions/gsm-codes", description: "GSM operatör kodları" },
+      { title: "Arayüz Dilleri", url: "/definitions/interface-languages", description: "Çoklu dil desteği" },
+      { title: "Çeviriler", url: "/definitions/translations", description: "Dil çeviri yönetimi" },
+      { title: "Genel Ayarlar", url: "/definitions/general-settings", description: "Sistem genel ayarları" },
+      { title: "Modül Bilgisi", url: "/definitions/module-info", description: "Tanımlamalar modül bilgisi" }
     ]
   },
   {
     title: "Toplantılar",
     icon: Calendar,
-    href: "/meetings",
+    url: "/meetings",
     subPages: [
-      { title: "Toplantı Takvimi", href: "/meetings", description: "Toplantı programı" },
-      { title: "Yeni Toplantı", href: "/meetings/new", description: "Toplantı planla" },
-      { title: "Geçmiş Toplantılar", href: "/meetings/history", description: "Toplantı arşivi" }
+      { title: "Toplantı Takvimi", url: "/meetings", description: "Toplantı programı" },
+      { title: "Yeni Toplantı", url: "/meetings/new", description: "Toplantı planla" },
+      { title: "Geçmiş Toplantılar", url: "/meetings/history", description: "Toplantı arşivi" }
     ]
   },
   {
     title: "İç Mesajlar",
     icon: MessageSquare,
-    href: "/internal-messages",
+    url: "/internal-messages",
     subPages: [
-      { title: "Gelen Kutusu", href: "/internal-messages", description: "Gelen iç mesajlar" },
-      { title: "Gönderilen", href: "/internal-messages/sent", description: "Gönderilen mesajlar" },
-      { title: "Yeni Mesaj", href: "/internal-messages/new", description: "Yeni iç mesaj" }
+      { title: "Gelen Kutusu", url: "/internal-messages", description: "Gelen iç mesajlar" },
+      { title: "Gönderilen", url: "/internal-messages/sent", description: "Gönderilen mesajlar" },
+      { title: "Yeni Mesaj", url: "/internal-messages/new", description: "Yeni iç mesaj" }
     ]
   },
   {
     title: "Görevler",
     icon: ClipboardList,
-    href: "/tasks",
+    url: "/tasks",
     subPages: [
-      { title: "Görev Listesi", href: "/tasks", description: "Aktif görevler" },
-      { title: "Tamamlanan", href: "/tasks/completed", description: "Tamamlanan görevler" },
-      { title: "Yeni Görev", href: "/tasks/new", description: "Yeni görev oluştur" }
+      { title: "Görev Listesi", url: "/tasks", description: "Aktif görevler" },
+      { title: "Tamamlanan", url: "/tasks/completed", description: "Tamamlanan görevler" },
+      { title: "Yeni Görev", url: "/tasks/new", description: "Yeni görev oluştur" }
     ]
   }
 ]
