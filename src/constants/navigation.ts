@@ -242,19 +242,22 @@ export const supportNavigation = [
     title: "Yardım",
     icon: HelpCircle,
     href: "/help",
-    description: "Kullanım kılavuzu ve SSS"
+    description: "Kullanım kılavuzu ve SSS",
+    subPages: []
   },
   {
     title: "Dokümantasyon",
     icon: BookOpen,
     href: "/docs",
-    description: "Teknik dokümantasyon"
+    description: "Teknik dokümantasyon",
+    subPages: []
   },
   {
     title: "İletişim",
     icon: Phone,
     href: "/contact",
-    description: "Destek ekibi ile iletişim"
+    description: "Destek ekibi ile iletişim",
+    subPages: []
   }
 ]
 
