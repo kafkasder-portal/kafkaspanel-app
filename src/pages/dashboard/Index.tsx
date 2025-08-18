@@ -5,6 +5,7 @@ import { TotalDonationsCard, MonthlyGrowthCard, ActiveBeneficiariesCard, FundDis
 import { useDashboardCustomization } from '@hooks/useDashboardCustomization'
 import { Button } from '@components/ui/button'
 import DashboardCharts from '@components/DashboardCharts'
+import DashboardCustomizer from '@components/DashboardCustomizer'
 
 export default function DashboardIndex() {
   const [showCustomizer, setShowCustomizer] = useState(false)
