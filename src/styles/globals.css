@@ -212,6 +212,49 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Corporate Color Extensions */
+  --color-brand-50: rgb(var(--brand-primary-50));
+  --color-brand-100: rgb(var(--brand-primary-100));
+  --color-brand-200: rgb(var(--brand-primary-200));
+  --color-brand-300: rgb(var(--brand-primary-300));
+  --color-brand-400: rgb(var(--brand-primary-400));
+  --color-brand-500: rgb(var(--brand-primary-500));
+  --color-brand-600: rgb(var(--brand-primary-600));
+  --color-brand-700: rgb(var(--brand-primary-700));
+  --color-brand-800: rgb(var(--brand-primary-800));
+  --color-brand-900: rgb(var(--brand-primary-900));
+  --color-brand: rgb(var(--brand-primary));
+
+  --color-financial-primary: rgb(var(--financial-primary));
+  --color-financial-success: rgb(var(--financial-success));
+  --color-financial-success-light: rgb(var(--financial-success-light));
+  --color-financial-warning: rgb(var(--financial-warning));
+  --color-financial-warning-light: rgb(var(--financial-warning-light));
+  --color-financial-error: rgb(var(--financial-error));
+  --color-financial-error-light: rgb(var(--financial-error-light));
+  --color-financial-info: rgb(var(--financial-info));
+  --color-financial-info-light: rgb(var(--financial-info-light));
+
+  --color-neutral-50: rgb(var(--neutral-50));
+  --color-neutral-100: rgb(var(--neutral-100));
+  --color-neutral-200: rgb(var(--neutral-200));
+  --color-neutral-300: rgb(var(--neutral-300));
+  --color-neutral-400: rgb(var(--neutral-400));
+  --color-neutral-500: rgb(var(--neutral-500));
+  --color-neutral-600: rgb(var(--neutral-600));
+  --color-neutral-700: rgb(var(--neutral-700));
+  --color-neutral-800: rgb(var(--neutral-800));
+  --color-neutral-900: rgb(var(--neutral-900));
+
+  --color-chart-primary: rgb(var(--chart-primary));
+  --color-chart-secondary: rgb(var(--chart-secondary));
+  --color-chart-tertiary: rgb(var(--chart-tertiary));
+  --color-chart-quaternary: rgb(var(--chart-quaternary));
+  --color-chart-quinary: rgb(var(--chart-quinary));
+  --color-chart-senary: rgb(var(--chart-senary));
+  --color-chart-septenary: rgb(var(--chart-septenary));
+  --color-chart-octonary: rgb(var(--chart-octonary));
 }
 
 @layer base {
