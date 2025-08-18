@@ -146,7 +146,7 @@ export const navigation: NavigationItem[] = [
     subPages: [
       { title: "Mesajlar", url: "/messages", description: "Tüm mesajlaşma" },
       { title: "Toplu Gönderim", url: "/messages/bulk-send", description: "Toplu SMS/Email gönderimi" },
-      { title: "Gelişmiş Toplu Gönderim", url: "/messages/bulk-send-enhanced", description: "Gelişmiş gönderim seçenekleri", isNew: true },
+      { title: "Gelişmiş Toplu Gönderim", url: "/messages/bulk-send-enhanced", description: "Gelişmiş gönderim se��enekleri", isNew: true },
       { title: "Gruplar", url: "/messages/groups", description: "Mesaj grupları yönetimi" },
       { title: "Şablonlar", url: "/messages/templates", description: "Mesaj şablonları" },
       { title: "SMS Teslimatları", url: "/messages/sms-deliveries", description: "SMS teslimat raporları" },
@@ -164,7 +164,7 @@ export const navigation: NavigationItem[] = [
       { title: "Kapsamlı Rapor", url: "/fund/complete-report", description: "Detaylı fon raporu" },
       { title: "Fon Bölgeleri", url: "/fund/regions", description: "Bölgesel fon dağılımı" },
       { title: "Çalışma Alanları", url: "/fund/work-areas", description: "Fon kullanım alanları" },
-      { title: "Fon Tanımları", url: "/fund/definitions", description: "Fon türü tanımları" },
+      { title: "Fon Tanımları", url: "/fund/definitions", description: "Fon türü tanımlar��" },
       { title: "Faaliyet Tanımları", url: "/fund/activity-definitions", description: "Faaliyet kategorileri" },
       { title: "Kaynak/Gider", url: "/fund/sources-expenses", description: "Gelir gider analizi" },
       { title: "Yardım Kategorileri", url: "/fund/aid-categories", description: "Yardım kategori tanımları" }
@@ -187,6 +187,7 @@ export const navigation: NavigationItem[] = [
   {
     title: "Tanımlamalar",
     icon: Database,
+    url: "/definitions",
     subPages: [
       { title: "Tanımlamalar", url: "/definitions", description: "Genel sistem tanımları" },
       { title: "Birim Rolleri", url: "/definitions/unit-roles", description: "Organizasyon birim rolleri" },
