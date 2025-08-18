@@ -298,7 +298,7 @@ export const AppSidebar = memo(function AppSidebar() {
                             className="w-full"
                           >
                             <SidebarMenuButton
-                              className="w-full"
+                              className="w-full h-10 px-3"
                               tooltip={item.title}
                               onClick={() => handleSupportIconClick(item)}
                               asChild={false}
@@ -309,7 +309,7 @@ export const AppSidebar = memo(function AppSidebar() {
                               >
                                 <item.icon className="size-4" />
                               </motion.div>
-                              <span className="group-data-[collapsible=icon]:hidden">{item.title}</span>
+                              <span className="group-data-[collapsible=icon]:hidden font-medium">{item.title}</span>
                               <motion.div
                                 whileHover={{ x: 3 }}
                                 transition={{ duration: 0.2 }}
@@ -319,24 +319,26 @@ export const AppSidebar = memo(function AppSidebar() {
                               </motion.div>
                             </SidebarMenuButton>
                           </motion.div>
-                          <PopoverContent 
-                            side="right" 
-                            align="start" 
-                            sideOffset={8}
-                            className="w-56 p-3"
+                          <PopoverContent
+                            side="right"
+                            align="start"
+                            sideOffset={12}
+                            className="w-64 p-4 sidebar-popover-content"
                           >
                             <motion.div
                               initial="hidden"
                               animate="visible"
                               variants={staggerContainer}
-                              className="space-y-1"
+                              className="space-y-2"
                             >
-                              <motion.div 
-                                className="flex items-center gap-2 pb-2 border-b"
+                              <motion.div
+                                className="flex items-center gap-3 pb-3 mb-3 border-b border-border"
                                 variants={staggerItem}
                               >
-                                <item.icon className="size-4" />
-                                <span className="font-medium">{item.title}</span>
+                                <div className="p-2 rounded-lg bg-brand/10">
+                                  <item.icon className="size-4 text-brand" />
+                                </div>
+                                <span className="font-semibold text-sm">{item.title}</span>
                               </motion.div>
                               {item.subPages?.map((subPage, index) => (
                                 <motion.div key={index} variants={staggerItem}>
@@ -347,10 +349,10 @@ export const AppSidebar = memo(function AppSidebar() {
                                     <Button
                                       variant="ghost"
                                       size="sm"
-                                      className="w-full justify-start h-8"
+                                      className="w-full justify-start h-9 px-3 text-sm popover-submenu-item hover:bg-brand/5 hover:text-brand"
                                       onClick={() => handleNavigation(subPage.url)}
                                     >
-                                      {subPage.title}
+                                      <span className="truncate">{subPage.title}</span>
                                     </Button>
                                   </motion.div>
                                 </motion.div>
