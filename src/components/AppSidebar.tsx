@@ -90,7 +90,9 @@ export const AppSidebar = memo(function AppSidebar() {
   const { isDark, toggleMode } = useTheme()
 
   const handleNavigation = (url: string) => {
-    navigate(url)
+    startTransition(() => {
+      navigate(url)
+    })
     // Close sidebar on mobile after navigation
     if (isMobile) {
       // You might want to add a method to close sidebar here
