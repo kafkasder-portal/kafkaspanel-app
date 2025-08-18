@@ -1,5 +1,11 @@
 import React, { lazy, startTransition } from 'react'
 import { Routes, Route } from 'react-router-dom'
+
+// Helper function to render wrapped components correctly
+const renderWithWrapper = (wrapperFn: any, Component: any) => {
+  const WrappedComponent = wrapperFn(Component)
+  return <WrappedComponent />
+}
 import { ProtectedRoute } from './components/ProtectedRoute'
 import {
   withAidSuspense,
