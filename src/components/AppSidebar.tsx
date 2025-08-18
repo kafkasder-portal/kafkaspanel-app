@@ -359,7 +359,7 @@ export const AppSidebar = memo(function AppSidebar() {
                       <Moon className="size-4" />
                     )}
                   </motion.div>
-                  <span className="ml-2">
+                  <span className="ml-2 group-data-[collapsible=icon]:hidden">
                     {isDark ? 'Light Mode' : 'Dark Mode'}
                   </span>
                 </Button>
