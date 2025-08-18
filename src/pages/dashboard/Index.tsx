@@ -261,7 +261,11 @@ export default function DashboardIndex() {
               </div>
             </div>
             <div className="p-6">
-              <ReportGenerator />
+              <div className="text-center py-8">
+                <FileText className="w-16 h-16 mx-auto text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium mb-2">Rapor Oluşturucu</h3>
+                <p className="text-gray-600">Yakında eklenecek...</p>
+              </div>
             </div>
           </div>
         </div>
@@ -282,28 +286,7 @@ export default function DashboardIndex() {
               </div>
             </div>
             <div className="p-6">
-              <ChartDashboard />
-            </div>
-          </div>
-        </div>
-      )}
-      {showWhatsAppManager && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-white rounded-lg shadow-2xl">
-            <div className="p-6 border-b">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">WhatsApp Yöneticisi</h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowWhatsAppManager(false)}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-            <div className="p-6">
-              <WhatsAppManager />
+              <DashboardCharts />
             </div>
           </div>
         </div>
@@ -324,7 +307,11 @@ export default function DashboardIndex() {
               </div>
             </div>
             <div className="p-6">
-              <MapDashboard />
+              <div className="text-center py-8">
+                <MapPin className="w-16 h-16 mx-auto text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium mb-2">Harita Yönetimi</h3>
+                <p className="text-gray-600">Yakında eklenecek...</p>
+              </div>
             </div>
           </div>
         </div>
