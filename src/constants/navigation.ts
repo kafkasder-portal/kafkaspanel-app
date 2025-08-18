@@ -79,7 +79,7 @@ export const navigation: NavigationItem[] = [
     subPages: [
       { title: "Başvurular", url: "/aid/applications", description: "Yardım başvurularını yönet" },
       { title: "Yararlanıcılar", url: "/aid/beneficiaries", description: "Yararlanıcı kayıtları" },
-      { title: "Yararlanıcı Detayı", url: "/aid/beneficiaries-detail", description: "Detaylı yararlanıcı bilgileri" },
+      { title: "Yararlanıcı Detayı", url: "/aid/beneficiaries/1", description: "Detaylı yararlanıcı bilgileri" },
       { title: "Raporlar", url: "/aid/reports", description: "Yardım raporları" },
       { title: "Nakit Kasası", url: "/aid/cash-vault", description: "Nakit yardım kasası" },
       { title: "Banka Emirleri", url: "/aid/bank-orders", description: "Banka havale emirleri" },
