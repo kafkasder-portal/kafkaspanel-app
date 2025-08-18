@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React, { lazy, startTransition } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import {
