@@ -168,7 +168,7 @@ export const AppSidebar = memo(function AppSidebar() {
                                 >
                                   <item.icon className="size-4" />
                                 </motion.div>
-                                <span>{item.title}</span>
+                                <span className="group-data-[collapsible=icon]:hidden">{item.title}</span>
                                 {item.badge && (
                                   <motion.div
                                     initial={{ scale: 0 }}
