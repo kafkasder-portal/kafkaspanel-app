@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Database, Settings, FileText, BarChart3, MessageSquare, MapPin, Coins } from 'lucide-react'
+import { Database, Settings, FileText, BarChart3, MessageSquare, MapPin, Coins, PieChart } from 'lucide-react'
 import { TotalDonationsCard, MonthlyGrowthCard, ActiveBeneficiariesCard, FundDistributionCard } from '@components/FinancialCard'
 import { useDashboardCustomization } from '@hooks/useDashboardCustomization'
 import { Button } from '@components/ui/button'
