@@ -88,7 +88,7 @@ export const navigation: NavigationItem[] = [
       { title: "Hizmet Takibi", url: "/aid/service-tracking", description: "Hizmet yardımı takibi" },
       { title: "Hastane Sevkleri", url: "/aid/hospital-referrals", description: "Sağlık yardımı sevkleri" },
       { title: "Parametreler", url: "/aid/parameters", description: "Yardım parametreleri" },
-      { title: "Veri Kontrolü", url: "/aid/data-control", description: "Veri doğrulama" },
+      { title: "Veri Kontrol��", url: "/aid/data-control", description: "Veri doğrulama" },
       { title: "Modül Bilgisi", url: "/aid/module-info", description: "Modül dokümantasyonu" }
     ]
   },
@@ -155,14 +155,14 @@ export const navigation: NavigationItem[] = [
     title: "Fon Yönetimi",
     icon: PieChart,
     subPages: [
-      { title: "Fon Hareketleri", href: "/fund/movements", description: "Tüm fon hareketleri" },
-      { title: "Kapsamlı Rapor", href: "/fund/complete-report", description: "Detaylı fon raporu" },
-      { title: "Fon Bölgeleri", href: "/fund/regions", description: "Bölgesel fon dağılımı" },
-      { title: "Çalışma Alanları", href: "/fund/work-areas", description: "Fon kullanım alanları" },
-      { title: "Fon Tanımları", href: "/fund/definitions", description: "Fon türü tanımları" },
-      { title: "Faaliyet Tanımları", href: "/fund/activities", description: "Faaliyet kategorileri" },
-      { title: "Kaynak/Gider", href: "/fund/sources-expenses", description: "Gelir gider analizi" },
-      { title: "Yardım Kategorileri", href: "/fund/aid-categories", description: "Yardım kategori tanımları" }
+      { title: "Fon Hareketleri", url: "/fund/movements", description: "Tüm fon hareketleri" },
+      { title: "Kapsamlı Rapor", url: "/fund/complete-report", description: "Detaylı fon raporu" },
+      { title: "Fon Bölgeleri", url: "/fund/regions", description: "Bölgesel fon dağılımı" },
+      { title: "Çalışma Alanları", url: "/fund/work-areas", description: "Fon kullanım alanları" },
+      { title: "Fon Tanımları", url: "/fund/definitions", description: "Fon türü tanımları" },
+      { title: "Faaliyet Tanımları", url: "/fund/activity-definitions", description: "Faaliyet kategorileri" },
+      { title: "Kaynak/Gider", url: "/fund/sources-expenses", description: "Gelir gider analizi" },
+      { title: "Yardım Kategorileri", url: "/fund/aid-categories", description: "Yardım kategori tanımları" }
     ]
   },
   {
