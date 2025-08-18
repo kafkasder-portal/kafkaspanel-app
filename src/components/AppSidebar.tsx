@@ -126,7 +126,7 @@ export const AppSidebar = memo(function AppSidebar() {
                   >
                     <Building2 className="size-4" />
                   </motion.div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
+                  <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                     <span className="truncate">Kafkas Portal</span>
                     <span className="truncate text-xs text-muted-foreground">Enterprise</span>
                   </div>
