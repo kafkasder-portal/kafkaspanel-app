@@ -64,11 +64,15 @@ const AppLayout = memo(function AppLayout() {
     },
     onHelp: () => {
       // Navigate to help page
-      window.location.href = '/help'
+      startTransition(() => {
+        window.location.href = '/help'
+      })
     },
     onSettings: () => {
       // Navigate to settings
-      window.location.href = '/settings'
+      startTransition(() => {
+        window.location.href = '/settings'
+      })
     }
   })
 
