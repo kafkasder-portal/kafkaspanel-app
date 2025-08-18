@@ -174,6 +174,7 @@ export const AppSidebar = memo(function AppSidebar() {
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
                                     transition={{ delay: index * 0.1 + 0.3, duration: 0.3 }}
+                                    className="group-data-[collapsible=icon]:hidden"
                                   >
                                     <Badge variant="secondary" className="ml-auto h-5 w-auto px-1.5 text-xs">
                                       {item.badge}
@@ -183,6 +184,7 @@ export const AppSidebar = memo(function AppSidebar() {
                                 <motion.div
                                   whileHover={{ x: 3 }}
                                   transition={{ duration: 0.2 }}
+                                  className="group-data-[collapsible=icon]:hidden"
                                 >
                                   <ChevronRight className="ml-auto size-4" />
                                 </motion.div>
