@@ -247,11 +247,12 @@ export const AppSidebar = memo(function AppSidebar() {
                     <motion.div key={item.title} variants={staggerItem}>
                       <SidebarMenuItem>
                         <Popover>
-                          <PopoverTrigger className="w-full">
+                          <PopoverTrigger asChild>
                             <motion.div
                               whileHover={{ scale: 1.02, x: 2 }}
                               whileTap={{ scale: 0.98 }}
                               transition={{ duration: 0.2 }}
+                              className="w-full"
                             >
                               <SidebarMenuButton className="w-full">
                                 <motion.div
