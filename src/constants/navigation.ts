@@ -140,15 +140,15 @@ export const navigation: NavigationItem[] = [
     title: "Mesajlaşma",
     icon: MessageSquare,
     subPages: [
-      { title: "Mesajlar", href: "/messages", description: "Tüm mesajlaşma" },
-      { title: "Toplu Gönderim", href: "/messages/bulk-send", description: "Toplu SMS/Email gönderimi" },
-      { title: "Gelişmiş Toplu Gönderim", href: "/messages/bulk-send-enhanced", description: "Gelişmiş gönderim seçenekleri", isNew: true },
-      { title: "Gruplar", href: "/messages/groups", description: "Mesaj grupları yönetimi" },
-      { title: "Şablonlar", href: "/messages/templates", description: "Mesaj şablonları" },
-      { title: "SMS Teslimatları", href: "/messages/sms-deliveries", description: "SMS teslimat raporları" },
-      { title: "Email Teslimatları", href: "/messages/email-deliveries", description: "Email teslimat raporları" },
-      { title: "Analitik", href: "/messages/analytics", description: "Mesajlaşma analitikleri" },
-      { title: "Modül Bilgisi", href: "/messages/module-info", description: "Mesajlaşma modülü bilgisi" }
+      { title: "Mesajlar", url: "/messages", description: "Tüm mesajlaşma" },
+      { title: "Toplu Gönderim", url: "/messages/bulk-send", description: "Toplu SMS/Email gönderimi" },
+      { title: "Gelişmiş Toplu Gönderim", url: "/messages/bulk-send-enhanced", description: "Gelişmiş gönderim seçenekleri", isNew: true },
+      { title: "Gruplar", url: "/messages/groups", description: "Mesaj grupları yönetimi" },
+      { title: "Şablonlar", url: "/messages/templates", description: "Mesaj şablonları" },
+      { title: "SMS Teslimatları", url: "/messages/sms-deliveries", description: "SMS teslimat raporları" },
+      { title: "Email Teslimatları", url: "/messages/email-deliveries", description: "Email teslimat raporları" },
+      { title: "Analitik", url: "/messages/analytics", description: "Mesajlaşma analitikleri" },
+      { title: "Modül Bilgisi", url: "/messages/module-info", description: "Mesajlaşma modülü bilgisi" }
     ]
   },
   {
