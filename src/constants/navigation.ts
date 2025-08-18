@@ -100,7 +100,7 @@ export const navigation: NavigationItem[] = [
       { title: "Bağış Kasası", url: "/donations/vault", description: "Bağış kasa yönetimi" },
       { title: "Kurumsal", url: "/donations/institutions", description: "Kurumsal bağışçılar" },
       { title: "Nakit Bağışlar", url: "/donations/cash", description: "Nakit bağış kayıtları" },
-      { title: "Banka Bağışları", url: "/donations/bank", description: "Banka transferi bağ��şları" },
+      { title: "Banka Bağışları", url: "/donations/bank", description: "Banka transferi bağışları" },
       { title: "Kredi Kartı", url: "/donations/credit-card", description: "Kredi kartı bağışları" },
       { title: "Online Bağışlar", url: "/donations/online", description: "Online platform bağışları" },
       { title: "Bağış Numaraları", url: "/donations/numbers", description: "Bağış takip numaraları" },
@@ -263,15 +263,15 @@ export const supportNavigation = [
 
 // Quick access items for search
 export const quickAccessItems = [
-  { title: 'Dashboard', href: '/', icon: LayoutDashboard, category: 'Ana Sayfa' },
-  { title: 'Yeni Başvuru', href: '/aid/applications', icon: Heart, category: 'Hızlı İşlem' },
-  { title: 'Bağış Kaydı', href: '/donations/cash', icon: Coins, category: 'Hızlı İşlem' },
-  { title: 'Toplu Mesaj', href: '/messages/bulk-send', icon: MessageSquare, category: 'Hızlı İşlem' },
-  { title: 'Yeni Toplantı', href: '/meetings/new', icon: Calendar, category: 'Hızlı İşlem' },
-  { title: 'Raporlar', href: '/aid/reports', icon: FileText, category: 'Raporlama' },
-  { title: 'Analitik', href: '/analytics', icon: BarChart3, category: 'Raporlama' },
-  { title: 'Performans', href: '/system/performance', icon: Activity, category: 'Sistem' },
-  { title: 'Ayarlar', href: '/settings', icon: Settings, category: 'Sistem' }
+  { title: 'Dashboard', url: '/', icon: LayoutDashboard, category: 'Ana Sayfa' },
+  { title: 'Yeni Başvuru', url: '/aid/applications', icon: Heart, category: 'Hızlı İşlem' },
+  { title: 'Bağış Kaydı', url: '/donations/cash', icon: Coins, category: 'Hızlı İşlem' },
+  { title: 'Toplu Mesaj', url: '/messages/bulk-send', icon: MessageSquare, category: 'Hızlı İşlem' },
+  { title: 'Yeni Toplantı', url: '/meetings/new', icon: Calendar, category: 'Hızlı İşlem' },
+  { title: 'Raporlar', url: '/aid/reports', icon: FileText, category: 'Raporlama' },
+  { title: 'Analitik', url: '/analytics', icon: BarChart3, category: 'Raporlama' },
+  { title: 'Performans', url: '/system/performance', icon: Activity, category: 'Sistem' },
+  { title: 'Ayarlar', url: '/settings', icon: Settings, category: 'Sistem' }
 ]
 
 // Export alias for backward compatibility
