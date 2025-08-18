@@ -158,6 +158,7 @@ export const navigation: NavigationItem[] = [
   {
     title: "Fon Yönetimi",
     icon: PieChart,
+    url: "/fund/movements",
     subPages: [
       { title: "Fon Hareketleri", url: "/fund/movements", description: "Tüm fon hareketleri" },
       { title: "Kapsamlı Rapor", url: "/fund/complete-report", description: "Detaylı fon raporu" },
@@ -186,7 +187,7 @@ export const navigation: NavigationItem[] = [
     title: "Tanımlamalar",
     icon: Database,
     subPages: [
-      { title: "Tan��mlamalar", url: "/definitions", description: "Genel sistem tanımları" },
+      { title: "Tanımlamalar", url: "/definitions", description: "Genel sistem tanımları" },
       { title: "Birim Rolleri", url: "/definitions/unit-roles", description: "Organizasyon birim rolleri" },
       { title: "Birimler", url: "/definitions/units", description: "Organizasyon birimleri" },
       { title: "Kullanıcı Hesapları", url: "/definitions/user-accounts", description: "Kullanıcı hesap yönetimi" },
