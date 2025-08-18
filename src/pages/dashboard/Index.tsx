@@ -6,6 +6,7 @@ import { useDashboardCustomization } from '../../hooks/useDashboardCustomization
 import { Button } from '../../components/ui/button'
 import DashboardCharts from '../../components/DashboardCharts'
 import DashboardCustomizer from '../../components/DashboardCustomizer'
+import CacheMonitor from '../../components/CacheMonitor'
 
 export default function DashboardIndex() {
   const [showCustomizer, setShowCustomizer] = useState(false)
