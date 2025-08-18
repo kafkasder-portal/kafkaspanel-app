@@ -104,6 +104,7 @@ const StructuralControls = lazy(() => import('./pages/system/StructuralControls'
 const LocalIPs = lazy(() => import('./pages/system/LocalIPs'))
 const IPBlocking = lazy(() => import('./pages/system/IPBlocking'))
 const UserManagement = lazy(() => import('./pages/system/UserManagement'))
+const SystemPerformance = lazy(() => import('./pages/system/Performance'))
 
 
 
