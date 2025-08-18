@@ -180,67 +180,67 @@ function AppRoutes() {
       } />
       <Route path="/donations/cash" element={
         <ProtectedRoute>
-          {withDonationsSuspense(CashDonations)}
+          {renderWithWrapper(withDonationsSuspense, CashDonations)}
         </ProtectedRoute>
       } />
       <Route path="/donations/bank" element={
         <ProtectedRoute>
-          {withDonationsSuspense(BankDonations)}
+          {renderWithWrapper(withDonationsSuspense, BankDonations)}
         </ProtectedRoute>
       } />
       <Route path="/donations/credit-card" element={
         <ProtectedRoute>
-          {withDonationsSuspense(CreditCardDonations)}
+          {renderWithWrapper(withDonationsSuspense, CreditCardDonations)}
         </ProtectedRoute>
       } />
       <Route path="/donations/online" element={
         <ProtectedRoute>
-          {withDonationsSuspense(OnlineDonations)}
+          {renderWithWrapper(withDonationsSuspense, OnlineDonations)}
         </ProtectedRoute>
       } />
       <Route path="/donations/numbers" element={
         <ProtectedRoute>
-          {withDonationsSuspense(DonationNumbers)}
+          {renderWithWrapper(withDonationsSuspense, DonationNumbers)}
         </ProtectedRoute>
       } />
       <Route path="/donations/funding-definitions" element={
         <ProtectedRoute>
-          {withDonationsSuspense(FundingDefinitions)}
+          {renderWithWrapper(withDonationsSuspense, FundingDefinitions)}
         </ProtectedRoute>
       } />
       <Route path="/donations/sacrifice-periods" element={
         <ProtectedRoute>
-          {withDonationsSuspense(SacrificePeriods)}
+          {renderWithWrapper(withDonationsSuspense, SacrificePeriods)}
         </ProtectedRoute>
       } />
       <Route path="/donations/sacrifice-shares" element={
         <ProtectedRoute>
-          {withDonationsSuspense(SacrificeShares)}
+          {renderWithWrapper(withDonationsSuspense, SacrificeShares)}
         </ProtectedRoute>
       } />
       <Route path="/donations/ramadan-periods" element={
         <ProtectedRoute>
-          {withDonationsSuspense(RamadanPeriods)}
+          {renderWithWrapper(withDonationsSuspense, RamadanPeriods)}
         </ProtectedRoute>
       } />
       <Route path="/donations/piggy-bank" element={
         <ProtectedRoute>
-          {withDonationsSuspense(PiggyBankTracking)}
+          {renderWithWrapper(withDonationsSuspense, PiggyBankTracking)}
         </ProtectedRoute>
       } />
       <Route path="/donations/piggy-bank-tracking" element={
         <ProtectedRoute>
-          {withDonationsSuspense(PiggyBankTracking)}
+          {renderWithWrapper(withDonationsSuspense, PiggyBankTracking)}
         </ProtectedRoute>
       } />
       <Route path="/donations/bulk-provisioning" element={
         <ProtectedRoute>
-          {withDonationsSuspense(BulkProvisioning)}
+          {renderWithWrapper(withDonationsSuspense, BulkProvisioning)}
         </ProtectedRoute>
       } />
       <Route path="/donations/corporate" element={
         <ProtectedRoute>
-          {withDonationsSuspense(Corporate)}
+          {renderWithWrapper(withDonationsSuspense, Corporate)}
         </ProtectedRoute>
       } />
       
