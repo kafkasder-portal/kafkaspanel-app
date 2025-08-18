@@ -1,0 +1,156 @@
+/* Enhanced Sidebar Styling */
+
+/* Sidebar menu button improvements */
+[data-sidebar="menu-button"] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 6px;
+}
+
+[data-sidebar="menu-button"]:hover {
+  background: hsl(var(--sidebar-accent));
+  color: hsl(var(--sidebar-accent-foreground));
+  transform: translateX(2px);
+}
+
+[data-sidebar="menu-button"][data-active="true"] {
+  background: hsl(var(--sidebar-active));
+  color: white;
+  font-weight: 500;
+}
+
+/* Popover content styling */
+[data-radix-popper-content-wrapper] {
+  z-index: 50;
+}
+
+.sidebar-popover-content {
+  background: hsl(var(--popover));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Sidebar group label improvements */
+[data-sidebar="group-label"] {
+  color: hsl(var(--sidebar-text-muted));
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+}
+
+/* Better scrollbar for sidebar content */
+[data-sidebar="content"] {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--sidebar-border)) transparent;
+}
+
+[data-sidebar="content"]::-webkit-scrollbar {
+  width: 4px;
+}
+
+[data-sidebar="content"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-sidebar="content"]::-webkit-scrollbar-thumb {
+  background: hsl(var(--sidebar-border));
+  border-radius: 2px;
+}
+
+[data-sidebar="content"]::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--sidebar-accent));
+}
+
+/* Sidebar footer improvements */
+[data-sidebar="footer"] {
+  border-top: 1px solid hsl(var(--sidebar-border));
+  margin-top: auto;
+}
+
+/* Theme toggle button styling */
+.theme-toggle-button {
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  background: hsl(var(--sidebar-accent));
+  color: hsl(var(--sidebar-accent-foreground));
+}
+
+/* User profile dropdown improvements */
+.user-profile-dropdown {
+  min-width: 240px;
+}
+
+/* Sidebar brand logo area */
+[data-sidebar="header"] .aspect-square {
+  background: linear-gradient(135deg, hsl(var(--brand-primary)), hsl(var(--brand-600)));
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar state transitions */
+[data-slot="sidebar-container"] {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Badge improvements */
+[data-sidebar="menu"] .badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: hsl(var(--financial-info));
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+}
+
+/* Sub-menu improvements */
+.popover-submenu-item:hover {
+  background: hsl(var(--sidebar-accent));
+  color: hsl(var(--sidebar-accent-foreground));
+  transform: translateX(2px);
+  transition: all 0.2s ease;
+}
+
+/* Dark theme specific improvements */
+.dark [data-sidebar="menu-button"]:hover {
+  background: hsl(var(--sidebar-accent));
+  color: hsl(var(--sidebar-accent-foreground));
+}
+
+.dark [data-sidebar="header"] .aspect-square {
+  background: linear-gradient(135deg, hsl(var(--brand-primary)), hsl(var(--brand-500)));
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 768px) {
+  [data-mobile="true"] [data-sidebar="content"] {
+    padding: 1rem;
+  }
+  
+  [data-mobile="true"] [data-sidebar="menu-button"] {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+}
+
+/* Focus states for accessibility */
+[data-sidebar="menu-button"]:focus-visible {
+  outline: 2px solid hsl(var(--sidebar-ring));
+  outline-offset: 2px;
+}
+
+/* Improved spacing for sidebar items */
+[data-sidebar="menu"] {
+  gap: 2px;
+}
+
+[data-sidebar="group"] {
+  padding: 0.75rem;
+}
+
+[data-sidebar="group"] + [data-sidebar="group"] {
+  border-top: 1px solid hsl(var(--sidebar-border));
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+}
