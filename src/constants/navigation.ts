@@ -109,7 +109,7 @@ export const navigation: NavigationItem[] = [
       { title: "Finansman Tanımları", url: "/donations/funding-definitions", description: "Bağış kategorileri" },
       { title: "Kurban Dönemleri", url: "/donations/sacrifice-periods", description: "Kurban organizasyonu" },
       { title: "Kurban Hisseleri", url: "/donations/sacrifice-shares", description: "Kurban hisse yönetimi" },
-      { title: "Ramazan Dönemleri", url: "/donations/ramadan-periods", description: "Ramazan kampanyalar��" },
+      { title: "Ramazan Dönemleri", url: "/donations/ramadan-periods", description: "Ramazan kampanyaları" },
       { title: "Kumbara Takibi", url: "/donations/piggy-bank", description: "Kumbara bağış takibi" },
       { title: "Toplu Provizyon", url: "/donations/bulk-provisioning", description: "Toplu bağış provizyon" },
       { title: "Kurumsal Bağışlar", url: "/donations/corporate", description: "Kurumsal bağış yönetimi" }
@@ -118,6 +118,7 @@ export const navigation: NavigationItem[] = [
   {
     title: "Burs Yönetimi",
     icon: GraduationCap,
+    url: "/scholarship",
     badge: "Yeni",
     badgeVariant: "secondary" as const,
     subPages: [
@@ -258,7 +259,7 @@ export const supportNavigation = [
     title: "İletişim",
     icon: Phone,
     url: "/contact",
-    description: "Destek ekibi ile ileti��im",
+    description: "Destek ekibi ile iletişim",
     subPages: []
   }
 ]
